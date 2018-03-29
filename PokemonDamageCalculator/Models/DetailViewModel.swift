@@ -19,50 +19,42 @@ class DetailViewModel {
     }
     
     func ImageUrl() -> String? {
-        return PokemonModel.imageUrl
+        return pokemonModel.imageUrl
     }
     
     func Name() -> String {
-        return PokemonModel.name
+        return pokemonModel.name
     }
     
     func Types() -> Array<PokemonType> {
-        return PokemonModel.types
+        return pokemonModel.types
     }
     
     func Attack() -> Int {
-        return PokemonModel.attack
+        return pokemonModel.attack
     }
     
     func Defense() -> Int {
-        return PokemonModel.defense
+        return pokemonModel.defense
     }
     
     func Stamina() -> Int {
-        return PokemonModel.stamina
+        return pokemonModel.stamina
     }
     
     func BestAttackingFastMove(_ isSTAB:Bool = false) -> String {
-        // TODO
-        
-        return "N/A"
+        return pokemonModel.BestAttackingFastMove(isSTAB)
     }
     
     func BestAttackingChargeMove(_ isSTAB:Bool = false) -> String {
-        // TODO
-        
-        return "N/A"
+        return pokemonModel.BestAttackingChargeMove(isSTAB)
     }
     
     func BestDefendingFastMove(_ isSTAB:Bool = false) -> String {
-        // TODO
-        
-        return "N/A"
+        return pokemonModel.BestDefendingFastMove(isSTAB)
     }
     
     func BestDefendingChargeMove(_ isSTAB:Bool = false) -> String {
-        // TODO
-        
-        return "N/A"
+        return pokemonModel.BestDefendingChargeMove(isSTAB)
     }
 }

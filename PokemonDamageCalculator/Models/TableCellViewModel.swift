@@ -17,10 +17,10 @@ class TableCellViewModel {
     }
     
     func Name() -> String {
-        return PokemonModel.name
+        return pokemonModel.name
     }
     
     func ImageUrl() -> String? {
-        return PokemonModel.imageUrl
+        return pokemonModel.imageUrl
     }
 }

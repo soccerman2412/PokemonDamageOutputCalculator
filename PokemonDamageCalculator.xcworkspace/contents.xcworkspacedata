@@ -4,4 +4,10 @@
    <FileRef
       location = "container:PokemonDamageCalculator.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:PokemonDamageCalculator.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

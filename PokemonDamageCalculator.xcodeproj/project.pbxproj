@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		692DCC76206C828C008EFF63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 692DCC75206C828C008EFF63 /* GoogleService-Info.plist */; };
 		698248D0206C330200271A3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698248CF206C330200271A3C /* AppDelegate.swift */; };
 		698248D2206C330200271A3C /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698248D1206C330200271A3C /* MasterViewController.swift */; };
 		698248D4206C330200271A3C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698248D3206C330200271A3C /* DetailViewController.swift */; };
@@ -18,6 +19,10 @@
 		69824901206C355000271A3C /* TableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69824900206C355000271A3C /* TableCellViewModel.swift */; };
 		69824903206C355D00271A3C /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69824902206C355D00271A3C /* DetailViewModel.swift */; };
 		69824905206C362200271A3C /* PokemonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69824904206C362200271A3C /* PokemonModels.swift */; };
+		69B66B8A206C84A4007A0C8B /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B66B89206C84A4007A0C8B /* AppServices.swift */; };
+		B0C782CACB853AD908DB8614 /* Pods_PokemonDamageCalculatorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA5541CB95BABC957E6C33 /* Pods_PokemonDamageCalculatorUITests.framework */; };
+		D603A76BD72A313CBA29B611 /* Pods_PokemonDamageCalculatorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 962FA6BA755E8256858ED421 /* Pods_PokemonDamageCalculatorTests.framework */; };
+		E2DD3403D706D159A762C2D4 /* Pods_PokemonDamageCalculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7B4A1A97321588EF274BB8 /* Pods_PokemonDamageCalculator.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +43,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16E152FC694041AE51C20417 /* Pods-PokemonDamageCalculator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculator/Pods-PokemonDamageCalculator.debug.xcconfig"; sourceTree = "<group>"; };
+		2584AC4C3BB1CFF0FBA59017 /* Pods-PokemonDamageCalculatorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests.release.xcconfig"; sourceTree = "<group>"; };
+		3D7B4A1A97321588EF274BB8 /* Pods_PokemonDamageCalculator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokemonDamageCalculator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D62B02693620B78FC85B512 /* Pods-PokemonDamageCalculator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculator.release.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculator/Pods-PokemonDamageCalculator.release.xcconfig"; sourceTree = "<group>"; };
+		692DCC75206C828C008EFF63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		698248CC206C330200271A3C /* PokemonDamageCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonDamageCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		698248CF206C330200271A3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		698248D1206C330200271A3C /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +65,12 @@
 		69824900206C355000271A3C /* TableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellViewModel.swift; sourceTree = "<group>"; };
 		69824902206C355D00271A3C /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		69824904206C362200271A3C /* PokemonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonModels.swift; sourceTree = "<group>"; };
+		69B66B89206C84A4007A0C8B /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
+		6B520F2006EFFB75AD57A3DD /* Pods-PokemonDamageCalculatorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests.release.xcconfig"; sourceTree = "<group>"; };
+		8DDAA70D921BB20A4F229105 /* Pods-PokemonDamageCalculatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		962FA6BA755E8256858ED421 /* Pods_PokemonDamageCalculatorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokemonDamageCalculatorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CFA5541CB95BABC957E6C33 /* Pods_PokemonDamageCalculatorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokemonDamageCalculatorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A424A588F4D2FFDD82C24A84 /* Pods-PokemonDamageCalculatorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DD3403D706D159A762C2D4 /* Pods_PokemonDamageCalculator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D603A76BD72A313CBA29B611 /* Pods_PokemonDamageCalculatorTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,12 +94,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0C782CACB853AD908DB8614 /* Pods_PokemonDamageCalculatorUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		419E0D95893C22AEB160028E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				16E152FC694041AE51C20417 /* Pods-PokemonDamageCalculator.debug.xcconfig */,
+				5D62B02693620B78FC85B512 /* Pods-PokemonDamageCalculator.release.xcconfig */,
+				8DDAA70D921BB20A4F229105 /* Pods-PokemonDamageCalculatorTests.debug.xcconfig */,
+				2584AC4C3BB1CFF0FBA59017 /* Pods-PokemonDamageCalculatorTests.release.xcconfig */,
+				A424A588F4D2FFDD82C24A84 /* Pods-PokemonDamageCalculatorUITests.debug.xcconfig */,
+				6B520F2006EFFB75AD57A3DD /* Pods-PokemonDamageCalculatorUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		698248C3206C330200271A3C = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +121,8 @@
 				698248E5206C330200271A3C /* PokemonDamageCalculatorTests */,
 				698248F0206C330200271A3C /* PokemonDamageCalculatorUITests */,
 				698248CD206C330200271A3C /* Products */,
+				419E0D95893C22AEB160028E /* Pods */,
+				A91A0CEC1104399A59B86F5F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,13 +139,15 @@
 		698248CE206C330200271A3C /* PokemonDamageCalculator */ = {
 			isa = PBXGroup;
 			children = (
+				698248D8206C330200271A3C /* Assets.xcassets */,
 				698248FF206C34AC00271A3C /* Models */,
 				698248CF206C330200271A3C /* AppDelegate.swift */,
-				698248D1206C330200271A3C /* MasterViewController.swift */,
+				69B66B89206C84A4007A0C8B /* AppServices.swift */,
 				698248D3206C330200271A3C /* DetailViewController.swift */,
+				698248D1206C330200271A3C /* MasterViewController.swift */,
 				698248D5206C330200271A3C /* Main.storyboard */,
-				698248D8206C330200271A3C /* Assets.xcassets */,
 				698248DA206C330200271A3C /* LaunchScreen.storyboard */,
+				692DCC75206C828C008EFF63 /* GoogleService-Info.plist */,
 				698248DD206C330200271A3C /* Info.plist */,
 			);
 			path = PokemonDamageCalculator;
@@ -145,6 +181,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A91A0CEC1104399A59B86F5F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3D7B4A1A97321588EF274BB8 /* Pods_PokemonDamageCalculator.framework */,
+				962FA6BA755E8256858ED421 /* Pods_PokemonDamageCalculatorTests.framework */,
+				9CFA5541CB95BABC957E6C33 /* Pods_PokemonDamageCalculatorUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -152,9 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 698248F6206C330200271A3C /* Build configuration list for PBXNativeTarget "PokemonDamageCalculator" */;
 			buildPhases = (
+				E2F83E21A696160B3A466AFB /* [CP] Check Pods Manifest.lock */,
 				698248C8206C330200271A3C /* Sources */,
 				698248C9206C330200271A3C /* Frameworks */,
 				698248CA206C330200271A3C /* Resources */,
+				B88D5F189999AD5C3EAC31B5 /* [CP] Embed Pods Frameworks */,
+				19F6259E4781272EC4CFDEAD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -169,9 +218,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 698248F9206C330200271A3C /* Build configuration list for PBXNativeTarget "PokemonDamageCalculatorTests" */;
 			buildPhases = (
+				30EF14C6D86CE8A37789BCC1 /* [CP] Check Pods Manifest.lock */,
 				698248DE206C330200271A3C /* Sources */,
 				698248DF206C330200271A3C /* Frameworks */,
 				698248E0206C330200271A3C /* Resources */,
+				69D74BAC0CAD892049B60DF2 /* [CP] Embed Pods Frameworks */,
+				57FAF23ADACAA97C5C34D307 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -187,9 +239,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 698248FC206C330200271A3C /* Build configuration list for PBXNativeTarget "PokemonDamageCalculatorUITests" */;
 			buildPhases = (
+				8AC0B3B354C75170429B12C9 /* [CP] Check Pods Manifest.lock */,
 				698248E9206C330200271A3C /* Sources */,
 				698248EA206C330200271A3C /* Frameworks */,
 				698248EB206C330200271A3C /* Resources */,
+				7332BCBF8D7E80D375BE7FEC /* [CP] Embed Pods Frameworks */,
+				5B39B512B26693EE06DEE48A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -253,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				698248DC206C330200271A3C /* LaunchScreen.storyboard in Resources */,
+				692DCC76206C828C008EFF63 /* GoogleService-Info.plist in Resources */,
 				698248D9206C330200271A3C /* Assets.xcassets in Resources */,
 				698248D7206C330200271A3C /* Main.storyboard in Resources */,
 			);
@@ -274,6 +330,174 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		19F6259E4781272EC4CFDEAD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculator/Pods-PokemonDamageCalculator-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		30EF14C6D86CE8A37789BCC1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PokemonDamageCalculatorTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		57FAF23ADACAA97C5C34D307 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5B39B512B26693EE06DEE48A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69D74BAC0CAD892049B60DF2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7332BCBF8D7E80D375BE7FEC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8AC0B3B354C75170429B12C9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PokemonDamageCalculatorUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B88D5F189999AD5C3EAC31B5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculator/Pods-PokemonDamageCalculator-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculator/Pods-PokemonDamageCalculator-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2F83E21A696160B3A466AFB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PokemonDamageCalculator-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		698248C8206C330200271A3C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -281,6 +505,7 @@
 			files = (
 				69824901206C355000271A3C /* TableCellViewModel.swift in Sources */,
 				69824905206C362200271A3C /* PokemonModels.swift in Sources */,
+				69B66B8A206C84A4007A0C8B /* AppServices.swift in Sources */,
 				69824903206C355D00271A3C /* DetailViewModel.swift in Sources */,
 				698248D4206C330200271A3C /* DetailViewController.swift in Sources */,
 				698248D2206C330200271A3C /* MasterViewController.swift in Sources */,
@@ -448,6 +673,7 @@
 		};
 		698248F7206C330200271A3C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 16E152FC694041AE51C20417 /* Pods-PokemonDamageCalculator.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -463,6 +689,7 @@
 		};
 		698248F8206C330200271A3C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D62B02693620B78FC85B512 /* Pods-PokemonDamageCalculator.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -478,6 +705,7 @@
 		};
 		698248FA206C330200271A3C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8DDAA70D921BB20A4F229105 /* Pods-PokemonDamageCalculatorTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -495,6 +723,7 @@
 		};
 		698248FB206C330200271A3C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2584AC4C3BB1CFF0FBA59017 /* Pods-PokemonDamageCalculatorTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -512,6 +741,7 @@
 		};
 		698248FD206C330200271A3C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A424A588F4D2FFDD82C24A84 /* Pods-PokemonDamageCalculatorUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -528,6 +758,7 @@
 		};
 		698248FE206C330200271A3C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B520F2006EFFB75AD57A3DD /* Pods-PokemonDamageCalculatorUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -30,7 +30,7 @@ enum PokemonType:String {
     case fairy
 }
 
-struct PokemonModel {
+class PokemonModel {
     // optional
     var imageUrl:String?
     
@@ -46,8 +46,36 @@ struct PokemonModel {
     private(set) public var fastMoves:Array<PokemonFastMoveModel>
     private(set) public var chargeMoves:Array<PokemonChargeMoveModel>
     
+    // private
+    // NOTE: STAB = Same Type Attack Bonus
+    private var bestAttackingFastMove = "N/A"
+    private var bestAttackingChargeMove = "N/A"
+    private var bestAttackingFastMoveSTAB = "N/A"
+    private var bestAttackingChargeMoveSTAB = "N/A"
+    private var bestDefendingFastMove = "N/A"
+    private var bestDefendingChargeMove = "N/A"
+    private var bestDefendingFastMoveSTAB = "N/A"
+    private var bestDefendingChargeMoveSTAB = "N/A"
+    private var eDPSAttacking = 0.0
+    private var eDPSAttackingSTAB = 0.0
+    private var eDPSDefending = 0.0
+    private var eDPSDefendingSTAB = 0.0
+    
+    convenience init(Name n:String, Types t:Array<String>, PokemonNumber pn:Int, Atack a:Int, Defense d:Int, Stamina s:Int,
+         FastMoves fm:Array<PokemonFastMoveModel>, ChargeMoves cm:Array<PokemonChargeMoveModel>, Generation g:Int, Legendary l:Bool) {
+        
+        var initTypes = Array<PokemonType>()
+        for currT in t {
+            if let currType = PokemonType(rawValue: currT) {
+                initTypes.append(currType)
+            }
+        }
+        
+        self.init(Name: n, Types: initTypes, PokemonNumber: pn, Atack: a, Defense: d, Stamina: s, FastMoves: fm, ChargeMoves: cm, Generation: g, Legendary: l)
+    }
+    
     init(Name n:String, Types t:Array<PokemonType>, PokemonNumber pn:Int, Atack a:Int, Defense d:Int, Stamina s:Int,
-         FastMoves fm:Array<PokemonFastMoveModel>, ChargeMoves cm:Array<PokemonChargeMoveModel>, Generation g:Int, Legendary l:Bool = false) {
+         FastMoves fm:Array<PokemonFastMoveModel>, ChargeMoves cm:Array<PokemonChargeMoveModel>, Generation g:Int, Legendary l:Bool) {
         name = n
         types = t
         pokemonNumber = pn
@@ -58,56 +86,100 @@ struct PokemonModel {
         chargeMoves = cm
         generation = g
         legendary = l
+        
+        calculate()
     }
     
     func BestAttackingFastMove(_ isSTAB:Bool = false) -> String {
-        // TODO
+        if (isSTAB) {
+            return bestAttackingFastMoveSTAB
+        }
         
-        return "N/A"
+        return bestAttackingFastMove
     }
     
     func BestAttackingChargeMove(_ isSTAB:Bool = false) -> String {
-        // TODO
+        if (isSTAB) {
+            return bestAttackingChargeMoveSTAB
+        }
         
-        return "N/A"
+        return bestAttackingChargeMove
     }
     
     func BestDefendingFastMove(_ isSTAB:Bool = false) -> String {
-        // TODO
+        if (isSTAB) {
+            return bestDefendingFastMoveSTAB
+        }
         
-        return "N/A"
+        return bestDefendingFastMove
     }
     
     func BestDefendingChargeMove(_ isSTAB:Bool = false) -> String {
-        // TODO
+        if (isSTAB) {
+            return bestDefendingChargeMoveSTAB
+        }
         
-        return "N/A"
+        return bestDefendingChargeMove
     }
     
     func eDPSAttacking(_ isSTAB:Bool = false) -> Double {
-        // TODO
+        if (isSTAB) {
+            return eDPSAttackingSTAB
+        }
         
-        return 0
+        return eDPSAttacking
     }
     
     func eDPSDefending(_ isSTAB:Bool = false) -> Double {
-        // TODO
+        if (isSTAB) {
+            return eDPSDefendingSTAB
+        }
         
-        return 0
+        return eDPSDefending
     }
     
     private func calculate() {
         //=ARRAYFORMULA((J2:J*ROUNDDOWN(100/H2:H))/((100/G2:G)+(ROUNDDOWN(100/H2:H)*I2:I)))
         //(cDamage * floor(100/cEnergyCost)) / ((100/fEPS) + (floor(100/cEnergyCost) * cDuration))
-        var eDPS = 0
+        
+        // TODO: defending calculations
+        // TODO: active
+        
         for currFastMove in fastMoves {
             let eps = Double(currFastMove.energyGain)/currFastMove.duration
+            let fastMoveIsSTAB = moveIsSTAB(currFastMove)
             for currChargeMove in chargeMoves {
                 let chargeMovesPer100Energy = Int(floor(100/Double(currChargeMove.energyCost)))
                 let totalDamagePer100Energy = currChargeMove.damage * chargeMovesPer100Energy
-                let b = 6
+                let secondsToGain100Energy = 100/eps
+                let totalChargeMoveDurationPer100Energy = (Double(chargeMovesPer100Energy)*currChargeMove.duration)
+                let totalDurationToEarnAndUse100Energy = secondsToGain100Energy + totalChargeMoveDurationPer100Energy
+                let currEPDS = Double(totalDamagePer100Energy) / totalDurationToEarnAndUse100Energy
+                if (currEPDS > eDPSAttacking) {
+                    bestAttackingFastMove = currFastMove.name
+                    bestAttackingChargeMove = currChargeMove.name
+                    
+                    eDPSAttacking = currEPDS
+                    
+                    if (fastMoveIsSTAB && moveIsSTAB(currChargeMove)) {
+                        bestAttackingFastMoveSTAB = currFastMove.name
+                        bestAttackingChargeMoveSTAB = currChargeMove.name
+                        
+                        eDPSAttackingSTAB = currEPDS
+                    }
+                }
             }
         }
+    }
+    
+    private func moveIsSTAB(_ move:PokemonMoveProtocol) -> Bool {
+        for currType in types {
+            if (currType == move.type) {
+                return true
+            }
+        }
+        
+        return false
     }
 }
 
