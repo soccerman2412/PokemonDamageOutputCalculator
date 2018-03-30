@@ -85,15 +85,26 @@ class AppServices {
     private static func mapFastMoves(_ moves:Array<Dictionary<String,Any>>) -> Array<PokemonFastMoveModel> {
         var mappedMoves = Array<PokemonFastMoveModel>()
         
-        for currMove in moves {
-            if let name = currMove["name"] as? String, let typeStr = currMove["type"] as? String,
-                let damage = currMove["damage"] as? Int, let duration = currMove["duration"] as? Double,
-                let energyGain = currMove["energyGain"] as? Int, let active = currMove["active"] as? Bool {
-                if let type = PokemonType(rawValue: typeStr) {
-                    let move = PokemonFastMoveModel(Name: name, Type: type, Damage: damage, Duration: duration,
-                                                        EnergyGain: energyGain, Active: active)
-                    mappedMoves.append(move)
-                }
+        for moveData in moves {
+            if let moveRef = moveData["move"] as? DocumentReference, let active = moveData["active"] as? Bool {
+                moveRef.getDocument(completion: { (docSnapshot, error) in
+                    if (error == nil) {
+                        if let currMove = docSnapshot?.data() {
+                            if let name = currMove["name"] as? String, let typeStr = currMove["type"] as? String, let damage = currMove["damage"] as? Int,
+                                let duration = currMove["duration"] as? Double, let energyGain = currMove["energyGain"] as? Int {
+                                if let type = PokemonType(rawValue: typeStr) {
+                                    let move = PokemonFastMoveModel(Name: name, Type: type, Damage: damage, Duration: duration,
+                                                                    EnergyGain: energyGain, Active: active)
+                                    mappedMoves.append(move)
+                                }
+                            }
+                        }
+                    } else {
+                        print("Document data: \(error?.localizedDescription)")
+                    }
+                    
+                    //completion(pokemon)
+                })
             }
         }
         
@@ -103,14 +114,15 @@ class AppServices {
     private static func mapChargeMoves(_ moves:Array<Dictionary<String,Any>>) -> Array<PokemonChargeMoveModel> {
         var mappedMoves = Array<PokemonChargeMoveModel>()
         
-        for currMove in moves {
-            if let name = currMove["name"] as? String, let typeStr = currMove["type"] as? String,
-                let damage = currMove["damage"] as? Int, let duration = currMove["duration"] as? Double,
-                let energyCost = currMove["energyCost"] as? Int, let active = currMove["active"] as? Bool {
-                if let type = PokemonType(rawValue: typeStr) {
-                    let move = PokemonChargeMoveModel(Name: name, Type: type, Damage: damage, Duration: duration,
-                                                        EnergyCost: energyCost, Active: active)
-                    mappedMoves.append(move)
+        for moveData in moves {
+            if let currMove = moveData["move"] as? Dictionary<String,Any>, let active = currMove["active"] as? Bool {
+                if let name = currMove["name"] as? String, let typeStr = currMove["type"] as? String, let damage = currMove["damage"] as? Int,
+                    let duration = currMove["duration"] as? Double, let energyCost = currMove["energyCost"] as? Int {
+                    if let type = PokemonType(rawValue: typeStr) {
+                        let move = PokemonChargeMoveModel(Name: name, Type: type, Damage: damage, Duration: duration,
+                                                            EnergyCost: energyCost, Active: active)
+                        mappedMoves.append(move)
+                    }
                 }
             }
         }

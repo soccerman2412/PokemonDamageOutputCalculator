@@ -146,10 +146,10 @@ class PokemonModel {
         // TODO: active
         
         for currFastMove in fastMoves {
-            let eps = Double(currFastMove.energyGain)/currFastMove.duration
+            let eps = Double(currFastMove.energy)/currFastMove.duration
             let fastMoveIsSTAB = moveIsSTAB(currFastMove)
             for currChargeMove in chargeMoves {
-                let chargeMovesPer100Energy = Int(floor(100/Double(currChargeMove.energyCost)))
+                let chargeMovesPer100Energy = Int(floor(100/Double(currChargeMove.energy)))
                 let totalDamagePer100Energy = currChargeMove.damage * chargeMovesPer100Energy
                 let secondsToGain100Energy = 100/eps
                 let totalChargeMoveDurationPer100Energy = (Double(chargeMovesPer100Energy)*currChargeMove.duration)
@@ -189,7 +189,7 @@ protocol PokemonMoveProtocol {
     var type:PokemonType {get}
     var damage:Int {get}
     var duration:Double {get}
-    var active:Bool {get}
+    var energy:Int {get}
 }
 
 struct PokemonFastMoveModel: PokemonMoveProtocol {
@@ -198,17 +198,17 @@ struct PokemonFastMoveModel: PokemonMoveProtocol {
     private(set) public var type: PokemonType
     private(set) public var damage: Int
     private(set) public var duration: Double
-    private(set) public var active: Bool
+    private(set) public  var energy: Int
     
     // model specific vars
-    private(set) public var energyGain: Int
+    private(set) public var active: Bool
     
     init(Name n:String, Type t:PokemonType, Damage d:Int, Duration dur:Double, EnergyGain e:Int, Active a:Bool) {
         name = n
         type = t
         damage = d
         duration = dur
-        energyGain = e
+        energy = e
         active = a
     }
 }
@@ -219,17 +219,17 @@ struct PokemonChargeMoveModel: PokemonMoveProtocol {
     private(set) public var type: PokemonType
     private(set) public var damage: Int
     private(set) public var duration: Double
-    private(set) public var active: Bool
+    private(set) public  var energy: Int
     
     // model specific vars
-    private(set) public var energyCost: Int
+    private(set) public var active: Bool
     
     init(Name n:String, Type t:PokemonType, Damage d:Int, Duration dur:Double, EnergyCost e:Int, Active a:Bool) {
         name = n
         type = t
         damage = d
         duration = dur
-        energyCost = e
+        energy = e
         active = a
     }
 }
