@@ -26,28 +26,69 @@ extension UIImageView {
 
 
 class AppServices {
-    
+    // Firebase
     private static var db = Firestore.firestore()
     private static var storage = Storage.storage()
     
     // Simple Image Cached
     private static var imageCache:Dictionary<String,Data> = Dictionary<String,Data>()
     
-    static func GetPokemon (Completion completion:@escaping(Array<PokemonModel>) -> Void) {
+    // Pokemon Data
+    static var Pokemon = Array<PokemonModel>()
+    static var FastMoves = Dictionary<String,PokemonMoveModel>()
+    static var ChargeMoves = Dictionary<String,PokemonMoveModel>()
+    
+    static func GetPokemonData (Completion completion:@escaping(Array<PokemonModel>) -> Void) {
+        // TODO: add logic to check if there's any reason to update this info
+        // and if not then restore (which also means storing this info)
+        
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
         db.collection("pokemon").getDocuments { (querySnapshot, error) in
-            var pokemon = Array<PokemonModel>()
-            
             if (error == nil) {
-                pokemon = mapDataToModel(Documents: (querySnapshot?.documents)!)
+                Pokemon = mapPokemonData(Documents: (querySnapshot?.documents)!)
             } else {
-                print("Document data: \(error?.localizedDescription)")
+                print("Pokemon retreival error: \(error?.localizedDescription ?? "N/A")")
             }
             
-            completion(pokemon)
+            completion(Pokemon)
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        db.collection("fastMoves").getDocuments { (querySnapshot, error) in
+            if (error == nil) {
+                FastMoves = mapMovesData(Documents: (querySnapshot?.documents)!)
+            } else {
+                print("Pokemon fast move retreival error: \(error?.localizedDescription ?? "N/A")")
+            }
+            
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        db.collection("chargeMoves").getDocuments { (querySnapshot, error) in
+            if (error == nil) {
+                ChargeMoves = mapMovesData(Documents: (querySnapshot?.documents)!)
+            } else {
+                print("Pokemon charge move retreival error: \(error?.localizedDescription ?? "N/A")")
+            }
+            
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            // update all pokemon with the moves
+            for currPokemon in Pokemon {
+                currPokemon.FindMoves()
+            }
+            
+            // tell the tableview to update
         }
     }
     
-    private static func mapDataToModel (Documents docs:Array<DocumentSnapshot>) -> Array<PokemonModel> {
+    private static func mapPokemonData(Documents docs:Array<DocumentSnapshot>) -> Array<PokemonModel> {
         var pokemon = Array<PokemonModel>()
         
         if (docs.count > 0) {
@@ -55,23 +96,33 @@ class AppServices {
             if let pokemonData:Dictionary<String,Any> = pokemonDoc.data() {
                 for key in pokemonData.keys {
                     if let currPokemonData = pokemonData[key] as? Dictionary<String,Any> {
-                        var fastMoves:Array<PokemonFastMoveModel>? = nil
+                        
+                        var fastMoves = Array<PokemonMoveSimpleModel>()
                         if let fastMovesData = currPokemonData["fastMoves"] as? Array<Dictionary<String,Any>> {
-                            fastMoves = mapFastMoves(fastMovesData)
+                            for moveData in fastMovesData {
+                                if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
+                                    let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
+                                    fastMoves.append(move)
+                                }
+                            }
                         }
                         
-                        var chargeMoves:Array<PokemonChargeMoveModel>? = nil
+                        var chargeMoves = Array<PokemonMoveSimpleModel>()
                         if let chargeMovesData = currPokemonData["chargeMoves"] as? Array<Dictionary<String,Any>> {
-                            chargeMoves = mapChargeMoves(chargeMovesData)
+                            for moveData in chargeMovesData {
+                                if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
+                                    let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
+                                    chargeMoves.append(move)
+                                }
+                            }
                         }
                         
                         if let name = currPokemonData["name"] as? String, let types = currPokemonData["types"] as? Array<String>,
                             let pokemonNumber = currPokemonData["pokemonNumber"] as? Int, let attack = currPokemonData["attack"] as? Int,
                             let defense = currPokemonData["defense"] as? Int, let stamina = currPokemonData["stamina"] as? Int,
-                            fastMoves != nil, chargeMoves != nil, let generation = currPokemonData["generation"] as? Int,
-                            let legendary = currPokemonData["legendary"] as? Bool {
-                            let currPokemon = PokemonModel(Name: name, Types: types, PokemonNumber: pokemonNumber, Atack: attack,
-                                                           Defense: defense, Stamina: stamina, FastMoves: fastMoves!, ChargeMoves: chargeMoves!, Generation: generation, Legendary: legendary)
+                            let generation = currPokemonData["generation"] as? Int, let legendary = currPokemonData["legendary"] as? Bool {
+                            let currPokemon = PokemonModel(Name: name, Types: types, PokemonNumber: pokemonNumber, Atack: attack, Defense: defense, Stamina: stamina,
+                                                           FastMoves: fastMoves, ChargeMoves: chargeMoves, Generation: generation, Legendary: legendary)
                             pokemon.append(currPokemon)
                         }
                     }
@@ -82,230 +133,35 @@ class AppServices {
         return pokemon
     }
     
-    private static func mapFastMoves(_ moves:Array<Dictionary<String,Any>>) -> Array<PokemonFastMoveModel> {
-        var mappedMoves = Array<PokemonFastMoveModel>()
+    private static func mapMovesData(Documents docs:Array<DocumentSnapshot>) -> Dictionary<String,PokemonMoveModel> {
+        var mappedMoves = Dictionary<String,PokemonMoveModel>()
         
-        for moveData in moves {
-            if let moveRef = moveData["move"] as? DocumentReference, let active = moveData["active"] as? Bool {
-                moveRef.getDocument(completion: { (docSnapshot, error) in
-                    if (error == nil) {
-                        if let currMove = docSnapshot?.data() {
-                            if let name = currMove["name"] as? String, let typeStr = currMove["type"] as? String, let damage = currMove["damage"] as? Int,
-                                let duration = currMove["duration"] as? Double, let energyGain = currMove["energyGain"] as? Int {
-                                if let type = PokemonType(rawValue: typeStr) {
-                                    let move = PokemonFastMoveModel(Name: name, Type: type, Damage: damage, Duration: duration,
-                                                                    EnergyGain: energyGain, Active: active)
-                                    mappedMoves.append(move)
-                                }
-                            }
-                        }
-                    } else {
-                        print("Document data: \(error?.localizedDescription)")
-                    }
-                    
-                    //completion(pokemon)
-                })
+        for currDoc in docs {
+            if let moveData:Dictionary<String,Any> = currDoc.data() {
+                let move = mapMove(moveData)
+                mappedMoves[currDoc.documentID] = move
             }
         }
         
         return mappedMoves
     }
     
-    private static func mapChargeMoves(_ moves:Array<Dictionary<String,Any>>) -> Array<PokemonChargeMoveModel> {
-        var mappedMoves = Array<PokemonChargeMoveModel>()
+    private static func mapMove(_ moveData:Dictionary<String,Any>) -> PokemonMoveModel? {
+        var move:PokemonMoveModel? = nil
         
-        for moveData in moves {
-            if let currMove = moveData["move"] as? Dictionary<String,Any>, let active = currMove["active"] as? Bool {
-                if let name = currMove["name"] as? String, let typeStr = currMove["type"] as? String, let damage = currMove["damage"] as? Int,
-                    let duration = currMove["duration"] as? Double, let energyCost = currMove["energyCost"] as? Int {
-                    if let type = PokemonType(rawValue: typeStr) {
-                        let move = PokemonChargeMoveModel(Name: name, Type: type, Damage: damage, Duration: duration,
-                                                            EnergyCost: energyCost, Active: active)
-                        mappedMoves.append(move)
-                    }
+        if let name = moveData["name"] as? String, let typeStr = moveData["type"] as? String,
+            let damage = moveData["damage"] as? Int, let duration = moveData["duration"] as? Double {
+            if let type = PokemonType(rawValue: typeStr) {
+                if let energyGain = moveData["energyGain"] as? Int {
+                    move = PokemonMoveModel(Name: name, Type: type, Damage: damage, Duration: duration, Energy: energyGain)
+                } else if let energyCost = moveData["energyCost"] as? Int {
+                    move = PokemonMoveModel(Name: name, Type: type, Damage: damage, Duration: duration, Energy: energyCost)
                 }
             }
         }
         
-        return mappedMoves
+        return move
     }
-    
-    
-    /*
-    static func GetActivityForName (ActivityName name:String!, Completion completion:@escaping(ActivityModelProtocol?) -> Void) {
-        db.collection(name).getDocuments { (querySnapshot, error) in
-            var activity:ActivityModelProtocol?
-            
-            if (error == nil) {
-                activity = mapActivityToModel(Documents: (querySnapshot?.documents)!)
-            } else {
-                print("Document data: \(error?.localizedDescription)")
-            }
-            
-            completion(activity)
-        }
-    }
-    
-    private static func mapActivityToModel (Documents docs:Array<DocumentSnapshot>) -> ActivityModelProtocol? {
-        var activity:ActivityModelProtocol? = nil
-        
-        if (docs.count > 0) {
-            let activityDoc = docs[0]
-            let currData:Dictionary<String,Any> = activityDoc.data()
-            
-            if let typeVal = currData["type"] {
-                switch (typeVal as! String) {
-                case ActivityType.Quiz.AsString():
-                    let questions = populateQuestionData(Documents: docs)
-                    if let introVal = currData["intro"], let imageURL = currData["imageURL"], let headerVal = currData["header"], questions.count > 0 {
-                        activity = QuizActivity(ImageURL: imageURL as! String, Header: headerVal as! String,
-                                                Intro: introVal as! String, Questions: questions)
-                    }
-                    break
-                case ActivityType.RevealCards.AsString():
-                    if let cardsData = currData["cards"] as? Array<Dictionary<String,Any>> {
-                        let cards = populateRevealCardData(CardsData: cardsData)
-                        if cards.count > 0, let imageURL = currData["imageURL"], let headerVal = currData["header"], let introVal = currData["intro"] {
-                            activity = RevealCardsActivity(ImageURL: imageURL as! String, Header: headerVal as! String,
-                                                           Intro: introVal as! String, Cards: cards)
-                        }
-                    }
-                    break
-                case ActivityType.InfoBubbles.AsString():
-                    if let bubbleData = currData["bubbles"] as? Array<Dictionary<String,Any>> {
-                        let bubbles = populateInfoBubblesData(BubbleData: bubbleData)
-                        if bubbles.count > 0, let iconIndex = currData["iconIndex"], let headerVal = currData["title"], let introVal = currData["description"],
-                            let backgroundURL = currData["backgroundURL"], let foregroundURL = currData["foregroundURL"] {
-                            activity = InfoBubblesActivity(Header: headerVal as! String, Intro: introVal as! String, IconIndex: iconIndex as! Int,
-                                                           BackgroundURL: backgroundURL as! String, ForegroundURL: foregroundURL as! String, BubbleData: bubbles)
-                        }
-                    }
-                    break
-                case ActivityType.Article.AsString():
-                    //case ActivityType.ArticleLong.AsString():
-                    if let paragraphData = currData["paragraphs"] as? Array<Dictionary<String,Any>> {
-                        let paragraphs = populateArticleParagraphData(ParagraphData: paragraphData)
-                        
-                        var completionQues:QuestionViewModelProtocol? = nil
-                        if let cQues = mapQuestionToModel(QuestionData: currData["completionQuestion"] as! Dictionary<String,Any>) {
-                            completionQues = cQues
-                        }
-                        
-                        var readingLevel:String? = nil
-                        if let rLevel = currData["readingLevel"] {
-                            readingLevel = rLevel as? String
-                        }
-                        
-                        var copyrightHolder:String? = nil
-                        if let cHolder = currData["copyrightHolder"] {
-                            copyrightHolder = cHolder as? String
-                        }
-                        
-                        if paragraphs.count > 0, let imageURL = currData["imageURL"], let headerVal = currData["title"], let introVal = currData["description"] {
-                            activity = ArticleLongActivity(ImageURL: imageURL as! String, Header: headerVal as! String, Intro: introVal as! String, ArticleParagraphs: paragraphs,
-                                                           CompletionQuestion: completionQues, ReadingLevel: readingLevel, CopyrightHolder: copyrightHolder)
-                        }
-                    }
-                    break
-                case ActivityType.Recipe.AsString():
-                    if let ingredientData = currData["ingredients"] as? Array<String>, let instructionData = currData["instructions"] as? Array<String>,
-                        let nutritionInfoData = currData["nutritionalInfo"] as? Array<Dictionary<String,String>> , let nutritionMineralData = currData["nutritionalMineral"] as? Array<Dictionary<String,String>> {
-                        let activityRecipeItems:Dictionary<RecipeItemType,Array<RecipeItemViewModel>> = [RecipeItemType.Ingredients : populateRecipeItemData(ItemData: ingredientData),
-                                                                                                         RecipeItemType.Instructions : populateRecipeItemData(ItemData: instructionData)]
-                        
-                        let activityRecipeNutritionItems:Dictionary<RecipeNutritionItemType,Array<RecipeNutritionItemViewModel>> = [RecipeNutritionItemType.DefaultInfo : populateRecipeNutritionItemData(NutritionItemData: nutritionInfoData),
-                                                                                                                                    RecipeNutritionItemType.Minerals : populateRecipeNutritionItemData(NutritionItemData: nutritionMineralData)]
-                        
-                        if let imageURL = currData["imageURL"] as? String, let headerVal = currData["title"] as? String, let introVal = currData["description"] as? String, let calVal = currData["calories"] as? String,
-                            let fatVal = currData["fat"] as? String, let cookTimeVal = currData["duration"] as? String, let servingAmountVal = currData["size"] as? String, let sizeVal = currData["servingSize"] as? String,
-                            let copyright = currData["legal_footer"] as? String, let tipVal = currData["tip"] as? String {
-                            activity = RecipeActivity(ImageURL: imageURL, Header: headerVal, CookTime: cookTimeVal, ServingAmount: servingAmountVal, Calories: calVal, Fat: fatVal, Intro: introVal,
-                                                      Recipe: activityRecipeItems, ServingSize: sizeVal, NutritionLabel:activityRecipeNutritionItems, CopyrightHolder: copyright, Tip: tipVal)
-                        }
-                    }
-                    break
-                default:
-                    print("Not matching activity model for Type: \(typeVal)")
-                    break
-                }
-                
-                if (activity != nil) {
-                    if let program = currData["program"] as? String  {
-                        activity?.ProgramName = program
-                    }
-                    if let subTopic = currData["subtopic"] as? String  {
-                        activity?.SubTopicName = subTopic
-                    }
-                }
-            }
-        }
-        
-        return activity
-    }
-    
-    
-    
-    // MARK: - Handle Data Models
-    
-    private static func populateQuestionData (Documents docs:Array<DocumentSnapshot>) -> Array<QuestionViewModelProtocol> {
-        var activityQuestions:Array<QuestionViewModelProtocol> = []
-        
-        // TODO: firbase web GUI doesn't currently support the needed structure so the questions are not in an array as expected
-        
-        if (docs.count > 0) {
-            let activityDoc = docs[0]
-            
-            let currData:Dictionary<String,Any> = activityDoc.data()
-            for key in currData.keys {
-                if (key.starts(with: "question")) {
-                    let questionVal:Dictionary<String,Any> = currData[key] as! Dictionary<String,Any>
-                    
-                    if let questionViewModel = mapQuestionToModel(QuestionData: questionVal) {
-                        activityQuestions.append(questionViewModel)
-                    }
-                }
-            }
-        }
-        
-        return activityQuestions
-    }
-    
-    private static func mapQuestionToModel (QuestionData questionVal:Dictionary<String,Any>) -> QuestionViewModelProtocol? {
-        var questionViewModel:QuestionViewModelProtocol? = nil
-        
-        if let typeVal = questionVal["type"] {
-            switch (typeVal as! String) {
-            case ModelType.TrueFalse.AsString():
-                if let quesVal = questionVal["question"], let answer = questionVal["answer"],
-                    let explanation = questionVal["explanation"], let imageURL = questionVal["imageURL"] {
-                    questionViewModel = QuestionTrueFalse(Question: (quesVal as! String), CorrectAnswer: (answer as! Bool), RelatedImageURL: (imageURL as! String), AnswerExplanation: (explanation as! String))
-                }
-                break
-            case ModelType.TextMultiChoice.AsString():
-                if let quesVal = questionVal["question"], let answers = questionVal["answers"],
-                    let answerIndex = questionVal["answerIndex"], let explanation = questionVal["explanation"] {
-                    questionViewModel = QuestionTextMultiChoice(Question: (quesVal as! String), Answers: (answers as! Array<String>), CorrectAnswerIndex: (answerIndex as! Int), AnswerExplanation: (explanation as! String))
-                }
-                break
-            case ModelType.SingleImageTextMultiChoice.AsString():
-                // TODO: handle accessibility tag
-                if let imageURL = questionVal["imageURL"], let quesVal = questionVal["question"], let answers = questionVal["answers"],
-                    let answerIndex = questionVal["answerIndex"], let explanation = questionVal["explanation"] {
-                    questionViewModel = QuestionSingleImageTextMultiChoice(ImageURL: (imageURL as! String), ImageAccessibilityTag: "TODO", Question: (quesVal as! String),
-                                                                           Answers: (answers as! Array<String>), CorrectAnswerIndex: (answerIndex as! Int), AnswerExplanation: (explanation as! String))
-                }
-                break
-            default:
-                print("Not matching question model for Type: \(typeVal)")
-                break
-            }
-        } else {
-            print("Type not found")
-        }
-        
-        return questionViewModel
-    }
-    */
     
     
     

@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         detailNavigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
         
-        AppServices.GetPokemon { (pokemon) in
+        AppServices.GetPokemonData { (pokemon) in
             for p in pokemon {
                 masterVC.insertNewObject(TableCellViewModel(PokemonModel: p))
             }
