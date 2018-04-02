@@ -103,6 +103,10 @@ class PokemonModel {
         return bestAttackingFastMove
     }
     
+//    func fastMoveAttackingDPS( _ isSTAB:Bool = false) -> Double {
+//        
+//    }
+    
     func BestAttackingChargeMove(_ isSTAB:Bool = false) -> String {
         if (isSTAB) {
             return bestAttackingChargeMoveSTAB

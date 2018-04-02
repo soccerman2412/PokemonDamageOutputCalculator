@@ -50,11 +50,19 @@ class DetailViewModel {
         return pokemonModel.BestAttackingChargeMove(isSTAB)
     }
     
+    func eDPSAttacking(_ isSTAB:Bool = false) -> Double {
+        return pokemonModel.eDPSAttacking(isSTAB)
+    }
+    
     func BestDefendingFastMove(_ isSTAB:Bool = false) -> String {
         return pokemonModel.BestDefendingFastMove(isSTAB)
     }
     
     func BestDefendingChargeMove(_ isSTAB:Bool = false) -> String {
         return pokemonModel.BestDefendingChargeMove(isSTAB)
+    }
+    
+    func eDPSDefending(_ isSTAB:Bool = false) -> Double {
+        return pokemonModel.eDPSDefending(isSTAB)
     }
 }

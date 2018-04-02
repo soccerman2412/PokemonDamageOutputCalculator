@@ -34,9 +34,9 @@ class DetailViewController: UIViewController {
             if let chargeAttacking_Label = chargeAttacking {
                 chargeAttacking_Label.text = detail.BestAttackingChargeMove()
             }
-//            if let chargeAttackingEDPS_Label = chargeAttackingEDPS {
-//                chargeAttackingEDPS_Label.text = detail.
-//            }
+            if let chargeAttackingEDPS_Label = chargeAttackingEDPS {
+                chargeAttackingEDPS_Label.text = String(format: "%.2f", detail.eDPSAttacking())
+            }
             
             if let fastAttacking_STAB_Label = fastAttacking_STAB {
                 fastAttacking_STAB_Label.text = detail.BestAttackingFastMove(true)
