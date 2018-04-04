@@ -91,41 +91,36 @@ class AppServices {
     private static func mapPokemonData(Documents docs:Array<DocumentSnapshot>) -> Array<PokemonModel> {
         var pokemon = Array<PokemonModel>()
         
-        if (docs.count > 0) {
-            let pokemonDoc = docs[0]
-            if let pokemonData:Dictionary<String,Any> = pokemonDoc.data() {
-                for key in pokemonData.keys {
-                    if let currPokemonData = pokemonData[key] as? Dictionary<String,Any> {
-                        
-                        var fastMoves = Array<PokemonMoveSimpleModel>()
-                        if let fastMovesData = currPokemonData["fastMoves"] as? Array<Dictionary<String,Any>> {
-                            for moveData in fastMovesData {
-                                if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
-                                    let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
-                                    fastMoves.append(move)
-                                }
-                            }
-                        }
-                        
-                        var chargeMoves = Array<PokemonMoveSimpleModel>()
-                        if let chargeMovesData = currPokemonData["chargeMoves"] as? Array<Dictionary<String,Any>> {
-                            for moveData in chargeMovesData {
-                                if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
-                                    let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
-                                    chargeMoves.append(move)
-                                }
-                            }
-                        }
-                        
-                        if let name = currPokemonData["name"] as? String, let types = currPokemonData["types"] as? Array<String>,
-                            let pokemonNumber = currPokemonData["pokemonNumber"] as? Int, let attack = currPokemonData["attack"] as? Int,
-                            let defense = currPokemonData["defense"] as? Int, let stamina = currPokemonData["stamina"] as? Int,
-                            let generation = currPokemonData["generation"] as? Int, let legendary = currPokemonData["legendary"] as? Bool {
-                            let currPokemon = PokemonModel(Name: name, Types: types, PokemonNumber: pokemonNumber, Atack: attack, Defense: defense, Stamina: stamina,
-                                                           FastMoves: fastMoves, ChargeMoves: chargeMoves, Generation: generation, Legendary: legendary)
-                            pokemon.append(currPokemon)
+        for currPokemonDoc in docs {
+            if let currPokemonData = currPokemonDoc.data() {
+                
+                var fastMoves = Array<PokemonMoveSimpleModel>()
+                if let fastMovesData = currPokemonData["fastMoves"] as? Array<Dictionary<String,Any>> {
+                    for moveData in fastMovesData {
+                        if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
+                            let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
+                            fastMoves.append(move)
                         }
                     }
+                }
+                
+                var chargeMoves = Array<PokemonMoveSimpleModel>()
+                if let chargeMovesData = currPokemonData["chargeMoves"] as? Array<Dictionary<String,Any>> {
+                    for moveData in chargeMovesData {
+                        if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
+                            let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
+                            chargeMoves.append(move)
+                        }
+                    }
+                }
+                
+                if let name = currPokemonData["name"] as? String, let types = currPokemonData["types"] as? Array<String>,
+                    let pokemonNumber = currPokemonData["pokemonNumber"] as? Int, let attack = currPokemonData["attack"] as? Int,
+                    let defense = currPokemonData["defense"] as? Int, let stamina = currPokemonData["stamina"] as? Int,
+                    let generation = currPokemonData["generation"] as? Int, let legendary = currPokemonData["legendary"] as? Bool {
+                    let currPokemon = PokemonModel(Name: name, Types: types, PokemonNumber: pokemonNumber, Atack: attack, Defense: defense, Stamina: stamina,
+                                                   FastMoves: fastMoves, ChargeMoves: chargeMoves, Generation: generation, Legendary: legendary)
+                    pokemon.append(currPokemon)
                 }
             }
         }
