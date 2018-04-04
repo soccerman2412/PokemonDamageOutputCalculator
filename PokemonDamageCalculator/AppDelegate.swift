@@ -26,11 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         detailNavigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
         
-        AppServices.GetPokemonData { (pokemon) in
+        AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
             for p in pokemon {
                 masterVC.insertNewObject(TableCellViewModel(PokemonModel: p))
             }
-        }
+        })
         
         return true
     }
@@ -47,6 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
+        // TODO: update if needed
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

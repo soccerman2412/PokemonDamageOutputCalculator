@@ -38,7 +38,7 @@ class AppServices {
     static var FastMoves = Dictionary<String,PokemonMoveModel>()
     static var ChargeMoves = Dictionary<String,PokemonMoveModel>()
     
-    static func GetPokemonData (Completion completion:@escaping(Array<PokemonModel>) -> Void) {
+    static func GetPokemonData (MasterViewController masterVC:MasterViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
         // TODO: add logic to check if there's any reason to update this info
         // and if not then restore (which also means storing this info)
         
@@ -85,6 +85,7 @@ class AppServices {
             }
             
             // tell the tableview to update
+            masterVC.sortObjects()
         }
     }
     
@@ -97,7 +98,7 @@ class AppServices {
                 var fastMoves = Array<PokemonMoveSimpleModel>()
                 if let fastMovesData = currPokemonData["fastMoves"] as? Array<Dictionary<String,Any>> {
                     for moveData in fastMovesData {
-                        if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
+                        if let moveName = moveData["name"] as? String, let active = moveData["active"] as? Bool {
                             let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
                             fastMoves.append(move)
                         }
@@ -107,7 +108,7 @@ class AppServices {
                 var chargeMoves = Array<PokemonMoveSimpleModel>()
                 if let chargeMovesData = currPokemonData["chargeMoves"] as? Array<Dictionary<String,Any>> {
                     for moveData in chargeMovesData {
-                        if let moveName = moveData["move"] as? String, let active = moveData["active"] as? Bool {
+                        if let moveName = moveData["name"] as? String, let active = moveData["active"] as? Bool {
                             let move = PokemonMoveSimpleModel(Name: moveName, Active: active)
                             chargeMoves.append(move)
                         }

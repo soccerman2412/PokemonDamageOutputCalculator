@@ -10,6 +10,8 @@ import UIKit
 
 class MasterViewController: UITableViewController {
 
+    @IBOutlet weak var pokemonTableView: UITableView!
+    
     var detailViewController: DetailViewController? = nil
     var objects = [TableCellViewModel]()
 
@@ -45,6 +47,14 @@ class MasterViewController: UITableViewController {
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
+    
+    func sortObjects() {
+        objects.sort { (modelA, modelB) -> Bool in
+            return modelA.pokemonModel.eDPSAttacking() > modelB.pokemonModel.eDPSAttacking()
+        }
+        
+        pokemonTableView.reloadData()
+    }
 
     // MARK: - Segues
 
@@ -74,7 +84,16 @@ class MasterViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
         let object = objects[indexPath.row]
-        cell.textLabel!.text = object.Name()
+        cell.textLabel?.text = object.Name()
+        cell.textLabel?.textColor = .black
+        if (object.pokemonModel.legendary) {
+            cell.textLabel?.textColor = UIColor(named: "legendaryColor")
+        }
+        
+        // sort
+        // TODO: other sort options
+        
+        
         return cell
     }
 
