@@ -42,27 +42,27 @@ class DetailViewModel {
         return pokemonModel.stamina
     }
     
-    func BestAttackingFastMove(_ isSTAB:Bool = false) -> String {
-        return pokemonModel.BestAttackingFastMove(isSTAB)
+    func BestAttackingFastMove(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> PokemonFastMoveModel? {
+        return pokemonModel.BestAttackingFastMove(Active: isActive, STAB: isSTAB)
     }
     
-    func BestAttackingChargeMove(_ isSTAB:Bool = false) -> String {
-        return pokemonModel.BestAttackingChargeMove(isSTAB)
+    func BestAttackingChargeMove(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> PokemonChargeMoveModel? {
+        return pokemonModel.BestAttackingChargeMove(Active: isActive, STAB: isSTAB)
     }
     
-    func eDPSAttacking(_ isSTAB:Bool = false) -> Double {
-        return pokemonModel.eDPSAttacking(isSTAB)
+    func eDPSAttacking(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> Double {
+        return pokemonModel.eDPSAttacking(Active: isActive, STAB: isSTAB)
     }
     
-    func BestDefendingFastMove(_ isSTAB:Bool = false) -> String {
-        return pokemonModel.BestDefendingFastMove(isSTAB)
+    func BestDefendingFastMove(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> PokemonFastMoveModel? {
+        return pokemonModel.BestDefendingFastMove(Active: isActive, STAB: isSTAB)
     }
     
-    func BestDefendingChargeMove(_ isSTAB:Bool = false) -> String {
-        return pokemonModel.BestDefendingChargeMove(isSTAB)
+    func BestDefendingChargeMove(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> PokemonChargeMoveModel? {
+        return pokemonModel.BestDefendingChargeMove(Active: isActive, STAB: isSTAB)
     }
     
-    func eDPSDefending(_ isSTAB:Bool = false) -> Double {
-        return pokemonModel.eDPSDefending(isSTAB)
+    func eDPSDefending(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> Double {
+        return pokemonModel.eDPSDefending(Active: isActive, STAB: isSTAB)
     }
 }

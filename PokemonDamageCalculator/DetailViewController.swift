@@ -24,26 +24,44 @@ class DetailViewController: UIViewController {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = detailItem {
-            if let fastAttacking_Label = fastAttacking {
-                fastAttacking_Label.text = detail.BestAttackingFastMove()
-            }
-//            if let fastAttackingDPS_Label = fastAttackingDPS {
-//                fastAttackingDPS_Label.text = detail.
-//            }
-            
-            if let chargeAttacking_Label = chargeAttacking {
-                chargeAttacking_Label.text = detail.BestAttackingChargeMove()
-            }
-            if let chargeAttackingEDPS_Label = chargeAttackingEDPS {
-                chargeAttackingEDPS_Label.text = String(format: "%.2f", detail.eDPSAttacking())
+            if let attackingFM = detail.BestAttackingFastMove() {
+                if let fastAttacking_Label = fastAttacking {
+                    fastAttacking_Label.text = attackingFM.Name()
+                }
+                if let fastAttackingDPS_Label = fastAttackingDPS {
+                    fastAttackingDPS_Label.text = String(format: "%.2f", attackingFM.dps)
+                }
             }
             
-            if let fastAttacking_STAB_Label = fastAttacking_STAB {
-                fastAttacking_STAB_Label.text = detail.BestAttackingFastMove(true)
+            if let attackingCM = detail.BestAttackingChargeMove() {
+                if let chargeAttacking_Label = chargeAttacking {
+                    chargeAttacking_Label.text = attackingCM.Name()
+                }
+                if let attackingFM = detail.BestAttackingFastMove() {
+                    if let chargeAttackingEDPS_Label = chargeAttackingEDPS {
+                        chargeAttackingEDPS_Label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                    }
+                }
             }
             
-            if let chargeAttacking_STAB_Label = chargeAttacking_STAB {
-                chargeAttacking_STAB_Label.text = detail.BestAttackingChargeMove(true)
+            if let attackingFM = detail.BestAttackingFastMove(Active: false, STAB: true) {
+                if let fastAttacking_Label = fastAttacking_STAB {
+                    fastAttacking_Label.text = attackingFM.Name()
+                }
+                if let fastAttackingDPS_Label = fastAttackingDPS_STAB {
+                    fastAttackingDPS_Label.text = String(format: "%.2f", attackingFM.dps)
+                }
+            }
+            
+            if let attackingCM = detail.BestAttackingChargeMove(Active: false, STAB: true) {
+                if let chargeAttacking_Label = chargeAttacking_STAB {
+                    chargeAttacking_Label.text = attackingCM.Name()
+                }
+                if let attackingFM = detail.BestAttackingFastMove(Active: false, STAB: true) {
+                    if let chargeAttackingEDPS_Label = chargeAttackingEDPS_STAB {
+                        chargeAttackingEDPS_Label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                    }
+                }
             }
         }
     }

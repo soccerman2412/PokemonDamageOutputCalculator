@@ -168,33 +168,51 @@ class PokemonModel {
         return bestDefendingChargeMove
     }
     
-    func eDPSAttacking(Active isActive:Bool = false,STAB isSTAB:Bool = false) -> Double {
-        if (isSTAB) {
-            return eDPSAttackingSTAB
+    func eDPSAttacking(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> Double {
+        var returnVal = 0.0
+        
+        if (isActive) {
+            if (isSTAB) {
+                if (bestActiveAttackingChargeMoveSTAB != nil && bestActiveAttackingFastMoveSTAB != nil) {
+                    returnVal = bestActiveAttackingChargeMoveSTAB!.eDPS(FastMove: bestActiveAttackingFastMoveSTAB!) + bestActiveAttackingFastMoveSTAB!.dps
+                }
+            } else {
+                if (bestActiveAttackingChargeMove != nil && bestActiveAttackingFastMove != nil) {
+                    returnVal = bestActiveAttackingChargeMove!.eDPS(FastMove: bestActiveAttackingFastMove!) + bestActiveAttackingFastMove!.dps
+                }
+            }
+        } else {
+            if (isSTAB) {
+                if (bestAttackingChargeMoveSTAB != nil && bestAttackingFastMoveSTAB != nil) {
+                    returnVal = bestAttackingChargeMoveSTAB!.eDPS(FastMove: bestAttackingFastMoveSTAB!) + bestAttackingFastMoveSTAB!.dps
+                }
+            } else {
+                if (bestAttackingChargeMove != nil && bestAttackingFastMove != nil) {
+                    returnVal = bestAttackingChargeMove!.eDPS(FastMove: bestAttackingFastMove!) + bestAttackingFastMove!.dps
+                }
+            }
         }
         
-        return eDPSAttacking
+        return returnVal
     }
     
-    func eDPSDefending(Active isActive:Bool = false,STAB isSTAB:Bool = false) -> Double {
-        if (isSTAB) {
-            return eDPSDefendingSTAB
-        }
+    func eDPSDefending(Active isActive:Bool = false, STAB isSTAB:Bool = false) -> Double {
+        // TODO
         
-        return eDPSDefending
+        return 0.0
     }
     
     func FindMoves() {
         for currFastMoveInfo in fastMovesInfo {
             if let move = AppServices.FastMoves[currFastMoveInfo.name] {
-                let moveModel = PokemonFastMoveModel(FastMove: move, Active: currFastMoveInfo.active)
+                let moveModel = PokemonFastMoveModel(FastMove: move, Active: currFastMoveInfo.active, IsSTAB: moveIsSTAB(move))
                 fastMoves.append(moveModel)
             }
         }
         
         for currChargeMoveInfo in chargeMovesInfo {
             if let move = AppServices.ChargeMoves[currChargeMoveInfo.name] {
-                let moveModel = PokemonChargeMoveModel(ChargeMove: move, Active: currChargeMoveInfo.active)
+                let moveModel = PokemonChargeMoveModel(ChargeMove: move, Active: currChargeMoveInfo.active, IsSTAB: moveIsSTAB(move))
                 chargeMoves.append(moveModel)
             }
         }
@@ -203,35 +221,46 @@ class PokemonModel {
     }
     
     private func calculate() {
-        //=ARRAYFORMULA((J2:J*ROUNDDOWN(100/H2:H))/((100/G2:G)+(ROUNDDOWN(100/H2:H)*I2:I)))
-        //(cDamage * floor(100/cEnergyCost)) / ((100/fEPS) + (floor(100/cEnergyCost) * cDuration))
-        
         // TODO: defending calculations
-        // TODO: active
+        
+        var bestEDPS_Attacking = 0.0
+        var bestEDPS_AttackingSTAB = 0.0
+        var bestActiveEDPS_Attacking = 0.0
+        var bestActiveEDPS_AttackingSTAB = 0.0
         
         for currFastMove in fastMoves {
-            let fastMoveIsSTAB = moveIsSTAB(currFastMove.moveModel)
             for currChargeMove in chargeMoves {
-                let chargeMoveIsSTAB = moveIsSTAB(currChargeMove.moveModel)
-                let chargeMovesPer100Energy = Int(floor(100/Double(currChargeMove.EnergyCost())))
-                let totalDamagePer100Energy = (currChargeMove.Damage() + Int(chargeMoveIsSTAB ? Double(currChargeMove.Damage())*0.2 : 0)) * chargeMovesPer100Energy
-                let secondsToGain100Energy = 100/currFastMove.eps
-                let totalChargeMoveDurationPer100Energy = (Double(chargeMovesPer100Energy)*currChargeMove.Duration())
-                let totalDurationToEarnAndUse100Energy = secondsToGain100Energy + totalChargeMoveDurationPer100Energy
-                let currEPDS = Double(totalDamagePer100Energy) / totalDurationToEarnAndUse100Energy
+                let currEPDS = currChargeMove.eDPS(FastMove: currFastMove)
+                let total = currEPDS + currFastMove.dps
                 
-                if (currEPDS > eDPSAttacking) {
-                    bestAttackingFastMove = currFastMove.Name()
-                    bestAttackingChargeMove = currChargeMove.Name()
+                if (total > bestEDPS_Attacking) {
+                    bestAttackingFastMove = currFastMove
+                    bestAttackingChargeMove = currChargeMove
                     
-                    eDPSAttacking = currEPDS
+                    bestEDPS_Attacking = total
                 }
                 
-                if (fastMoveIsSTAB && chargeMoveIsSTAB && currEPDS > eDPSAttackingSTAB) {
-                    bestAttackingFastMoveSTAB = currFastMove.Name()
-                    bestAttackingChargeMoveSTAB = currChargeMove.Name()
+                if (total > bestActiveEDPS_Attacking) {
+                    bestActiveAttackingFastMove = currFastMove
+                    bestActiveAttackingChargeMove = currChargeMove
                     
-                    eDPSAttackingSTAB = currEPDS
+                    bestActiveEDPS_Attacking = total
+                }
+                
+                if (currFastMove.isSTAB && currChargeMove.isSTAB) {
+                    if (total > bestEDPS_AttackingSTAB) {
+                        bestAttackingFastMoveSTAB = currFastMove
+                        bestAttackingChargeMoveSTAB = currChargeMove
+                        
+                        bestEDPS_AttackingSTAB = total
+                    }
+                    
+                    if (total > bestActiveEDPS_AttackingSTAB) {
+                        bestActiveAttackingFastMoveSTAB = currFastMove
+                        bestActiveAttackingChargeMoveSTAB = currChargeMove
+                        
+                        bestActiveEDPS_AttackingSTAB = total
+                    }
                 }
             }
         }
@@ -288,16 +317,16 @@ struct PokemonFastMoveModel {
         moveModel = fm
         active = a
         isSTAB = stab
+        
+        if (moveModel.duration > 0) {
+            let adjustedDamage = (stab ? Double(moveModel.damage)*1.2 : Double(moveModel.damage))
+            dps = adjustedDamage/moveModel.duration
+            eps = Double(moveModel.energy)/moveModel.duration
+        }
     }
     
     init(Name n:String, Type t:PokemonType, Damage d:Int, Duration dur:Double, EnergyGain e:Int, Active a:Bool, IsSTAB stab:Bool) {
         self.init(FastMove: PokemonMoveModel(Name: n, Type: t, Damage: d, Duration: dur, Energy: e), Active: a, IsSTAB: stab)
-        
-        if (dur > 0) {
-            let adjustedDamage = (stab ? Double(d)*1.2 : Double(d))
-            dps = adjustedDamage/dur
-            eps = Double(e)/dur
-        }
     }
     
     func Name() -> String {
@@ -324,13 +353,12 @@ struct PokemonFastMoveModel {
 struct PokemonChargeMoveModel {
     private(set) public var moveModel:PokemonMoveModel
     private(set) public var active:Bool
-    
-    // eDps = Energy dependant Damage Per Second
-    private var eDps = 0.0
+    private(set) public var isSTAB:Bool
     
     init(ChargeMove cm:PokemonMoveModel, Active a:Bool, IsSTAB stab:Bool) {
         moveModel = cm
         active = a
+        isSTAB = stab
     }
     
     init(Name n:String, Type t:PokemonType, Damage d:Int, Duration dur:Double, EnergyCost e:Int, Active a:Bool, IsSTAB stab:Bool) {
@@ -357,7 +385,10 @@ struct PokemonChargeMoveModel {
         return moveModel.energy
     }
     
-    func eDPS(FastMove fMove:PokemonFastMoveModel, _ isSTAB:Bool = false) -> Double {
+    // eDps = Energy dependant Damage Per Second
+    func eDPS(FastMove fMove:PokemonFastMoveModel) -> Double {
+        //(chargeDamage * floor(100/chargeEnergyCost)) / ((100/fastEPS) + (floor(100/chargeEnergyCost) * chargeDuration))
+        
         let chargeMovesPer100Energy = Int(floor(100/Double(EnergyCost())))
         let totalDamagePer100Energy = Damage() * chargeMovesPer100Energy
         let secondsToGain100Energy = 100/fMove.eps
