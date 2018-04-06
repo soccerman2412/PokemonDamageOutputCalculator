@@ -8,6 +8,21 @@
 
 import UIKit
 
+
+
+enum SortType:Int {
+    case BestOverallAttacking // DEFAULT
+    case BestOverallActiveAttacking
+    case BestAttackingSTAB
+    case BestActiveAttackingSTAB
+    case BestOverallDefending
+    case BestOverallActiveDefending
+    case BestDefendingSTAB
+    case BestActiveDefendingSTAB
+}
+
+
+
 class MasterViewController: UITableViewController {
 
     @IBOutlet weak var pokemonTableView: UITableView!
@@ -18,13 +33,10 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: filters
-        
-//        // Do any additional setup after loading the view, typically from a nib.
-//        navigationItem.leftBarButtonItem = editButtonItem
-//
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-//        navigationItem.rightBarButtonItem = addButton
+
+        // button for sorting
+        let sortButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(showSortOptions))
+        navigationItem.rightBarButtonItem = sortButton
         
         if let split = splitViewController {
             let controllers = split.viewControllers
@@ -42,18 +54,24 @@ class MasterViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func insertNewObject(_ model:TableCellViewModel) {
+    func InsertNewObject(_ model:TableCellViewModel) {
         objects.insert(model, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
     
-    func sortObjects() {
+    func SortObjects() {
         objects.sort { (modelA, modelB) -> Bool in
+            // TODO: sort based on sorttype
+            
             return modelA.pokemonModel.eDPSAttacking() > modelB.pokemonModel.eDPSAttacking()
         }
         
         pokemonTableView.reloadData()
+    }
+    
+    @objc private func showSortOptions() {
+        // TODO: show popover
     }
 
     // MARK: - Segues
@@ -88,6 +106,12 @@ class MasterViewController: UITableViewController {
         cell.textLabel?.textColor = .black
         if (object.pokemonModel.legendary) {
             cell.textLabel?.textColor = UIColor(named: "legendaryColor")
+        }
+        
+        cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking())
+        cell.detailTextLabel?.textColor = .black
+        if (object.pokemonModel.legendary) {
+            cell.detailTextLabel?.textColor = UIColor(named: "legendaryColor")
         }
         
         // sort

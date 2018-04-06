@@ -240,7 +240,7 @@ class PokemonModel {
                     bestEDPS_Attacking = total
                 }
                 
-                if (total > bestActiveEDPS_Attacking) {
+                if (currFastMove.active && currChargeMove.active && total > bestActiveEDPS_Attacking) {
                     bestActiveAttackingFastMove = currFastMove
                     bestActiveAttackingChargeMove = currChargeMove
                     
@@ -255,7 +255,7 @@ class PokemonModel {
                         bestEDPS_AttackingSTAB = total
                     }
                     
-                    if (total > bestActiveEDPS_AttackingSTAB) {
+                    if (currFastMove.active && currChargeMove.active && total > bestActiveEDPS_AttackingSTAB) {
                         bestActiveAttackingFastMoveSTAB = currFastMove
                         bestActiveAttackingChargeMoveSTAB = currChargeMove
                         

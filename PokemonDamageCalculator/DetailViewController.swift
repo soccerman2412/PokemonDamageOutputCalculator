@@ -10,61 +10,32 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-    @IBOutlet weak var fastAttacking: UILabel!
-    @IBOutlet weak var fastAttackingDPS: UILabel!
-    @IBOutlet weak var chargeAttacking: UILabel!
-    @IBOutlet weak var chargeAttackingEDPS: UILabel!
+    @IBOutlet weak var detailNavItem: UINavigationItem!
+    @IBOutlet weak var pokemonImageView: UIImageView!
     
-    @IBOutlet weak var fastAttacking_STAB: UILabel!
-    @IBOutlet weak var fastAttackingDPS_STAB: UILabel!
-    @IBOutlet weak var chargeAttacking_STAB: UILabel!
-    @IBOutlet weak var chargeAttackingEDPS_STAB: UILabel!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = detailItem {
-            if let attackingFM = detail.BestAttackingFastMove() {
-                if let fastAttacking_Label = fastAttacking {
-                    fastAttacking_Label.text = attackingFM.Name()
-                }
-                if let fastAttackingDPS_Label = fastAttackingDPS {
-                    fastAttackingDPS_Label.text = String(format: "%.2f", attackingFM.dps)
-                }
-            }
-            
-            if let attackingCM = detail.BestAttackingChargeMove() {
-                if let chargeAttacking_Label = chargeAttacking {
-                    chargeAttacking_Label.text = attackingCM.Name()
-                }
-                if let attackingFM = detail.BestAttackingFastMove() {
-                    if let chargeAttackingEDPS_Label = chargeAttackingEDPS {
-                        chargeAttackingEDPS_Label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
-                    }
-                }
-            }
-            
-            if let attackingFM = detail.BestAttackingFastMove(Active: false, STAB: true) {
-                if let fastAttacking_Label = fastAttacking_STAB {
-                    fastAttacking_Label.text = attackingFM.Name()
-                }
-                if let fastAttackingDPS_Label = fastAttackingDPS_STAB {
-                    fastAttackingDPS_Label.text = String(format: "%.2f", attackingFM.dps)
-                }
-            }
-            
-            if let attackingCM = detail.BestAttackingChargeMove(Active: false, STAB: true) {
-                if let chargeAttacking_Label = chargeAttacking_STAB {
-                    chargeAttacking_Label.text = attackingCM.Name()
-                }
-                if let attackingFM = detail.BestAttackingFastMove(Active: false, STAB: true) {
-                    if let chargeAttackingEDPS_Label = chargeAttackingEDPS_STAB {
-                        chargeAttackingEDPS_Label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
-                    }
-                }
-            }
-        }
-    }
+    @IBOutlet weak var fast: UILabel!
+    @IBOutlet weak var fastDPS: UILabel!
+    @IBOutlet weak var charge: UILabel!
+    @IBOutlet weak var chargeEDPS: UILabel!
+    
+    @IBOutlet weak var activeFast: UILabel!
+    @IBOutlet weak var activeFastDPS: UILabel!
+    @IBOutlet weak var activeCharge: UILabel!
+    @IBOutlet weak var activeChargeEDPS: UILabel!
+    
+    @IBOutlet weak var fast_STAB: UILabel!
+    @IBOutlet weak var fastDPS_STAB: UILabel!
+    @IBOutlet weak var charge_STAB: UILabel!
+    @IBOutlet weak var chargeEDPS_STAB: UILabel!
+    
+    @IBOutlet weak var activeFast_STAB: UILabel!
+    @IBOutlet weak var activeFastDPS_STAB: UILabel!
+    @IBOutlet weak var activeCharge_STAB: UILabel!
+    @IBOutlet weak var activeChargeEDPS_STAB: UILabel!
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +55,101 @@ class DetailViewController: UIViewController {
         }
     }
 
-
+    func configureView() {
+        // Update the user interface for the detail item.
+        if let detail = detailItem {
+            detailNavItem.title = detail.Name()
+            
+            if let imageView = pokemonImageView, let imageUrl = detail.pokemonModel.imageUrl {
+                imageView.contentMode = .scaleAspectFit
+                imageView.GetImageForURL(ImageURL: imageUrl)
+            }
+            
+            // best overall
+            if let attackingFM = detail.BestAttackingFastMove() {
+                if let label = fast {
+                    label.text = attackingFM.Name()
+                }
+                if let label = fastDPS {
+                    label.text = String(format: "%.2f", attackingFM.dps)
+                }
+            }
+            if let attackingCM = detail.BestAttackingChargeMove() {
+                if let label = charge {
+                    label.text = attackingCM.Name()
+                }
+                if let attackingFM = detail.BestAttackingFastMove() {
+                    if let label = chargeEDPS {
+                        label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                    }
+                }
+            }
+            
+            // best overall active
+            if let attackingFM = detail.BestAttackingFastMove(Active: true) {
+                if let label = activeFast {
+                    label.text = attackingFM.Name()
+                }
+                if let label = activeFastDPS {
+                    label.text = String(format: "%.2f", attackingFM.dps)
+                }
+            }
+            if let attackingCM = detail.BestAttackingChargeMove(Active: true) {
+                if let label = activeCharge {
+                    label.text = attackingCM.Name()
+                }
+                if let attackingFM = detail.BestAttackingFastMove(Active: true) {
+                    if let label = activeChargeEDPS {
+                        label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                    }
+                }
+            }
+            
+            // best stab
+            if let attackingFM = detail.BestAttackingFastMove(Active: false, STAB: true) {
+                if let label = fast_STAB {
+                    label.text = attackingFM.Name()
+                }
+                if let label = fastDPS_STAB {
+                    label.text = String(format: "%.2f", attackingFM.dps)
+                }
+            }
+            if let attackingCM = detail.BestAttackingChargeMove(Active: false, STAB: true) {
+                if let label = charge_STAB {
+                    label.text = attackingCM.Name()
+                }
+                if let attackingFM = detail.BestAttackingFastMove(Active: false, STAB: true) {
+                    if let label = chargeEDPS_STAB {
+                        label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                    }
+                }
+            }
+            
+            // best stab active
+            if let attackingFM = detail.BestAttackingFastMove(Active: true, STAB: true) {
+                if let label = activeFast_STAB {
+                    label.text = attackingFM.Name()
+                }
+                if let label = activeFastDPS_STAB {
+                    label.text = String(format: "%.2f", attackingFM.dps)
+                }
+            }
+            if let attackingCM = detail.BestAttackingChargeMove(Active: true, STAB: true) {
+                if let label = activeCharge_STAB {
+                    label.text = attackingCM.Name()
+                }
+                if let attackingFM = detail.BestAttackingFastMove(Active: true, STAB: true) {
+                    if let label = activeChargeEDPS_STAB {
+                        label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                    }
+                }
+            }
+        }
+    }
+    
+    @IBAction func SegmentedControlValueChanged(_ sender: UISegmentedControl, forEvent event: UIEvent) {
+        // TODO: change info to reflect attacking or defending
+    }
+    
 }
 

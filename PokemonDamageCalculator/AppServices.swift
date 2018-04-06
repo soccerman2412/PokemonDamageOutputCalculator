@@ -6,6 +6,8 @@
 //  Copyright © 2018 SmallPlanetDigital. All rights reserved.
 //
 
+// images from: http://www.pokemonpets.com/Pokedex
+
 import Foundation
 import Firebase
 
@@ -18,7 +20,9 @@ extension UIImageView {
         image = #imageLiteral(resourceName: "placeholderImage")
         
         _ = AppServices.GetImageForURL(ImageURL: imgURL, Completion: { [weak self] (img)  in
-            self?.image = img
+            if (img != nil) {
+                self?.image = img
+            }
         })
     }
 }
@@ -85,7 +89,7 @@ class AppServices {
             }
             
             // tell the tableview to update
-            masterVC.sortObjects()
+            masterVC.SortObjects()
         }
     }
     
@@ -121,6 +125,11 @@ class AppServices {
                     let generation = currPokemonData["generation"] as? Int, let legendary = currPokemonData["legendary"] as? Bool {
                     let currPokemon = PokemonModel(Name: name, Types: types, PokemonNumber: pokemonNumber, Atack: attack, Defense: defense, Stamina: stamina,
                                                    FastMoves: fastMoves, ChargeMoves: chargeMoves, Generation: generation, Legendary: legendary)
+                    
+                    if let imageUrl = currPokemonData["imageUrl"] as? String {
+                        currPokemon.imageUrl = imageUrl
+                    }
+                    
                     pokemon.append(currPokemon)
                 }
             }

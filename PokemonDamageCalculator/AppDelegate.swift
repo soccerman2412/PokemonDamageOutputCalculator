@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
             for p in pokemon {
-                masterVC.insertNewObject(TableCellViewModel(PokemonModel: p))
+                masterVC.InsertNewObject(TableCellViewModel(PokemonModel: p))
             }
         })
         
