@@ -58,13 +58,22 @@ class DetailViewController: UIViewController {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = detailItem {
-            detailNavItem.title = detail.Name()
+            if let navItem = detailNavItem {
+                navItem.title = detail.Name()
+            }
             
             if let imageView = pokemonImageView, let imageUrl = detail.pokemonModel.imageUrl {
                 imageView.contentMode = .scaleAspectFit
                 imageView.GetImageForURL(ImageURL: imageUrl)
             }
-            
+        }
+        
+        updateInfo(ShowAttacking: isAttacking)
+    }
+    
+    private func updateInfo(ShowAttacking isAttacking:Bool) {
+        // Update the user interface for the detail item.
+        if let detail = detailItem {
             // best overall
             if let attackingFM = detail.BestAttackingFastMove() {
                 if let label = fast {
@@ -147,8 +156,12 @@ class DetailViewController: UIViewController {
         }
     }
     
+    private var isAttacking = true
     @IBAction func SegmentedControlValueChanged(_ sender: UISegmentedControl, forEvent event: UIEvent) {
+        isAttacking = !isAttacking
+        
         // TODO: change info to reflect attacking or defending
+        updateInfo(ShowAttacking: isAttacking)
     }
     
 }

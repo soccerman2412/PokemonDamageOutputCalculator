@@ -23,7 +23,7 @@ enum SortType:Int {
 
 
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var pokemonTableView: UITableView!
     
@@ -35,7 +35,7 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
 
         // button for sorting
-        let sortButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(showSortOptions))
+        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "funnel"), style: .plain, target: self, action: #selector(showSortOptions(Sender:)))
         navigationItem.rightBarButtonItem = sortButton
         
         if let split = splitViewController {
@@ -70,8 +70,25 @@ class MasterViewController: UITableViewController {
         pokemonTableView.reloadData()
     }
     
-    @objc private func showSortOptions() {
+    @objc private func showSortOptions(Sender sender:UIBarButtonItem) {
         // TODO: show popover
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let popoverController = storyBoard.instantiateViewController(withIdentifier: "SortPopover")
+        popoverController.preferredContentSize = CGSize(width: 250, height: 100)
+        popoverController.modalPresentationStyle = .popover
+        
+        if let popoverPresentationController = popoverController.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.barButtonItem = sender
+        }
+        
+        present(popoverController, animated: true) {
+            // closure for when the popover is visible
+        }
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 
     // MARK: - Segues
