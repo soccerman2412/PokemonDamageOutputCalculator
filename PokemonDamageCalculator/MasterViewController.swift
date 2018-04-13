@@ -8,21 +8,6 @@
 
 import UIKit
 
-
-
-enum SortType:Int {
-    case BestOverallAttacking // DEFAULT
-    case BestOverallActiveAttacking
-    case BestAttackingSTAB
-    case BestActiveAttackingSTAB
-    case BestOverallDefending
-    case BestOverallActiveDefending
-    case BestDefendingSTAB
-    case BestActiveDefendingSTAB
-}
-
-
-
 class MasterViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var pokemonTableView: UITableView!
@@ -35,8 +20,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         super.viewDidLoad()
 
         // button for sorting
-        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "funnel"), style: .plain, target: self, action: #selector(showSortOptions(Sender:)))
-        navigationItem.rightBarButtonItem = sortButton
+        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(showSortOptions(Sender:)))
+        navigationItem.leftBarButtonItem = sortButton
+        
+        // button for filtering
+        let filterButton = UIBarButtonItem(image: #imageLiteral(resourceName: "funnel"), style: .plain, target: self, action: #selector(showFilterOptions(Sender:)))
+        navigationItem.rightBarButtonItem = filterButton
         
         if let split = splitViewController {
             let controllers = split.viewControllers
@@ -71,9 +60,20 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     @objc private func showSortOptions(Sender sender:UIBarButtonItem) {
-        // TODO: show popover
+        // show sort modal
         let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let popoverController = storyBoard.instantiateViewController(withIdentifier: "SortPopover")
+        let modalController = storyBoard.instantiateViewController(withIdentifier: "SortModal")
+        modalController.modalPresentationStyle = .fullScreen
+        
+        present(modalController, animated: true) {
+            // closure for when the modal is visible
+        }
+    }
+    
+    @objc private func showFilterOptions(Sender sender:UIBarButtonItem) {
+        // show filter popover
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let popoverController = storyBoard.instantiateViewController(withIdentifier: "FilterPopover")
         popoverController.preferredContentSize = CGSize(width: 250, height: 100)
         popoverController.modalPresentationStyle = .popover
         

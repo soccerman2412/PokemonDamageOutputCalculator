@@ -8,28 +8,6 @@
 
 import Foundation
 
-enum PokemonType:String {
-    case none
-    case normal
-    case fighting
-    case flying
-    case poison
-    case ground
-    case rock
-    case bug
-    case ghost
-    case steel
-    case fire
-    case water
-    case grass
-    case electric
-    case psychic
-    case ice
-    case dragon
-    case dark
-    case fairy
-}
-
 class PokemonModel {
     // optional
     var imageUrl:String?
@@ -275,6 +253,8 @@ class PokemonModel {
         
         return false
     }
+    
+    
 }
 
 struct PokemonMoveSimpleModel {

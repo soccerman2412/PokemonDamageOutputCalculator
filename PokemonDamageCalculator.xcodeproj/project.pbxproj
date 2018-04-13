@@ -19,6 +19,8 @@
 		69824901206C355000271A3C /* TableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69824900206C355000271A3C /* TableCellViewModel.swift */; };
 		69824903206C355D00271A3C /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69824902206C355D00271A3C /* DetailViewModel.swift */; };
 		69824905206C362200271A3C /* PokemonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69824904206C362200271A3C /* PokemonModels.swift */; };
+		69B57604208108D100BF66C7 /* enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B57603208108D100BF66C7 /* enums.swift */; };
+		69B576062081121C00BF66C7 /* SortController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B576052081121C00BF66C7 /* SortController.swift */; };
 		69B66B8A206C84A4007A0C8B /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B66B89206C84A4007A0C8B /* AppServices.swift */; };
 		B0C782CACB853AD908DB8614 /* Pods_PokemonDamageCalculatorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA5541CB95BABC957E6C33 /* Pods_PokemonDamageCalculatorUITests.framework */; };
 		D603A76BD72A313CBA29B611 /* Pods_PokemonDamageCalculatorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 962FA6BA755E8256858ED421 /* Pods_PokemonDamageCalculatorTests.framework */; };
@@ -65,6 +67,8 @@
 		69824900206C355000271A3C /* TableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellViewModel.swift; sourceTree = "<group>"; };
 		69824902206C355D00271A3C /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		69824904206C362200271A3C /* PokemonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonModels.swift; sourceTree = "<group>"; };
+		69B57603208108D100BF66C7 /* enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enums.swift; sourceTree = "<group>"; };
+		69B576052081121C00BF66C7 /* SortController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortController.swift; sourceTree = "<group>"; };
 		69B66B89206C84A4007A0C8B /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		6B520F2006EFFB75AD57A3DD /* Pods-PokemonDamageCalculatorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests.release.xcconfig"; sourceTree = "<group>"; };
 		8DDAA70D921BB20A4F229105 /* Pods-PokemonDamageCalculatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 				698248DA206C330200271A3C /* LaunchScreen.storyboard */,
 				692DCC75206C828C008EFF63 /* GoogleService-Info.plist */,
 				698248DD206C330200271A3C /* Info.plist */,
+				69B57603208108D100BF66C7 /* enums.swift */,
+				69B576052081121C00BF66C7 /* SortController.swift */,
 			);
 			path = PokemonDamageCalculator;
 			sourceTree = "<group>";
@@ -503,12 +509,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69B576062081121C00BF66C7 /* SortController.swift in Sources */,
 				69824901206C355000271A3C /* TableCellViewModel.swift in Sources */,
 				69824905206C362200271A3C /* PokemonModels.swift in Sources */,
 				69B66B8A206C84A4007A0C8B /* AppServices.swift in Sources */,
 				69824903206C355D00271A3C /* DetailViewModel.swift in Sources */,
 				698248D4206C330200271A3C /* DetailViewController.swift in Sources */,
 				698248D2206C330200271A3C /* MasterViewController.swift in Sources */,
+				69B57604208108D100BF66C7 /* enums.swift in Sources */,
 				698248D0206C330200271A3C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
