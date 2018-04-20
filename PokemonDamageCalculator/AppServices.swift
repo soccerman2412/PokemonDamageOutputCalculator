@@ -49,7 +49,7 @@ class AppServices {
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
-        db.collection("pokemon").getDocuments { (querySnapshot, error) in
+        db.collection("scrapedPokemon").getDocuments { (querySnapshot, error) in
             if (error == nil) {
                 Pokemon = mapPokemonData(Documents: (querySnapshot?.documents)!)
             } else {
