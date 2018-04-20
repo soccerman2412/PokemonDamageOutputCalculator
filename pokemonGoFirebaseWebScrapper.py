@@ -24,35 +24,35 @@ def scrapePokemonSite(siteURL):
         # - NOT legendary
         gen1Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', ''])
         if bool(gen1Pokemon):
-            #print("generation: 1")
             gen1Pokemon['generation'] = 1
-            #print("legendary: false")
             gen1Pokemon['legendary'] = False
             addPokemonToFirebase(gen1Pokemon)
         # - legendary
         legendaryGen1Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'legendary', ''])
         if bool(legendaryGen1Pokemon):
-            #print("generation: 1")
             legendaryGen1Pokemon['generation'] = 1
-            #print("legendary: true")
             legendaryGen1Pokemon['legendary'] = True
             addPokemonToFirebase(legendaryGen1Pokemon)
+        # - Mew
+        if div.find_all(name='h1', string='Mew'):
+            mew = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'legendary', 'unreleased'])
+            if bool(mew):
+                print("mew")
+                mew['generation'] = 1
+                mew['legendary'] = True
+                addPokemonToFirebase(mew)
 
         # gen 2
         # - NOT legendary
         gen2Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen2', ''])
         if bool(gen2Pokemon):
-            #print("generation: 2")
             gen2Pokemon['generation'] = 2
-            #print("legendary: false")
             gen2Pokemon['legendary'] = False
             addPokemonToFirebase(gen2Pokemon)
         # - legendary
         legendaryGen2Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen2', 'legendary', ''])
         if bool(legendaryGen2Pokemon):
-            #print("generation: 2")
             legendaryGen2Pokemon['generation'] = 2
-            #print("legendary: true")
             legendaryGen2Pokemon['legendary'] = True
             addPokemonToFirebase(legendaryGen2Pokemon)
 
@@ -60,17 +60,13 @@ def scrapePokemonSite(siteURL):
         # - NOT legendary
         gen3Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen3', ''])
         if bool(gen3Pokemon):
-            #print("generation: 3")
             gen3Pokemon['generation'] = 3
-            #print("legendary: false")
             gen3Pokemon['legendary'] = False
             addPokemonToFirebase(gen3Pokemon)
         # - legendary
         legendaryGen3Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen3', 'legendary', ''])
         if bool(legendaryGen3Pokemon):
-            #print("generation: 3")
             legendaryGen3Pokemon['generation'] = 3
-            #print("legendary: true")
             legendaryGen3Pokemon['legendary'] = True
             addPokemonToFirebase(legendaryGen3Pokemon)
         
@@ -78,7 +74,7 @@ def scrapePokemonSite(siteURL):
 
 def addPokemonToFirebase(pokemon):
     doc_ref = db.collection('scrapedPokemon').document(pokemon['name'])
-    doc_ref.set(pokemon)
+    doc_ref.set(pokemon, {'merge': True})
     # print(pokemon)
     # print("\n")
 
@@ -173,4 +169,76 @@ def populateMoves(div):
 
 
 
-scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats")
+#scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats")
+
+
+
+def scrapePokemonMoveSite(siteURL):
+    response = requests.get(siteURL)
+    html = response.content
+
+    html_soup = BeautifulSoup(html, "html.parser")
+    for table in html_soup.select('table.movelist.sortable.table.table-condensed'):
+        if table.tr.contents[3].string == 'Fast Moves':
+            for tr in table.select('tr.onclick'):
+                move = {}
+                i = 0
+                for currStr in tr.stripped_strings:
+                    if i == 0:
+                        move['type'] = determinMoveType(typeAbrevStr = currStr)
+                    elif i == 1:
+                        move['name'] = currStr
+                    elif i == 3:
+                        move['damage'] = int(currStr)
+                    elif i == 4:
+                        move['energyGain'] = int(currStr)
+                    elif i == 5:
+                        move['duration'] = float(currStr)
+                    i += 1
+                print("fastMove: ", end='')
+                print(move)
+        elif table.tr.contents[3].string == 'Charge Moves':
+            for tr in table.select('tr.onclick'):
+                move = {}
+                i = 0
+                for currStr in tr.stripped_strings:
+                    if i == 0:
+                        move['type'] = determinMoveType(typeAbrevStr = currStr)
+                    elif i == 1:
+                        move['name'] = currStr
+                    elif i == 4:
+                        move['damage'] = int(currStr)
+                    elif i == 5:
+                        move['energyCost'] = abs(int(currStr))
+                    elif i == 6:
+                        move['duration'] = float(currStr)
+                    i += 1
+                print("chargeMove: ", end='')
+                print(move)
+
+def determinMoveType(typeAbrevStr):
+    mapping = {
+        'nor': 'normal',
+        'fig': 'fighting',
+        'fly': 'flying',
+        'poi': 'poison',
+        'gro': 'ground',
+        'roc': 'rock',
+        'bug': 'bug',
+        'gho': 'ghost',
+        'ste': 'steel',
+        'fir': 'fire',
+        'wat': 'water',
+        'gra': 'grass',
+        'ele': 'electric',
+        'psy': 'psychic',
+        'ice': 'ice',
+        'dra': 'dragon',
+        'dar': 'dark',
+        'fai': 'fairy'
+    }
+    return mapping.get(typeAbrevStr.lower(), "none")
+
+
+
+scrapePokemonMoveSite(siteURL = "https://pokeassistant.com/main/movelist?locale=en#mid444")
