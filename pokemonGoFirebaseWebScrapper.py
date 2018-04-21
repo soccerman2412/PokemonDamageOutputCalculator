@@ -74,7 +74,8 @@ def scrapePokemonSite(siteURL):
 
 def addPokemonToFirebase(pokemon):
     doc_ref = db.collection('scrapedPokemon').document(pokemon['name'])
-    doc_ref.set(pokemon, {'merge': True})
+    #TODO: figure out how to merge
+    doc_ref.set(pokemon)
     # print(pokemon)
     # print("\n")
 
@@ -178,9 +179,15 @@ def scrapePokemonMoveSite(siteURL):
     html = response.content
 
     html_soup = BeautifulSoup(html, "html.parser")
-    for table in html_soup.select('table.movelist.sortable.table.table-condensed'):
-        if table.tr.contents[3].string == 'Fast Moves':
-            for tr in table.select('tr.onclick'):
+    chargeMoves = False
+    for tr in html_soup.select('tr'):
+        if len(tr.contents) >= 4 and tr.contents[3].string == 'Charge Moves':
+            #print("found Charge Moves")
+            chargeMoves = True
+            
+        if tr.has_attr('class') and tr['class'] == ['onclick']:
+            #print("----------\n\n")
+            if chargeMoves == False:
                 move = {}
                 i = 0
                 for currStr in tr.stripped_strings:
@@ -195,10 +202,11 @@ def scrapePokemonMoveSite(siteURL):
                     elif i == 5:
                         move['duration'] = float(currStr)
                     i += 1
-                print("fastMove: ", end='')
-                print(move)
-        elif table.tr.contents[3].string == 'Charge Moves':
-            for tr in table.select('tr.onclick'):
+                # print("fastMove: ", end='')
+                # print(move)
+                doc_ref = db.collection('scrapedFastMoves').document(move['name'].replace(" ", ""))
+                doc_ref.set(move)
+            else:
                 move = {}
                 i = 0
                 for currStr in tr.stripped_strings:
@@ -213,8 +221,10 @@ def scrapePokemonMoveSite(siteURL):
                     elif i == 6:
                         move['duration'] = float(currStr)
                     i += 1
-                print("chargeMove: ", end='')
-                print(move)
+                # print("chargeMove: ", end='')
+                # print(move)
+                doc_ref = db.collection('scrapedChargeMoves').document(move['name'].replace(" ", ""))
+                doc_ref.set(move)
 
 def determinMoveType(typeAbrevStr):
     mapping = {
