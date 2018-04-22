@@ -356,21 +356,57 @@
                                     <action selector="TextEditingDidEnd:" destination="0RN-FN-Q4c" eventType="editingDidEnd" id="qu9-Sy-Tch"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxe-dB-1L2">
+                                <rect key="frame" x="134" y="180" width="107" height="30"/>
+                                <state key="normal" title="Attacking eDPS"/>
+                                <connections>
+                                    <action selector="SortOnAttacking_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="0nd-h2-cna"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VGQ-Mv-IfN">
+                                <rect key="frame" x="111" y="240" width="153" height="30"/>
+                                <state key="normal" title="Active Attacking eDPS"/>
+                                <connections>
+                                    <action selector="SortOnActiveAttacking_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="LZQ-Dd-EmC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SSA-Uq-hdS">
+                                <rect key="frame" x="113" y="300" width="148" height="30"/>
+                                <state key="normal" title="Attacking STAB eDPS"/>
+                                <connections>
+                                    <action selector="SortOnAttackingSTAB_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="erD-Kc-KJh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z30-Vf-bZF">
+                                <rect key="frame" x="90" y="360" width="194" height="30"/>
+                                <state key="normal" title="Active Attacking STAB eDPS"/>
+                                <connections>
+                                    <action selector="SortOnActiveAttackingSTAB_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="dUS-9N-EHe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Z30-Vf-bZF" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="0YQ-4B-8zg"/>
+                            <constraint firstItem="VGQ-Mv-IfN" firstAttribute="top" secondItem="cxe-dB-1L2" secondAttribute="bottom" constant="30" id="9Fl-Gq-QmM"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="aYG-5d-U8F" secondAttribute="trailing" constant="50" id="9yh-PS-q1O"/>
                             <constraint firstItem="Q1W-ho-GMX" firstAttribute="top" secondItem="Kkn-tg-ArM" secondAttribute="top" id="Bzz-kL-7ey"/>
+                            <constraint firstItem="cxe-dB-1L2" firstAttribute="top" secondItem="aYG-5d-U8F" secondAttribute="bottom" constant="30" id="Ebd-hH-bRc"/>
+                            <constraint firstItem="SSA-Uq-hdS" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="FwL-wQ-kxh"/>
+                            <constraint firstItem="VGQ-Mv-IfN" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="PO2-G1-WFM"/>
+                            <constraint firstItem="cxe-dB-1L2" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="PWy-dd-mom"/>
                             <constraint firstItem="aYG-5d-U8F" firstAttribute="leading" secondItem="Kkn-tg-ArM" secondAttribute="leading" constant="50" id="VlQ-9c-Upe"/>
+                            <constraint firstItem="SSA-Uq-hdS" firstAttribute="top" secondItem="VGQ-Mv-IfN" secondAttribute="bottom" constant="30" id="guF-fB-gtO"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="Q1W-ho-GMX" secondAttribute="trailing" constant="19" id="kNd-RO-BCs"/>
                             <constraint firstItem="aYG-5d-U8F" firstAttribute="top" secondItem="Kkn-tg-ArM" secondAttribute="top" constant="100" id="qlW-Yc-o5M"/>
+                            <constraint firstItem="Z30-Vf-bZF" firstAttribute="top" secondItem="SSA-Uq-hdS" secondAttribute="bottom" constant="30" id="znh-UH-2om"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kkn-tg-ArM"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t0b-cg-hrf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1428" y="-630"/>
+            <point key="canvasLocation" x="1428" y="-630.13493253373315"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Pk2-VJ-3Tq">

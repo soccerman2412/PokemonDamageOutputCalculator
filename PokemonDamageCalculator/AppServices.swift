@@ -42,6 +42,9 @@ class AppServices {
     static var FastMoves = Dictionary<String,PokemonMoveModel>()
     static var ChargeMoves = Dictionary<String,PokemonMoveModel>()
     
+    // Sort Type
+    static var SortingType = SortType.BestOverallAttacking
+    
     static func GetPokemonData (MasterViewController masterVC:MasterViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
         // TODO: add logic to check if there's any reason to update this info
         // and if not then restore (which also means storing this info)
@@ -61,7 +64,7 @@ class AppServices {
         }
         
         dispatchGroup.enter()
-        db.collection("fastMoves").getDocuments { (querySnapshot, error) in
+        db.collection("scrapedFastMoves").getDocuments { (querySnapshot, error) in
             if (error == nil) {
                 FastMoves = mapMovesData(Documents: (querySnapshot?.documents)!)
             } else {
@@ -72,7 +75,7 @@ class AppServices {
         }
         
         dispatchGroup.enter()
-        db.collection("chargeMoves").getDocuments { (querySnapshot, error) in
+        db.collection("scrapedChargeMoves").getDocuments { (querySnapshot, error) in
             if (error == nil) {
                 ChargeMoves = mapMovesData(Documents: (querySnapshot?.documents)!)
             } else {

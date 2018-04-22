@@ -73,6 +73,54 @@ class SortController: UIViewController {
         }
     }
     
+    @IBAction func SortOnAttacking_eDPS(_ sender: UIButton) {
+        AppServices.SortingType = .BestOverallAttacking
+        
+        if let masterVC = presentingViewController as? MasterViewController {
+            masterVC.SortObjects()
+        } else if let splitVC = presentingViewController as? UISplitViewController {
+            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+            masterVC.SortObjects()
+        }
+    }
+    
+    @IBAction func SortOnActiveAttacking_eDPS(_ sender: UIButton) {
+        AppServices.SortingType = .BestOverallActiveAttacking
+        
+        if let masterVC = presentingViewController as? MasterViewController {
+            masterVC.SortObjects()
+        } else if let splitVC = presentingViewController as? UISplitViewController {
+            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+            masterVC.SortObjects()
+        }
+    }
+    
+    @IBAction func SortOnAttackingSTAB_eDPS(_ sender: UIButton) {
+        AppServices.SortingType = .BestAttackingSTAB
+        
+        if let masterVC = presentingViewController as? MasterViewController {
+            masterVC.SortObjects()
+        } else if let splitVC = presentingViewController as? UISplitViewController {
+            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+            masterVC.SortObjects()
+        }
+    }
+    
+    @IBAction func SortOnActiveAttackingSTAB_eDPS(_ sender: UIButton) {
+        AppServices.SortingType = .BestActiveAttackingSTAB
+        
+        if let masterVC = presentingViewController as? MasterViewController {
+            masterVC.SortObjects()
+        } else if let splitVC = presentingViewController as? UISplitViewController {
+            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+            masterVC.SortObjects()
+        }
+    }
+    
     @IBAction func CloseSelected(_ sender: UIButton) {
         dismiss(animated: true) {
             // anything needed here?

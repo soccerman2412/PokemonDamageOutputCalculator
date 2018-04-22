@@ -51,9 +51,22 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     
     func SortObjects() {
         objects.sort { (modelA, modelB) -> Bool in
-            // TODO: sort based on sorttype
+            // TODO: sort based on ALL sorttype
+            var active = false
+            var stab = false
+            switch(AppServices.SortingType) {
+            case .BestOverallActiveAttacking:
+                active = true
+            case .BestAttackingSTAB:
+                stab = true
+            case .BestActiveAttackingSTAB:
+                active = true
+                stab = true
+            default:
+                break
+            }
             
-            return modelA.pokemonModel.eDPSAttacking() > modelB.pokemonModel.eDPSAttacking()
+            return modelA.pokemonModel.eDPSAttacking(Active: active, STAB: stab) > modelB.pokemonModel.eDPSAttacking(Active: active, STAB: stab)
         }
         
         pokemonTableView.reloadData()
@@ -125,7 +138,20 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             cell.textLabel?.textColor = UIColor(named: "legendaryColor")
         }
         
-        cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking())
+        var active = false
+        var stab = false
+        switch(AppServices.SortingType) {
+        case .BestOverallActiveAttacking:
+            active = true
+        case .BestAttackingSTAB:
+            stab = true
+        case .BestActiveAttackingSTAB:
+            active = true
+            stab = true
+        default:
+            break
+        }
+        cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: active, STAB: stab))
         cell.detailTextLabel?.textColor = .black
         if (object.pokemonModel.legendary) {
             cell.detailTextLabel?.textColor = UIColor(named: "legendaryColor")
