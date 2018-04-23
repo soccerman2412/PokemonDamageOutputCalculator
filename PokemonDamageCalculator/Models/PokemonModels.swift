@@ -447,21 +447,6 @@ struct PokemonChargeMoveModel {
         let secondsToGain100Energy = 100/fMove.EPS
         let totalChargeMoveDurationPer100Energy = Double(chargeMovesPer100Energy)*Duration()
         let totalDurationToEarnAndUse100Energy = secondsToGain100Energy + totalChargeMoveDurationPer100Energy
-        /*var eDps =*/ return Double(totalDamagePer100Energy) / totalDurationToEarnAndUse100Energy
-        
-//        // apply any counter in/effectiveness
-//        for currCounterType in AppServices.PokemonCounterType {
-//            eDps *= Type().ModifierAgainstType(Type: currCounterType)
-//        }
-//
-//        // apply any weather boost
-//        for currWeatherBoostType in AppServices.ActiveWeather.BoostedTypes() {
-//            if (currWeatherBoostType == Type()) {
-//                eDps *= 1.2
-//                break
-//            }
-//        }
-//
-//        return (isSTAB ? eDps*1.2 : eDps)
+        return totalDamagePer100Energy/totalDurationToEarnAndUse100Energy
     }
 }

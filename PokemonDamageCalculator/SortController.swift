@@ -106,7 +106,7 @@ class SortController: UIViewController {
             case WeatherType.Windy.rawValue.lowercased():
                 AppServices.ActiveWeather = .Windy
             default:
-                break
+                AppServices.ActiveWeather = .None
             }
             
             // recalculate pokemon eDPS based on selected types
