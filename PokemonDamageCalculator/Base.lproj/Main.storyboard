@@ -344,8 +344,14 @@
                                     <action selector="CloseSelected:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="tR1-q4-TV3"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Counters To Type(s):" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQq-jV-7cv">
+                                <rect key="frame" x="107" y="95" width="160" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aYG-5d-U8F">
-                                <rect key="frame" x="50" y="120" width="275" height="30"/>
+                                <rect key="frame" x="50" y="126" width="275" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hWC-Tf-hAW"/>
                                 </constraints>
@@ -353,53 +359,100 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="TextEditingDidEnd:" destination="0RN-FN-Q4c" eventType="editingDidEnd" id="qu9-Sy-Tch"/>
+                                    <action selector="CounterToTypes_TextEditingDidEnd:" destination="0RN-FN-Q4c" eventType="editingDidEnd" id="qu9-Sy-Tch"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Weather:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIi-C7-cwd">
+                                <rect key="frame" x="121" y="186" width="132" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7LR-CB-GzY">
+                                <rect key="frame" x="50" y="217" width="275" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="CurrentWeather_TextEditingDidEnd:" destination="0RN-FN-Q4c" eventType="editingDidEnd" id="t9f-yA-1SO"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eDPS:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EI1-Ho-aUg">
+                                <rect key="frame" x="164.5" y="277" width="47" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxe-dB-1L2">
-                                <rect key="frame" x="134" y="180" width="107" height="30"/>
+                                <rect key="frame" x="134" y="307.5" width="107" height="30"/>
                                 <state key="normal" title="Attacking eDPS"/>
                                 <connections>
                                     <action selector="SortOnAttacking_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="0nd-h2-cna"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VGQ-Mv-IfN">
-                                <rect key="frame" x="111" y="240" width="153" height="30"/>
+                                <rect key="frame" x="111" y="342.5" width="153" height="30"/>
                                 <state key="normal" title="Active Attacking eDPS"/>
                                 <connections>
                                     <action selector="SortOnActiveAttacking_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="LZQ-Dd-EmC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SSA-Uq-hdS">
-                                <rect key="frame" x="113" y="300" width="148" height="30"/>
+                                <rect key="frame" x="113" y="377.5" width="148" height="30"/>
                                 <state key="normal" title="Attacking STAB eDPS"/>
                                 <connections>
                                     <action selector="SortOnAttackingSTAB_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="erD-Kc-KJh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z30-Vf-bZF">
-                                <rect key="frame" x="90" y="360" width="194" height="30"/>
+                                <rect key="frame" x="90" y="412.5" width="194" height="30"/>
                                 <state key="normal" title="Active Attacking STAB eDPS"/>
                                 <connections>
                                     <action selector="SortOnActiveAttackingSTAB_eDPS:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="dUS-9N-EHe"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Damage Output:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJL-o9-gWw">
+                                <rect key="frame" x="124" y="461" width="126.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nVX-Xt-lBy">
+                                <rect key="frame" x="154.5" y="492" width="65" height="30"/>
+                                <state key="normal" title="Attacking"/>
+                                <connections>
+                                    <action selector="DamageOutputAttacking:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="ClR-fy-6VI"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Z30-Vf-bZF" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="0YQ-4B-8zg"/>
-                            <constraint firstItem="VGQ-Mv-IfN" firstAttribute="top" secondItem="cxe-dB-1L2" secondAttribute="bottom" constant="30" id="9Fl-Gq-QmM"/>
+                            <constraint firstItem="gJL-o9-gWw" firstAttribute="top" secondItem="Z30-Vf-bZF" secondAttribute="bottom" constant="18.5" id="1BM-yp-Lwy"/>
+                            <constraint firstItem="CIi-C7-cwd" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="4It-ut-dz1"/>
+                            <constraint firstItem="CIi-C7-cwd" firstAttribute="top" secondItem="aYG-5d-U8F" secondAttribute="bottom" constant="30" id="6XQ-ke-1PV"/>
+                            <constraint firstItem="IQq-jV-7cv" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="90J-NL-bN8"/>
+                            <constraint firstItem="VGQ-Mv-IfN" firstAttribute="top" secondItem="cxe-dB-1L2" secondAttribute="bottom" constant="5" id="9Fl-Gq-QmM"/>
+                            <constraint firstItem="nVX-Xt-lBy" firstAttribute="top" secondItem="gJL-o9-gWw" secondAttribute="bottom" constant="10" id="9nv-LH-Mdn"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="aYG-5d-U8F" secondAttribute="trailing" constant="50" id="9yh-PS-q1O"/>
                             <constraint firstItem="Q1W-ho-GMX" firstAttribute="top" secondItem="Kkn-tg-ArM" secondAttribute="top" id="Bzz-kL-7ey"/>
-                            <constraint firstItem="cxe-dB-1L2" firstAttribute="top" secondItem="aYG-5d-U8F" secondAttribute="bottom" constant="30" id="Ebd-hH-bRc"/>
                             <constraint firstItem="SSA-Uq-hdS" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="FwL-wQ-kxh"/>
                             <constraint firstItem="VGQ-Mv-IfN" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="PO2-G1-WFM"/>
                             <constraint firstItem="cxe-dB-1L2" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="PWy-dd-mom"/>
+                            <constraint firstItem="7LR-CB-GzY" firstAttribute="top" secondItem="CIi-C7-cwd" secondAttribute="bottom" constant="10" id="Sxl-PL-yse"/>
                             <constraint firstItem="aYG-5d-U8F" firstAttribute="leading" secondItem="Kkn-tg-ArM" secondAttribute="leading" constant="50" id="VlQ-9c-Upe"/>
-                            <constraint firstItem="SSA-Uq-hdS" firstAttribute="top" secondItem="VGQ-Mv-IfN" secondAttribute="bottom" constant="30" id="guF-fB-gtO"/>
+                            <constraint firstItem="7LR-CB-GzY" firstAttribute="leading" secondItem="Kkn-tg-ArM" secondAttribute="leading" constant="50" id="Wbi-Pc-iR8"/>
+                            <constraint firstItem="nVX-Xt-lBy" firstAttribute="centerX" secondItem="gJL-o9-gWw" secondAttribute="centerX" id="Xj2-g5-fyi"/>
+                            <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="7LR-CB-GzY" secondAttribute="trailing" constant="50" id="ZfJ-jD-FDM"/>
+                            <constraint firstItem="gJL-o9-gWw" firstAttribute="centerX" secondItem="Z30-Vf-bZF" secondAttribute="centerX" id="e90-V2-3aE"/>
+                            <constraint firstItem="SSA-Uq-hdS" firstAttribute="top" secondItem="VGQ-Mv-IfN" secondAttribute="bottom" constant="5" id="guF-fB-gtO"/>
+                            <constraint firstItem="aYG-5d-U8F" firstAttribute="top" secondItem="IQq-jV-7cv" secondAttribute="bottom" constant="10" id="k21-IM-1U2"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="Q1W-ho-GMX" secondAttribute="trailing" constant="19" id="kNd-RO-BCs"/>
-                            <constraint firstItem="aYG-5d-U8F" firstAttribute="top" secondItem="Kkn-tg-ArM" secondAttribute="top" constant="100" id="qlW-Yc-o5M"/>
-                            <constraint firstItem="Z30-Vf-bZF" firstAttribute="top" secondItem="SSA-Uq-hdS" secondAttribute="bottom" constant="30" id="znh-UH-2om"/>
+                            <constraint firstItem="EI1-Ho-aUg" firstAttribute="top" secondItem="7LR-CB-GzY" secondAttribute="bottom" constant="30" id="mfp-md-29i"/>
+                            <constraint firstItem="IQq-jV-7cv" firstAttribute="top" secondItem="Kkn-tg-ArM" secondAttribute="top" constant="75" id="n7h-s1-he8"/>
+                            <constraint firstItem="cxe-dB-1L2" firstAttribute="top" secondItem="EI1-Ho-aUg" secondAttribute="bottom" constant="10" id="xLV-LW-VB4"/>
+                            <constraint firstItem="EI1-Ho-aUg" firstAttribute="centerX" secondItem="7LR-CB-GzY" secondAttribute="centerX" id="yOj-bS-DXK"/>
+                            <constraint firstItem="Z30-Vf-bZF" firstAttribute="top" secondItem="SSA-Uq-hdS" secondAttribute="bottom" constant="5" id="znh-UH-2om"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kkn-tg-ArM"/>
                     </view>

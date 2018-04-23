@@ -80,7 +80,7 @@ class DetailViewController: UIViewController {
                     label.text = attackingFM.Name()
                 }
                 if let label = fastDPS {
-                    label.text = String(format: "%.2f", attackingFM.dps)
+                    label.text = String(format: "%.2f", attackingFM.DPS())
                 }
             }
             if let attackingCM = detail.BestAttackingChargeMove() {
@@ -100,7 +100,7 @@ class DetailViewController: UIViewController {
                     label.text = attackingFM.Name()
                 }
                 if let label = activeFastDPS {
-                    label.text = String(format: "%.2f", attackingFM.dps)
+                    label.text = String(format: "%.2f", attackingFM.DPS())
                 }
             }
             if let attackingCM = detail.BestAttackingChargeMove(Active: true) {
@@ -120,7 +120,7 @@ class DetailViewController: UIViewController {
                     label.text = attackingFM.Name()
                 }
                 if let label = fastDPS_STAB {
-                    label.text = String(format: "%.2f", attackingFM.dps)
+                    label.text = String(format: "%.2f", attackingFM.DPS())
                 }
             }
             if let attackingCM = detail.BestAttackingChargeMove(Active: false, STAB: true) {
@@ -140,7 +140,7 @@ class DetailViewController: UIViewController {
                     label.text = attackingFM.Name()
                 }
                 if let label = activeFastDPS_STAB {
-                    label.text = String(format: "%.2f", attackingFM.dps)
+                    label.text = String(format: "%.2f", attackingFM.DPS())
                 }
             }
             if let attackingCM = detail.BestAttackingChargeMove(Active: true, STAB: true) {

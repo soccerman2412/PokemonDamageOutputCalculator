@@ -9,23 +9,24 @@
 import Foundation
 
 // MARK: SortType
-
 enum SortType:Int {
     case BestOverallAttacking // DEFAULT
     case BestOverallActiveAttacking
     case BestAttackingSTAB
     case BestActiveAttackingSTAB
+    
     case BestOverallDefending
     case BestOverallActiveDefending
     case BestDefendingSTAB
     case BestActiveDefendingSTAB
-    case BestCounterToTypes
+    
+    case BestDamageOutputAttacking
+    case BestDamageOutputDefending
 }
 
 
 
 // MARK: SortType
-
 enum FilterType:Int {
     case Generation1
     case Generation2
@@ -37,8 +38,45 @@ enum FilterType:Int {
 
 
 
-// MARK: - PokemonType
+// MARK: WeatherType
+enum WeatherType:String {
+    case None
+    case Sunny
+    case Clear
+    case Rainy
+    case PartlyCloudy
+    case Cloudy
+    case Windy
+    case Snow
+    case Fog
+    
+    func BoostedTypes() -> Array<PokemonType> {
+        switch self {
+        case .Sunny, .Clear:
+            return [.grass, .fire, .ground]
+        case .Rainy:
+            return [.water, .electric,. bug]
+        case .PartlyCloudy:
+            return [.normal, .rock]
+        case .Cloudy:
+            return [.fairy, .fighting, .poison]
+        case .Windy:
+            return [.flying, .dragon, .psychic]
+        case .Snow:
+            return [.ice, .steel]
+        case .Fog:
+            return [.dark, .ghost]
+        default:
+            break
+        }
+        
+        return Array<PokemonType>()
+    }
+}
 
+
+
+// MARK: - PokemonType
 enum PokemonType:String {
     case none
     case normal

@@ -62,6 +62,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             case .BestActiveAttackingSTAB:
                 active = true
                 stab = true
+            case .BestDamageOutputAttacking:
+                return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
             default:
                 break
             }
@@ -138,20 +140,19 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             cell.textLabel?.textColor = UIColor(named: "legendaryColor")
         }
         
-        var active = false
-        var stab = false
         switch(AppServices.SortingType) {
         case .BestOverallActiveAttacking:
-            active = true
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: true))
         case .BestAttackingSTAB:
-            stab = true
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: false, STAB: true))
         case .BestActiveAttackingSTAB:
-            active = true
-            stab = true
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: true, STAB: true))
+        case .BestDamageOutputAttacking:
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.GetDamageOutputForCurrentSort())
         default:
-            break
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking())
         }
-        cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: active, STAB: stab))
+        
         cell.detailTextLabel?.textColor = .black
         if (object.pokemonModel.legendary) {
             cell.detailTextLabel?.textColor = UIColor(named: "legendaryColor")

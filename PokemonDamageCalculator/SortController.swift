@@ -11,65 +11,108 @@ import UIKit
 
 class SortController: UIViewController {
     
-    static var pokemonCounterType = Array<PokemonType>()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    @IBAction func TextEditingDidEnd(_ sender: UITextField) {
+    @IBAction func CounterToTypes_TextEditingDidEnd(_ sender: UITextField) {
         // parse the text for pokemon types and apply these to the sort equation
         if let sortStr = sender.text {
             let sortStrArr = sortStr.split(separator: ",")
             
             if (sortStrArr.count > 0) {
-                SortController.pokemonCounterType.removeAll()
+                AppServices.PokemonCounterType.removeAll()
             }
             
             for currStr in sortStrArr {
                 switch String(currStr).lowercased() {
                 case PokemonType.bug.rawValue:
-                    SortController.pokemonCounterType.append(.bug)
+                    AppServices.PokemonCounterType.append(.bug)
                 case PokemonType.dark.rawValue:
-                    SortController.pokemonCounterType.append(.dark)
+                    AppServices.PokemonCounterType.append(.dark)
                 case PokemonType.dragon.rawValue:
-                    SortController.pokemonCounterType.append(.dragon)
+                    AppServices.PokemonCounterType.append(.dragon)
                 case PokemonType.electric.rawValue:
-                    SortController.pokemonCounterType.append(.electric)
+                    AppServices.PokemonCounterType.append(.electric)
                 case PokemonType.fairy.rawValue:
-                    SortController.pokemonCounterType.append(.fairy)
+                    AppServices.PokemonCounterType.append(.fairy)
                 case PokemonType.fighting.rawValue:
-                    SortController.pokemonCounterType.append(.fighting)
+                    AppServices.PokemonCounterType.append(.fighting)
                 case PokemonType.fire.rawValue:
-                    SortController.pokemonCounterType.append(.fire)
+                    AppServices.PokemonCounterType.append(.fire)
                 case PokemonType.flying.rawValue:
-                    SortController.pokemonCounterType.append(.flying)
+                    AppServices.PokemonCounterType.append(.flying)
                 case PokemonType.ghost.rawValue:
-                    SortController.pokemonCounterType.append(.ghost)
+                    AppServices.PokemonCounterType.append(.ghost)
                 case PokemonType.grass.rawValue:
-                    SortController.pokemonCounterType.append(.grass)
+                    AppServices.PokemonCounterType.append(.grass)
                 case PokemonType.ground.rawValue:
-                    SortController.pokemonCounterType.append(.ground)
+                    AppServices.PokemonCounterType.append(.ground)
                 case PokemonType.ice.rawValue:
-                    SortController.pokemonCounterType.append(.ice)
+                    AppServices.PokemonCounterType.append(.ice)
                 case PokemonType.normal.rawValue:
-                    SortController.pokemonCounterType.append(.normal)
+                    AppServices.PokemonCounterType.append(.normal)
                 case PokemonType.poison.rawValue:
-                    SortController.pokemonCounterType.append(.poison)
+                    AppServices.PokemonCounterType.append(.poison)
                 case PokemonType.psychic.rawValue:
-                    SortController.pokemonCounterType.append(.psychic)
+                    AppServices.PokemonCounterType.append(.psychic)
                 case PokemonType.rock.rawValue:
-                    SortController.pokemonCounterType.append(.rock)
+                    AppServices.PokemonCounterType.append(.rock)
                 case PokemonType.steel.rawValue:
-                    SortController.pokemonCounterType.append(.steel)
+                    AppServices.PokemonCounterType.append(.steel)
                 case PokemonType.water.rawValue:
-                    SortController.pokemonCounterType.append(.water)
+                    AppServices.PokemonCounterType.append(.water)
                 default:
                     break
                 }
             }
             
-            // TODO: recalculate pokemon eDPS based on selected types
+            // recalculate pokemon eDPS based on selected types
+            for currPokemon in AppServices.Pokemon {
+                currPokemon.CalculateDamage()
+            }
+            
+            if let masterVC = presentingViewController as? MasterViewController {
+                masterVC.SortObjects()
+            } else if let splitVC = presentingViewController as? UISplitViewController {
+                let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+                let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+                masterVC.SortObjects()
+            }
+        }
+    }
+    
+    @IBAction func CurrentWeather_TextEditingDidEnd(_ sender: UITextField) {
+        if let sortStr = sender.text {
+            let adjustedSortStr = sortStr.replacingOccurrences(of: " ", with: "")
+            
+            switch String(adjustedSortStr).lowercased() {
+            case WeatherType.Clear.rawValue.lowercased():
+                AppServices.ActiveWeather = .Clear
+            case WeatherType.Cloudy.rawValue.lowercased():
+                AppServices.ActiveWeather = .Cloudy
+            case WeatherType.Fog.rawValue.lowercased():
+                AppServices.ActiveWeather = .Fog
+            case WeatherType.PartlyCloudy.rawValue.lowercased():
+                AppServices.ActiveWeather = .PartlyCloudy
+            case WeatherType.Rainy.rawValue.lowercased():
+                AppServices.ActiveWeather = .Rainy
+            case WeatherType.Snow.rawValue.lowercased():
+                AppServices.ActiveWeather = .Snow
+            case WeatherType.Sunny.rawValue.lowercased():
+                AppServices.ActiveWeather = .Sunny
+            case WeatherType.Windy.rawValue.lowercased():
+                AppServices.ActiveWeather = .Windy
+            default:
+                break
+            }
+            
+            // recalculate pokemon eDPS based on selected types
+            for currPokemon in AppServices.Pokemon {
+                currPokemon.CalculateDamage()
+            }
             
             if let masterVC = presentingViewController as? MasterViewController {
                 masterVC.SortObjects()
@@ -119,6 +162,18 @@ class SortController: UIViewController {
     
     @IBAction func SortOnActiveAttackingSTAB_eDPS(_ sender: UIButton) {
         AppServices.SortingType = .BestActiveAttackingSTAB
+        
+        if let masterVC = presentingViewController as? MasterViewController {
+            masterVC.SortObjects()
+        } else if let splitVC = presentingViewController as? UISplitViewController {
+            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+            masterVC.SortObjects()
+        }
+    }
+    
+    @IBAction func DamageOutputAttacking(_ sender: UIButton) {
+        AppServices.SortingType = .BestDamageOutputAttacking
         
         if let masterVC = presentingViewController as? MasterViewController {
             masterVC.SortObjects()

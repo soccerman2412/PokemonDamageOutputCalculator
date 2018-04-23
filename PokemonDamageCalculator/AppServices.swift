@@ -44,6 +44,8 @@ class AppServices {
     
     // Sort Type
     static var SortingType = SortType.BestOverallAttacking
+    static var PokemonCounterType = Array<PokemonType>()
+    static var ActiveWeather = WeatherType.None
     
     static func GetPokemonData (MasterViewController masterVC:MasterViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
         // TODO: add logic to check if there's any reason to update this info
