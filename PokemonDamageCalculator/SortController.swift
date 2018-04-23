@@ -69,7 +69,15 @@ class SortController: UIViewController {
                 }
             }
             
+            // TODO: recalculate pokemon eDPS based on selected types
             
+            if let masterVC = presentingViewController as? MasterViewController {
+                masterVC.SortObjects()
+            } else if let splitVC = presentingViewController as? UISplitViewController {
+                let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+                let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+                masterVC.SortObjects()
+            }
         }
     }
     

@@ -200,6 +200,8 @@ class PokemonModel {
     
     private func calculate() {
         // TODO: defending calculations
+        // TODO: calculations with weather
+        // TODO: calculations with opponent type bonus
         
         var bestEDPS_Attacking = 0.0
         var bestEDPS_AttackingSTAB = 0.0
