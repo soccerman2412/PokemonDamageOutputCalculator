@@ -20,7 +20,11 @@ class SortController: UIViewController {
     @IBAction func CounterToTypes_TextEditingDidEnd(_ sender: UITextField) {
         // parse the text for pokemon types and apply these to the sort equation
         if let sortStr = sender.text {
-            let sortStrArr = sortStr.split(separator: ",")
+            // first remove all whitespace
+            let adjustedSortStr = sortStr.replacingOccurrences(of: " ", with: "")
+            
+            // then we'll split on ','
+            let sortStrArr = adjustedSortStr.split(separator: ",")
             
             if (sortStrArr.count > 0) {
                 AppServices.PokemonCounterType.removeAll()
