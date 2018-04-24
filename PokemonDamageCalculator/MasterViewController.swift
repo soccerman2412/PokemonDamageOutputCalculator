@@ -89,7 +89,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         // show filter popover
         let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let popoverController = storyBoard.instantiateViewController(withIdentifier: "FilterPopover")
-        popoverController.preferredContentSize = CGSize(width: 250, height: 100)
+        popoverController.preferredContentSize = CGSize(width: 250, height: 150)
         popoverController.modalPresentationStyle = .popover
         
         if let popoverPresentationController = popoverController.popoverPresentationController {

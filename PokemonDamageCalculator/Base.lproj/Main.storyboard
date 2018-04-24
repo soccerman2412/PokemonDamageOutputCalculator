@@ -468,7 +468,42 @@
                     <view key="view" contentMode="scaleToFill" id="HOq-6P-rSu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="gSs-2Q-8fy">
+                                <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fib-gq-32N">
+                                <rect key="frame" x="98.5" y="89" width="34" height="30"/>
+                                <state key="normal" title="Gen1"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8C-Nr-P2K">
+                                <rect key="frame" x="168.5" y="89" width="37" height="30"/>
+                                <state key="normal" title="Gen2"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNe-tT-RvA">
+                                <rect key="frame" x="253.5" y="89" width="37" height="30"/>
+                                <state key="normal" title="Gen3"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzp-Ci-5rv">
+                                <rect key="frame" x="150.5" y="127" width="73" height="30"/>
+                                <state key="normal" title="Legendary"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="M8C-Nr-P2K" firstAttribute="centerX" secondItem="tZS-Cp-Mld" secondAttribute="centerX" id="LOK-Cu-YJt"/>
+                            <constraint firstItem="M8C-Nr-P2K" firstAttribute="bottom" secondItem="fib-gq-32N" secondAttribute="bottom" id="M4D-OL-gFs"/>
+                            <constraint firstItem="gSs-2Q-8fy" firstAttribute="top" secondItem="tZS-Cp-Mld" secondAttribute="top" id="ONS-wQ-U6s"/>
+                            <constraint firstItem="M8C-Nr-P2K" firstAttribute="top" secondItem="gSs-2Q-8fy" secondAttribute="bottom" constant="13" id="UO9-vw-WGb"/>
+                            <constraint firstItem="tZS-Cp-Mld" firstAttribute="trailing" secondItem="gSs-2Q-8fy" secondAttribute="trailing" id="g5y-0F-fU8"/>
+                            <constraint firstItem="M8C-Nr-P2K" firstAttribute="leading" secondItem="fib-gq-32N" secondAttribute="trailing" constant="36" id="gUd-eN-xTy"/>
+                            <constraint firstItem="gSs-2Q-8fy" firstAttribute="leading" secondItem="tZS-Cp-Mld" secondAttribute="leading" id="kMY-FH-04C"/>
+                            <constraint firstItem="Dzp-Ci-5rv" firstAttribute="top" secondItem="M8C-Nr-P2K" secondAttribute="bottom" constant="8" id="mwn-Of-DxX"/>
+                            <constraint firstItem="nNe-tT-RvA" firstAttribute="leading" secondItem="M8C-Nr-P2K" secondAttribute="trailing" constant="48" id="uAM-91-ive"/>
+                            <constraint firstItem="Dzp-Ci-5rv" firstAttribute="centerX" secondItem="tZS-Cp-Mld" secondAttribute="centerX" id="vNM-qA-5Rb"/>
+                            <constraint firstItem="nNe-tT-RvA" firstAttribute="bottom" secondItem="M8C-Nr-P2K" secondAttribute="bottom" id="zZQ-UF-mUC"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="tZS-Cp-Mld"/>
                     </view>
                 </viewController>
