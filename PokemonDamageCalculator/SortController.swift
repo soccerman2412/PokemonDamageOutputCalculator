@@ -11,7 +11,7 @@ import UIKit
 
 class SortController: UIViewController {
     
-    
+    @IBOutlet weak var weatherPicker: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
