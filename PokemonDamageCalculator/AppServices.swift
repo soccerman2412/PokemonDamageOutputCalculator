@@ -47,7 +47,7 @@ class AppServices {
     static var PokemonCounterType = Array<PokemonType>()
     static var ActiveWeather = WeatherType.None
     
-    static func GetPokemonData (MasterViewController masterVC:MasterViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
+    static func GetPokemonData (MasterViewController masterVC:UIViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
         // TODO: add logic to check if there's any reason to update this info
         // and if not then restore (which also means storing this info)
         
@@ -94,7 +94,11 @@ class AppServices {
             }
             
             // tell the tableview to update
-            masterVC.SortObjects()
+            if let tableViewMasterVC = masterVC as? MasterViewController {
+                tableViewMasterVC.SortObjects()
+            } else if let collectionViewMasterVC = masterVC as? PokemonCollectionViewController {
+                collectionViewMasterVC.SortObjects()
+            }
         }
     }
     

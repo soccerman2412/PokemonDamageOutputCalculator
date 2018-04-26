@@ -9,14 +9,73 @@
 import Foundation
 import UIKit
 
-class SortController: UIViewController {
+class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var weatherPicker: UIPickerView!
+    
+    private let weatherTypes = [WeatherType.None, WeatherType.Clear, WeatherType.Sunny, WeatherType.Cloudy,
+                                WeatherType.PartlyCloudy, WeatherType.Windy, WeatherType.Fog, WeatherType.Rainy, WeatherType.Snow]
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // default to the last selected weather type
+        if (weatherPicker != nil) {
+            for i in 0..<weatherTypes.count {
+                if (AppServices.ActiveWeather == weatherTypes[i]) {
+                    weatherPicker.selectRow(i, inComponent: 0, animated: false)
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    
+    
+    // MARK: - UIPickerViewDataSource
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return weatherTypes.count
+    }
+    
+    
+    
+    // MARK: - UIPickerViewDelegate
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return weatherTypes[row].rawValue
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        AppServices.ActiveWeather = weatherTypes[row]
+        
+        // recalculate pokemon eDPS based on selected types
+        for currPokemon in AppServices.Pokemon {
+            currPokemon.CalculateDamage()
+        }
+        
+        UpdateSort()
+    }
+    
+    
+    
+    // MARK: - Helpers
+    private func UpdateSort() {
+        if let splitVC = presentingViewController as? UISplitViewController {
+            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
+            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
+            masterVC.SortObjects()
+        }
+    }
+    
+    
+    
+    // MARK: - IBActions
     @IBAction func CounterToTypes_TextEditingDidEnd(_ sender: UITextField) {
         // parse the text for pokemon types and apply these to the sort equation
         if let sortStr = sender.text {
@@ -78,114 +137,38 @@ class SortController: UIViewController {
                 currPokemon.CalculateDamage()
             }
             
-            if let masterVC = presentingViewController as? MasterViewController {
-                masterVC.SortObjects()
-            } else if let splitVC = presentingViewController as? UISplitViewController {
-                let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-                let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-                masterVC.SortObjects()
-            }
-        }
-    }
-    
-    @IBAction func CurrentWeather_TextEditingDidEnd(_ sender: UITextField) {
-        if let sortStr = sender.text {
-            let adjustedSortStr = sortStr.replacingOccurrences(of: " ", with: "")
-            
-            switch String(adjustedSortStr).lowercased() {
-            case WeatherType.Clear.rawValue.lowercased():
-                AppServices.ActiveWeather = .Clear
-            case WeatherType.Cloudy.rawValue.lowercased():
-                AppServices.ActiveWeather = .Cloudy
-            case WeatherType.Fog.rawValue.lowercased():
-                AppServices.ActiveWeather = .Fog
-            case WeatherType.PartlyCloudy.rawValue.lowercased():
-                AppServices.ActiveWeather = .PartlyCloudy
-            case WeatherType.Rainy.rawValue.lowercased():
-                AppServices.ActiveWeather = .Rainy
-            case WeatherType.Snow.rawValue.lowercased():
-                AppServices.ActiveWeather = .Snow
-            case WeatherType.Sunny.rawValue.lowercased():
-                AppServices.ActiveWeather = .Sunny
-            case WeatherType.Windy.rawValue.lowercased():
-                AppServices.ActiveWeather = .Windy
-            default:
-                AppServices.ActiveWeather = .None
-            }
-            
-            // recalculate pokemon eDPS based on selected types
-            for currPokemon in AppServices.Pokemon {
-                currPokemon.CalculateDamage()
-            }
-            
-            if let masterVC = presentingViewController as? MasterViewController {
-                masterVC.SortObjects()
-            } else if let splitVC = presentingViewController as? UISplitViewController {
-                let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-                let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-                masterVC.SortObjects()
-            }
+            UpdateSort()
         }
     }
     
     @IBAction func SortOnAttacking_eDPS(_ sender: UIButton) {
         AppServices.SortingType = .BestOverallAttacking
         
-        if let masterVC = presentingViewController as? MasterViewController {
-            masterVC.SortObjects()
-        } else if let splitVC = presentingViewController as? UISplitViewController {
-            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-            masterVC.SortObjects()
-        }
+        UpdateSort()
     }
     
     @IBAction func SortOnActiveAttacking_eDPS(_ sender: UIButton) {
         AppServices.SortingType = .BestOverallActiveAttacking
         
-        if let masterVC = presentingViewController as? MasterViewController {
-            masterVC.SortObjects()
-        } else if let splitVC = presentingViewController as? UISplitViewController {
-            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-            masterVC.SortObjects()
-        }
+        UpdateSort()
     }
     
     @IBAction func SortOnAttackingSTAB_eDPS(_ sender: UIButton) {
         AppServices.SortingType = .BestAttackingSTAB
         
-        if let masterVC = presentingViewController as? MasterViewController {
-            masterVC.SortObjects()
-        } else if let splitVC = presentingViewController as? UISplitViewController {
-            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-            masterVC.SortObjects()
-        }
+        UpdateSort()
     }
     
     @IBAction func SortOnActiveAttackingSTAB_eDPS(_ sender: UIButton) {
         AppServices.SortingType = .BestActiveAttackingSTAB
         
-        if let masterVC = presentingViewController as? MasterViewController {
-            masterVC.SortObjects()
-        } else if let splitVC = presentingViewController as? UISplitViewController {
-            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-            masterVC.SortObjects()
-        }
+        UpdateSort()
     }
     
     @IBAction func DamageOutputAttacking(_ sender: UIButton) {
         AppServices.SortingType = .BestDamageOutputAttacking
         
-        if let masterVC = presentingViewController as? MasterViewController {
-            masterVC.SortObjects()
-        } else if let splitVC = presentingViewController as? UISplitViewController {
-            let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-            masterVC.SortObjects()
-        }
+        UpdateSort()
     }
     
     @IBAction func CloseSelected(_ sender: UIButton) {

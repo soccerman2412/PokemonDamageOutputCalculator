@@ -24,3 +24,24 @@ class TableCellViewModel {
         return pokemonModel.imageUrl
     }
 }
+
+class CollectionCellViewModel {
+    // required
+    private(set) public var pokemonModel:PokemonModel
+    
+    init(PokemonModel pm:PokemonModel) {
+        pokemonModel = pm
+    }
+    
+    func Name() -> String {
+        return pokemonModel.name
+    }
+    
+    func PokemonNumber() -> String {
+        return String(pokemonModel.pokemonNumber)
+    }
+    
+    func ImageUrl() -> String? {
+        return pokemonModel.imageUrl
+    }
+}

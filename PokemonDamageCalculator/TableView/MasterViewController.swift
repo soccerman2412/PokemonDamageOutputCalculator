@@ -158,10 +158,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             cell.detailTextLabel?.textColor = UIColor(named: "legendaryColor")
         }
         
-        // sort
-        // TODO: other sort options
-        
-        
         return cell
     }
 
