@@ -21,18 +21,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Override point for customization after application launch.
         let splitViewController = window!.rootViewController as! UISplitViewController
         let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
-        //let masterVC = masterNavigationController.viewControllers[0] as! MasterViewController
-        let masterVC = masterNavigationController.viewControllers[0] as! PokemonCollectionViewController
         let detailNavigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
         detailNavigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
         
-        AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
-            for p in pokemon {
-                //masterVC.InsertNewObject(TableCellViewModel(PokemonModel: p))
-                masterVC.InsertNewObject(CollectionCellViewModel(PokemonModel: p))
-            }
-        })
+        if let masterVC = masterNavigationController.viewControllers[0] as? MasterViewController {
+            AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
+                for p in pokemon {
+                    masterVC.InsertNewObject(TableCellViewModel(PokemonModel: p))
+                }
+            })
+        } else if let masterVC = masterNavigationController.viewControllers[0] as? PokemonCollectionViewController {
+            AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
+                for p in pokemon {
+                    masterVC.InsertNewObject(CollectionCellViewModel(PokemonModel: p))
+                }
+            })
+        }
         
         return true
     }
