@@ -13,7 +13,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     @IBOutlet weak var pokemonTableView: UITableView!
     
     var detailViewController: DetailViewController? = nil
-    var objects = [TableCellViewModel]()
+    var objects = [CellViewModel]()
 
 
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         // Dispose of any resources that can be recreated.
     }
 
-    func InsertNewObject(_ model:TableCellViewModel) {
+    func InsertNewObject(_ model:CellViewModel) {
         objects.insert(model, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)

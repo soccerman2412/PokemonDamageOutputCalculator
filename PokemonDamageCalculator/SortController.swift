@@ -68,8 +68,11 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     private func UpdateSort() {
         if let splitVC = presentingViewController as? UISplitViewController {
             let masterNavController = splitVC.viewControllers[0] as! UINavigationController
-            let masterVC = masterNavController.viewControllers[0] as! MasterViewController
-            masterVC.SortObjects()
+            if let masterVC = masterNavController.viewControllers[0] as? MasterViewController {
+                masterVC.SortObjects()
+            } else if let masterVC = masterNavController.viewControllers[0] as? PokemonCollectionViewController {
+                masterVC.SortObjects()
+            }
         }
     }
     

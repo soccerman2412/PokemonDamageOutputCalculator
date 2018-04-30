@@ -9,12 +9,25 @@
 import Foundation
 import UIKit
 
-class PokemonCollectionViewController: UICollectionViewController {
+class PokemonCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate {
     
-    var objects = [CollectionCellViewModel]()
+    var objects = [CellViewModel]()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
+        super.viewWillAppear(animated)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // button for sorting
+        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(showSortOptions(Sender:)))
+        navigationItem.leftBarButtonItem = sortButton
+        
+        // button for filtering
+        let filterButton = UIBarButtonItem(image: #imageLiteral(resourceName: "funnel"), style: .plain, target: self, action: #selector(showFilterOptions(Sender:)))
+        navigationItem.rightBarButtonItem = filterButton
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -28,36 +41,8 @@ class PokemonCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokemonCollectionCell", for: indexPath) as! PokemonCollectionViewCell
         
-        let object = objects[indexPath.row] //TODO: row?
-        
-        cell.PokemonImageView?.GetImageForURL(ImageURL: object.ImageUrl())
-        
-        cell.PokemonNameLabel?.text = object.Name()
-        cell.PokemonNameLabel?.textColor = .black
-        if (object.pokemonModel.legendary) {
-            cell.PokemonNameLabel?.textColor = UIColor(named: "legendaryColor")
-        }
-        
-        cell.PokemonNumberLabel?.text = "#" + object.PokemonNumber()
-        cell.PokemonNumberLabel?.textColor = .black
-        
-//        switch(AppServices.SortingType) {
-//        case .BestOverallActiveAttacking:
-//            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: true))
-//        case .BestAttackingSTAB:
-//            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: false, STAB: true))
-//        case .BestActiveAttackingSTAB:
-//            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: true, STAB: true))
-//        case .BestDamageOutputAttacking:
-//            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.GetDamageOutputForCurrentSort())
-//        default:
-//            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking())
-//        }
-//
-//        cell.detailTextLabel?.textColor = .black
-//        if (object.pokemonModel.legendary) {
-//            cell.detailTextLabel?.textColor = UIColor(named: "legendaryColor")
-//        }
+        let object = objects[indexPath.row]
+        cell.UpdateContent(PokemonModel: object)
         
         return cell
     }
@@ -80,8 +65,41 @@ class PokemonCollectionViewController: UICollectionViewController {
     }
     
     
+    // MARK: -
     
-    func InsertNewObject(_ model:CollectionCellViewModel) {
+    @objc private func showSortOptions(Sender sender:UIBarButtonItem) {
+        // show sort modal
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let modalController = storyBoard.instantiateViewController(withIdentifier: "SortModal")
+        modalController.modalPresentationStyle = .fullScreen
+        
+        present(modalController, animated: true) {
+            // closure for when the modal is visible
+        }
+    }
+    
+    @objc private func showFilterOptions(Sender sender:UIBarButtonItem) {
+        // show filter popover
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let popoverController = storyBoard.instantiateViewController(withIdentifier: "FilterPopover")
+        popoverController.preferredContentSize = CGSize(width: 250, height: 150)
+        popoverController.modalPresentationStyle = .popover
+        
+        if let popoverPresentationController = popoverController.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.barButtonItem = sender
+        }
+        
+        present(popoverController, animated: true) {
+            // closure for when the popover is visible
+        }
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    func InsertNewObject(_ model:CellViewModel) {
         objects.insert(model, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         collectionView?.insertItems(at: [indexPath])

@@ -11,6 +11,13 @@ db = firestore.client()
 
 
 
+#scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats")
+#scrapePokemonMoveSite(siteURL = "https://pokeassistant.com/main/movelist?locale=en#mid444")
+
+
+
+# ----- SCRAPE POKEMON METHODS -----
+
 def scrapePokemonSite(siteURL):
     response = requests.get(siteURL)
     html = response.content
@@ -161,18 +168,10 @@ def populateMoves(div):
                 #print("remtrue" + currStr)
                 moves.append({'name': currStr.replace(" ", ""), 'active': False})
     return moves
-            
 
 
 
-#TODO:
-#images http://www.pokemonpets.com/MonsterArtwork.aspx?MonsterName=latios => swap name
-
-
-
-#scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats")
-
-
+# ----- SCRAPE POKEMON MOVES METHODS -----
 
 def scrapePokemonMoveSite(siteURL):
     response = requests.get(siteURL)
@@ -251,4 +250,8 @@ def determinMoveType(typeAbrevStr):
 
 
 
-scrapePokemonMoveSite(siteURL = "https://pokeassistant.com/main/movelist?locale=en#mid444")
+
+# ----- SCRAPE POKEMON IMAGES METHODS -----
+
+#TODO:
+#images http://www.pokemonpets.com/MonsterArtwork.aspx?MonsterName=latios => swap name
