@@ -21,7 +21,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     
     private(set) public var hasBeenReused = false
     
-    func UpdateContent(PokemonModel model:CellViewModel) {
+    func UpdateContent(PokemonModel model:PokemonCellViewModel) {
         // only need to do this the first time the card is used
         if (!hasBeenReused) {
             // adding a shadow and rounded edges to the card view

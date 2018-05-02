@@ -11,7 +11,7 @@ import UIKit
 
 class PokemonCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate {
     
-    var objects = [CellViewModel]()
+    var objects = [PokemonCellViewModel]()
     
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
@@ -99,7 +99,7 @@ class PokemonCollectionViewController: UICollectionViewController, UIPopoverPres
         return .none
     }
     
-    func InsertNewObject(_ model:CellViewModel) {
+    func InsertNewObject(_ model:PokemonCellViewModel) {
         objects.insert(model, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         collectionView?.insertItems(at: [indexPath])

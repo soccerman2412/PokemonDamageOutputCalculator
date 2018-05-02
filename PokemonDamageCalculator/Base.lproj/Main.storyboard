@@ -452,6 +452,34 @@
             </objects>
             <point key="canvasLocation" x="708" y="-1371"/>
         </scene>
+        <!--Sort-->
+        <scene sceneID="pfe-bi-8b2">
+            <objects>
+                <tableViewController title="Sort" id="HiY-cU-wCD" customClass="SortTableController" customModule="PokemonDamageCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lbN-7V-OzT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Ri8-Sf-GQf">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ri8-Sf-GQf" id="hHx-rc-Gu9">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="HiY-cU-wCD" id="AGV-bn-HEx"/>
+                            <outlet property="delegate" destination="HiY-cU-wCD" id="y3S-S2-8A2"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wab-Ee-roK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1428" y="-1284"/>
+        </scene>
         <!--Sort Controller-->
         <scene sceneID="HSo-B6-xBw">
             <objects>
@@ -659,6 +687,6 @@
         <image name="placeholderImage" width="332" height="234"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Pig-Oh-JA7"/>
+        <segue reference="6S0-TO-JiA"/>
     </inferredMetricsTieBreakers>
 </document>

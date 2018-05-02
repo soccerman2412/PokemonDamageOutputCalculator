@@ -28,13 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         if let masterVC = masterNavigationController.viewControllers[0] as? MasterViewController {
             AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
                 for p in pokemon {
-                    masterVC.InsertNewObject(CellViewModel(PokemonModel: p))
+                    masterVC.InsertNewObject(PokemonCellViewModel(PokemonModel: p))
                 }
             })
         } else if let masterVC = masterNavigationController.viewControllers[0] as? PokemonCollectionViewController {
             AppServices.GetPokemonData(MasterViewController: masterVC, Completion: { (pokemon) in
                 for p in pokemon {
-                    masterVC.InsertNewObject(CellViewModel(PokemonModel: p))
+                    masterVC.InsertNewObject(PokemonCellViewModel(PokemonModel: p))
                 }
             })
         }

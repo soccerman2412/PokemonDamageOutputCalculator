@@ -1,5 +1,5 @@
 //
-//  CellViewModel.swift
+//  CellViewModels.swift
 //  PokemonDamageCalculator
 //
 //  Created by Taylor Plimpton on 3/28/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CellViewModel {
+class PokemonCellViewModel {
     // required
     private(set) public var pokemonModel:PokemonModel
     
@@ -46,4 +46,13 @@ class CellViewModel {
             return String(format: "%.2f", pokemonModel.eDPSAttacking())
         }
     }
+}
+
+class ExpandableTableCellViewModel {
+    // required
+//    private(set) public var cellModel:PokemonModel
+//    
+//    init(PokemonModel pm:PokemonModel) {
+//        cellModel = pm
+//    }
 }
