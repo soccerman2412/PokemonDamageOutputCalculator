@@ -1,18 +1,26 @@
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, storage
 
 import requests
 from bs4 import BeautifulSoup
 
 cred = credentials.Certificate("./serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'pokemongodamagecalculator.appspot.com'
+})
 
 db = firestore.client()
+fb_storage_bucket = storage.bucket()
 
 
+# how to use:
+# 1) open terminal and cd to the dir of the script
+# 2) type 'python3 pokemonGoFirebaseWebScrapper.py' or whatever you python instance is (although this requires python 3 or later)
+# 3) enter to run
 
 #scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats")
 #scrapePokemonMoveSite(siteURL = "https://pokeassistant.com/main/movelist?locale=en#mid444")
+#scrapePokemonSiteForImages(siteURL = "https://thesilphroad.com/species-stats")
 
 
 
@@ -253,5 +261,30 @@ def determinMoveType(typeAbrevStr):
 
 # ----- SCRAPE POKEMON IMAGES METHODS -----
 
+def scrapePokemonSiteForImages(siteURL):
+    response = requests.get(siteURL)
+    html = response.content
+
+    html_soup = BeautifulSoup(html, "html.parser")
+    for div in html_soup.select('div[class*="speciesWrap"]'):
+        pNameStr = ''
+        for h1 in div.select('h1'):
+            pNameStr = h1.string
+            #print("name: " + pNameStr)
+        pNumStr = div['data-species-num']
+        #print("num: " + pNumStr)
+        addImageForPokemonInfo(pNameStr = pNameStr, pNumStr = pNumStr)
+    
+    print("done")
+        
+def addImageForPokemonInfo(pNameStr, pNumStr):
+    url = "http://static.pokemonpets.com/images/monsters-images-800-800/" + pNumStr + "-" + pNameStr + ".png"
+    response = requests.get(url)
+    blob = fb_storage_bucket.blob(pNameStr.lower()+".png")
+    blob.upload_from_string(response.content, content_type='image/png')
+
 #TODO:
 #images http://www.pokemonpets.com/MonsterArtwork.aspx?MonsterName=latios => swap name
+#http://static.pokemonpets.com/images/monsters-images-800-800/157-typhlosion.png => swap name and number
+
+scrapePokemonSiteForImages(siteURL = "https://thesilphroad.com/species-stats")
