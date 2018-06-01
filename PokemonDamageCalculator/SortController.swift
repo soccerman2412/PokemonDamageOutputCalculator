@@ -65,13 +65,13 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     
     // MARK: - Helpers
-    private func UpdateSort() {
+    private func UpdateSort(DmgOutput dmg:Bool = false, Def def:Bool = false) {
         if let splitVC = presentingViewController as? UISplitViewController {
             let masterNavController = splitVC.viewControllers[0] as! UINavigationController
             if let masterVC = masterNavController.viewControllers[0] as? MasterViewController {
                 masterVC.SortObjects()
             } else if let masterVC = masterNavController.viewControllers[0] as? PokemonCollectionViewController {
-                masterVC.SortObjects()
+                masterVC.SortObjects(DmgOutput: dmg, Def: def)
             }
         }
     }
@@ -169,9 +169,13 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func DamageOutputAttacking(_ sender: UIButton) {
-        AppServices.SortingType = .BestDamageOutputAttacking
+        //AppServices.SortingType = .BestDamageOutputAttacking
         
-        UpdateSort()
+        UpdateSort(DmgOutput: true)
+    }
+    
+    @IBAction func Def_Test(_ sender: UIButton) {
+        UpdateSort(DmgOutput: false, Def: true)
     }
     
     @IBAction func CloseSelected(_ sender: UIButton) {

@@ -240,7 +240,6 @@
 				698248C9206C330200271A3C /* Frameworks */,
 				698248CA206C330200271A3C /* Resources */,
 				B88D5F189999AD5C3EAC31B5 /* [CP] Embed Pods Frameworks */,
-				19F6259E4781272EC4CFDEAD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -259,8 +258,6 @@
 				698248DE206C330200271A3C /* Sources */,
 				698248DF206C330200271A3C /* Frameworks */,
 				698248E0206C330200271A3C /* Resources */,
-				69D74BAC0CAD892049B60DF2 /* [CP] Embed Pods Frameworks */,
-				57FAF23ADACAA97C5C34D307 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,8 +277,6 @@
 				698248E9206C330200271A3C /* Sources */,
 				698248EA206C330200271A3C /* Frameworks */,
 				698248EB206C330200271A3C /* Resources */,
-				7332BCBF8D7E80D375BE7FEC /* [CP] Embed Pods Frameworks */,
-				5B39B512B26693EE06DEE48A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -368,21 +363,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		19F6259E4781272EC4CFDEAD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculator/Pods-PokemonDamageCalculator-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		30EF14C6D86CE8A37789BCC1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -399,66 +379,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		57FAF23ADACAA97C5C34D307 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5B39B512B26693EE06DEE48A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		69D74BAC0CAD892049B60DF2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7332BCBF8D7E80D375BE7FEC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8AC0B3B354C75170429B12C9 /* [CP] Check Pods Manifest.lock */ = {
@@ -725,7 +645,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4WR66L3TZA;
+				DEVELOPMENT_TEAM = CR3GD2NPN2;
 				INFOPLIST_FILE = PokemonDamageCalculator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smallplanet.PokemonDamageCalculator;
@@ -741,7 +661,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4WR66L3TZA;
+				DEVELOPMENT_TEAM = CR3GD2NPN2;
 				INFOPLIST_FILE = PokemonDamageCalculator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smallplanet.PokemonDamageCalculator;

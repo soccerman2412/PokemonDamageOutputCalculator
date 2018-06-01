@@ -55,6 +55,7 @@ class AppServices {
         
         dispatchGroup.enter()
         db.collection("scrapedPokemon").getDocuments { (querySnapshot, error) in
+        //db.collection("testPokemon").getDocuments { (querySnapshot, error) in
             if (error == nil) {
                 Pokemon = mapPokemonData(Documents: (querySnapshot?.documents)!)
             } else {

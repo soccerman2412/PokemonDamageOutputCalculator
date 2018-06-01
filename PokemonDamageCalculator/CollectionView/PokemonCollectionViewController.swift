@@ -105,8 +105,14 @@ class PokemonCollectionViewController: UICollectionViewController, UIPopoverPres
         collectionView?.insertItems(at: [indexPath])
     }
     
-    func SortObjects() {
+    func SortObjects(DmgOutput dmg:Bool = false, Def def:Bool = false) {
         objects.sort { (modelA, modelB) -> Bool in
+            if (dmg) {
+                return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
+            } else if (def) {
+                return modelA.pokemonModel.CalculateDefending() > modelB.pokemonModel.CalculateDefending()
+            }
+            
             // TODO: sort based on ALL sorttype
             var active = false
             var stab = false
@@ -118,8 +124,6 @@ class PokemonCollectionViewController: UICollectionViewController, UIPopoverPres
             case .BestActiveAttackingSTAB:
                 active = true
                 stab = true
-            case .BestDamageOutputAttacking:
-                return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
             default:
                 break
             }
