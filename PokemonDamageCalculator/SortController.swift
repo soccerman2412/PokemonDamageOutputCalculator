@@ -144,6 +144,12 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
+    @IBAction func STAB_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
+    }
+    
+    @IBAction func ShowLegacy_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
+    }
+    
     @IBAction func SortOnAttacking_eDPS(_ sender: UIButton) {
         AppServices.SortingType = .BestOverallAttacking
         
@@ -174,7 +180,7 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         UpdateSort(DmgOutput: true)
     }
     
-    @IBAction func Def_Test(_ sender: UIButton) {
+    @IBAction func Defending(_ sender: UIButton) {
         UpdateSort(DmgOutput: false, Def: true)
     }
     
