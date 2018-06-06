@@ -12,6 +12,8 @@ import UIKit
 class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var weatherPicker: UIPickerView!
+    @IBOutlet weak var moveSetSTAB_Switch: UISwitch!
+    @IBOutlet weak var moveSetLegacy_Switch: UISwitch!
     
     private let weatherTypes = [WeatherType.None, WeatherType.Clear, WeatherType.Sunny, WeatherType.Cloudy,
                                 WeatherType.PartlyCloudy, WeatherType.Windy, WeatherType.Fog, WeatherType.Rainy, WeatherType.Snow]
@@ -27,6 +29,10 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 }
             }
         }
+        
+        // set the move set toggles
+        moveSetSTAB_Switch?.setOn(AppServices.MoveSet_STAB, animated: false)
+        moveSetLegacy_Switch?.setOn(AppServices.MoveSet_IsActive, animated: false)
     }
     
     override func viewDidLoad() {
@@ -58,20 +64,18 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         for currPokemon in AppServices.Pokemon {
             currPokemon.CalculateDamage()
         }
-        
-        UpdateSort()
     }
     
     
     
     // MARK: - Helpers
-    private func UpdateSort(DmgOutput dmg:Bool = false, Def def:Bool = false) {
+    private func UpdateSort() {
         if let splitVC = presentingViewController as? UISplitViewController {
             let masterNavController = splitVC.viewControllers[0] as! UINavigationController
             if let masterVC = masterNavController.viewControllers[0] as? MasterViewController {
                 masterVC.SortObjects()
             } else if let masterVC = masterNavController.viewControllers[0] as? PokemonCollectionViewController {
-                masterVC.SortObjects(DmgOutput: dmg, Def: def)
+                masterVC.SortObjects()
             }
         }
     }
@@ -89,47 +93,47 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let sortStrArr = adjustedSortStr.split(separator: ",")
             
             if (sortStrArr.count > 0) {
-                AppServices.PokemonCounterType.removeAll()
+                AppServices.OpponentPokemonTypes.removeAll()
             }
             
             for currStr in sortStrArr {
                 switch String(currStr).lowercased() {
                 case PokemonType.bug.rawValue:
-                    AppServices.PokemonCounterType.append(.bug)
+                    AppServices.OpponentPokemonTypes.append(.bug)
                 case PokemonType.dark.rawValue:
-                    AppServices.PokemonCounterType.append(.dark)
+                    AppServices.OpponentPokemonTypes.append(.dark)
                 case PokemonType.dragon.rawValue:
-                    AppServices.PokemonCounterType.append(.dragon)
+                    AppServices.OpponentPokemonTypes.append(.dragon)
                 case PokemonType.electric.rawValue:
-                    AppServices.PokemonCounterType.append(.electric)
+                    AppServices.OpponentPokemonTypes.append(.electric)
                 case PokemonType.fairy.rawValue:
-                    AppServices.PokemonCounterType.append(.fairy)
+                    AppServices.OpponentPokemonTypes.append(.fairy)
                 case PokemonType.fighting.rawValue:
-                    AppServices.PokemonCounterType.append(.fighting)
+                    AppServices.OpponentPokemonTypes.append(.fighting)
                 case PokemonType.fire.rawValue:
-                    AppServices.PokemonCounterType.append(.fire)
+                    AppServices.OpponentPokemonTypes.append(.fire)
                 case PokemonType.flying.rawValue:
-                    AppServices.PokemonCounterType.append(.flying)
+                    AppServices.OpponentPokemonTypes.append(.flying)
                 case PokemonType.ghost.rawValue:
-                    AppServices.PokemonCounterType.append(.ghost)
+                    AppServices.OpponentPokemonTypes.append(.ghost)
                 case PokemonType.grass.rawValue:
-                    AppServices.PokemonCounterType.append(.grass)
+                    AppServices.OpponentPokemonTypes.append(.grass)
                 case PokemonType.ground.rawValue:
-                    AppServices.PokemonCounterType.append(.ground)
+                    AppServices.OpponentPokemonTypes.append(.ground)
                 case PokemonType.ice.rawValue:
-                    AppServices.PokemonCounterType.append(.ice)
+                    AppServices.OpponentPokemonTypes.append(.ice)
                 case PokemonType.normal.rawValue:
-                    AppServices.PokemonCounterType.append(.normal)
+                    AppServices.OpponentPokemonTypes.append(.normal)
                 case PokemonType.poison.rawValue:
-                    AppServices.PokemonCounterType.append(.poison)
+                    AppServices.OpponentPokemonTypes.append(.poison)
                 case PokemonType.psychic.rawValue:
-                    AppServices.PokemonCounterType.append(.psychic)
+                    AppServices.OpponentPokemonTypes.append(.psychic)
                 case PokemonType.rock.rawValue:
-                    AppServices.PokemonCounterType.append(.rock)
+                    AppServices.OpponentPokemonTypes.append(.rock)
                 case PokemonType.steel.rawValue:
-                    AppServices.PokemonCounterType.append(.steel)
+                    AppServices.OpponentPokemonTypes.append(.steel)
                 case PokemonType.water.rawValue:
-                    AppServices.PokemonCounterType.append(.water)
+                    AppServices.OpponentPokemonTypes.append(.water)
                 default:
                     break
                 }
@@ -139,52 +143,44 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             for currPokemon in AppServices.Pokemon {
                 currPokemon.CalculateDamage()
             }
-            
-            UpdateSort()
         }
     }
     
     @IBAction func STAB_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
+        AppServices.MoveSet_STAB = sender.isOn
     }
     
     @IBAction func ShowLegacy_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
+        AppServices.MoveSet_IsActive = sender.isOn
     }
     
-    @IBAction func SortOnAttacking_eDPS(_ sender: UIButton) {
-        AppServices.SortingType = .BestOverallAttacking
+    @IBAction func SortOn_eDPS(_ sender: UIButton, forEvent event: UIEvent) {
+        AppServices.SortingType = .eDPS
         
-        UpdateSort()
-    }
-    
-    @IBAction func SortOnActiveAttacking_eDPS(_ sender: UIButton) {
-        AppServices.SortingType = .BestOverallActiveAttacking
-        
-        UpdateSort()
-    }
-    
-    @IBAction func SortOnAttackingSTAB_eDPS(_ sender: UIButton) {
-        AppServices.SortingType = .BestAttackingSTAB
-        
-        UpdateSort()
-    }
-    
-    @IBAction func SortOnActiveAttackingSTAB_eDPS(_ sender: UIButton) {
-        AppServices.SortingType = .BestActiveAttackingSTAB
-        
-        UpdateSort()
+//        AppServices.SortingType = .BestOverallAttacking
+//
+//        if (stab_moveset) {
+//            AppServices.SortingType = .BestAttackingSTAB
+//
+//            if (!legacy_moveset) {
+//                AppServices.SortingType = .BestActiveAttackingSTAB
+//            }
+//        } else if (!legacy_moveset) {
+//            AppServices.SortingType = .BestOverallActiveAttacking
+//        }
     }
     
     @IBAction func DamageOutputAttacking(_ sender: UIButton) {
-        //AppServices.SortingType = .BestDamageOutputAttacking
-        
-        UpdateSort(DmgOutput: true)
+        AppServices.SortingType = .DamageOutput
     }
     
     @IBAction func Defending(_ sender: UIButton) {
-        UpdateSort(DmgOutput: false, Def: true)
+        AppServices.SortingType = .Defending
     }
     
     @IBAction func CloseSelected(_ sender: UIButton) {
+        UpdateSort()
+        
         dismiss(animated: true) {
             // anything needed here?
         }

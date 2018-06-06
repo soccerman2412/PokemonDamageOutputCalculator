@@ -34,17 +34,15 @@ class PokemonCellViewModel {
     
     func CurrentStat() -> String {
         switch(AppServices.SortingType) {
-        case .BestOverallActiveAttacking:
-            return String(format: "%.2f", pokemonModel.eDPSAttacking(Active: true))
-        case .BestAttackingSTAB:
-            return String(format: "%.2f", pokemonModel.eDPSAttacking(Active: false, STAB: true))
-        case .BestActiveAttackingSTAB:
-            return String(format: "%.2f", pokemonModel.eDPSAttacking(Active: true, STAB: true))
-        case .BestDamageOutputAttacking:
+        case .DamageOutput:
             return String(format: "%.2f", pokemonModel.GetDamageOutputForCurrentSort())
+        case .Defending:
+            return String(format: "%.2f", pokemonModel.CalculateDefending())
         default:
-            return String(format: "%.2f", pokemonModel.eDPSAttacking())
+            break
         }
+        
+        return String(format: "%.2f", pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB))
     }
 }
 

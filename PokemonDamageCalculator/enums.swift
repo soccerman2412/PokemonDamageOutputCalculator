@@ -10,18 +10,9 @@ import Foundation
 
 // MARK: SortType
 enum SortType:Int {
-    case BestOverallAttacking // DEFAULT
-    case BestOverallActiveAttacking
-    case BestAttackingSTAB
-    case BestActiveAttackingSTAB
-    
-    case BestOverallDefending
-    case BestOverallActiveDefending
-    case BestDefendingSTAB
-    case BestActiveDefendingSTAB
-    
-    case BestDamageOutputAttacking
-    case BestDamageOutputDefending
+    case eDPS // DEFAULT
+    case DamageOutput
+    case Defending
 }
 
 

@@ -105,30 +105,18 @@ class PokemonCollectionViewController: UICollectionViewController, UIPopoverPres
         collectionView?.insertItems(at: [indexPath])
     }
     
-    func SortObjects(DmgOutput dmg:Bool = false, Def def:Bool = false) {
+    func SortObjects() {
         objects.sort { (modelA, modelB) -> Bool in
-            if (dmg) {
-                return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
-            } else if (def) {
-                return modelA.pokemonModel.CalculateDefending() > modelB.pokemonModel.CalculateDefending()
-            }
-            
-            // TODO: sort based on ALL sorttype
-            var active = false
-            var stab = false
             switch(AppServices.SortingType) {
-            case .BestOverallActiveAttacking:
-                active = true
-            case .BestAttackingSTAB:
-                stab = true
-            case .BestActiveAttackingSTAB:
-                active = true
-                stab = true
+            case .DamageOutput:
+                return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
+            case .Defending:
+                return modelA.pokemonModel.CalculateDefending() > modelB.pokemonModel.CalculateDefending()
             default:
                 break
             }
             
-            return modelA.pokemonModel.eDPSAttacking(Active: active, STAB: stab) > modelB.pokemonModel.eDPSAttacking(Active: active, STAB: stab)
+            return modelA.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB) > modelB.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
         }
         
         var indexPathsToReload = [IndexPath]()

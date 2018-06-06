@@ -9,7 +9,8 @@
 // images from: http://www.pokemonpets.com/Pokedex
 
 import Foundation
-import Firebase
+import FirebaseFirestore
+import FirebaseStorage
 
 
 
@@ -43,9 +44,13 @@ class AppServices {
     static var ChargeMoves = Dictionary<String,PokemonMoveModel>()
     
     // Sort Type
-    static var SortingType = SortType.BestOverallAttacking
-    static var PokemonCounterType = Array<PokemonType>()
+    static var SortingType = SortType.eDPS
+    static var OpponentPokemonTypes = Array<PokemonType>()
     static var ActiveWeather = WeatherType.None
+    
+    // Move Set Logic
+    static var MoveSet_STAB = false
+    static var MoveSet_IsActive = false
     
     static func GetPokemonData (MasterViewController masterVC:UIViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
         // TODO: add logic to check if there's any reason to update this info

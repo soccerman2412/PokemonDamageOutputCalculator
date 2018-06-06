@@ -202,21 +202,8 @@ class PokemonModel {
     func GetDamageOutputForCurrentSort(_ opponentDefense:Int = 100) -> Double {
         var returnVal = 0.0
         
-        var isActive = false
-        var isSTAB = false
-        switch AppServices.SortingType {
-        case .BestOverallActiveAttacking:
-            isActive = true
-        case .BestAttackingSTAB:
-            isSTAB = true
-        case .BestActiveAttackingSTAB:
-            isSTAB = true
-            isActive = true
-        default:
-            break
-        }
-        if let fastMoveForCurrentSort = BestAttackingFastMove(Active: isActive, STAB: isSTAB),
-            let chargeMoveForCurrentSort = BestAttackingChargeMove(Active: isActive, STAB: isSTAB) {
+        if let fastMoveForCurrentSort = BestAttackingFastMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB),
+            let chargeMoveForCurrentSort = BestAttackingChargeMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB) {
             returnVal = getDamageOutputForMoves(FastMove: fastMoveForCurrentSort, ChargeMove: chargeMoveForCurrentSort)
         }
         
@@ -224,7 +211,7 @@ class PokemonModel {
     }
     
     private func getDamageOutputForMoves(FastMove fMove:PokemonFastMoveModel, ChargeMove cMove:PokemonChargeMoveModel,
-                                         OpponentDefense opponentDefense:Int = 100, IncludeModifiers mods:Bool = true, OpposingTypes oppTypes:[PokemonType] = AppServices.PokemonCounterType) -> Double {
+                                         OpponentDefense opponentDefense:Int = 100, IncludeModifiers mods:Bool = true, OpposingTypes oppTypes:[PokemonType] = AppServices.OpponentPokemonTypes) -> Double {
         let matchup = (Double(attack+15)*CpM_Lvl40)/(Double(opponentDefense+15))*CpM_Lvl40
         
         let fastMovesToGet100Energy = 100/Double(fMove.EnergyGain())
@@ -313,7 +300,7 @@ class PokemonModel {
         cMoves.append(PokemonChargeMoveModel(Name: "cMove", Type: .none, Damage: 100, Duration: 3.0, EnergyCost: 50, Active: true, IsSTAB: true))
         
         // create move sets for all counter types
-        for currType in AppServices.PokemonCounterType {
+        for currType in AppServices.OpponentPokemonTypes {
             fMoves.append(PokemonFastMoveModel(Name: "fMove", Type: currType, Damage: 10, Duration: 1.0, EnergyGain: 10, Active: true, IsSTAB: true))
             cMoves.append(PokemonChargeMoveModel(Name: "cMove", Type: currType, Damage: 100, Duration: 3.0, EnergyCost: 50, Active: true, IsSTAB: true))
         }
@@ -413,7 +400,7 @@ struct PokemonMoveModel {
         return dps
     }
     
-    func AdjustForBoosts(_ value:Double, _ opposingTypes:[PokemonType] = AppServices.PokemonCounterType) -> Double {
+    func AdjustForBoosts(_ value:Double, _ opposingTypes:[PokemonType] = AppServices.OpponentPokemonTypes) -> Double {
         var newValue = value
         
         // apply any type in/effectiveness

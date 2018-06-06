@@ -536,7 +536,7 @@
                                 </connections>
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ok-iJ-guw">
-                                <rect key="frame" x="304.5" y="318" width="51" height="31"/>
+                                <rect key="frame" x="280" y="318" width="51" height="31"/>
                                 <connections>
                                     <action selector="ShowLegacy_ValueChanged:forEvent:" destination="0RN-FN-Q4c" eventType="valueChanged" id="NrJ-ib-3vM"/>
                                 </connections>
@@ -547,8 +547,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Legacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uF5-aY-UtZ">
-                                <rect key="frame" x="187.5" y="323" width="102" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uF5-aY-UtZ">
+                                <rect key="frame" x="217.5" y="323" width="47.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -582,16 +582,19 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqu-o1-J9g">
                                 <rect key="frame" x="168.5" y="401.5" width="38" height="30"/>
                                 <state key="normal" title="eDPS"/>
+                                <connections>
+                                    <action selector="SortOn_eDPS:forEvent:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="Kxq-qk-HKJ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uF5-aY-UtZ" firstAttribute="leading" secondItem="cKh-dn-k6V" secondAttribute="trailing" constant="30" id="107-02-1DS"/>
+                            <constraint firstItem="uF5-aY-UtZ" firstAttribute="leading" secondItem="cKh-dn-k6V" secondAttribute="trailing" constant="60" id="107-02-1DS"/>
                             <constraint firstItem="nVX-Xt-lBy" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="3Ew-Jt-VZR"/>
                             <constraint firstItem="hqu-o1-J9g" firstAttribute="top" secondItem="EI1-Ho-aUg" secondAttribute="bottom" constant="2" id="4Ck-FL-1Lh"/>
                             <constraint firstItem="gE7-eI-jd9" firstAttribute="leading" secondItem="Kkn-tg-ArM" secondAttribute="leading" constant="30" id="4Ds-vU-fOf"/>
                             <constraint firstItem="CIi-C7-cwd" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="4It-ut-dz1"/>
-                            <constraint firstItem="uF5-aY-UtZ" firstAttribute="leading" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="4bs-3d-6fp"/>
+                            <constraint firstItem="uF5-aY-UtZ" firstAttribute="leading" secondItem="Kkn-tg-ArM" secondAttribute="centerX" constant="30" id="4bs-3d-6fp"/>
                             <constraint firstItem="CIi-C7-cwd" firstAttribute="top" secondItem="aYG-5d-U8F" secondAttribute="bottom" constant="30" id="6XQ-ke-1PV"/>
                             <constraint firstItem="IQq-jV-7cv" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="90J-NL-bN8"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="aYG-5d-U8F" secondAttribute="trailing" constant="50" id="9yh-PS-q1O"/>
@@ -622,6 +625,8 @@
                         <viewLayoutGuide key="safeArea" id="Kkn-tg-ArM"/>
                     </view>
                     <connections>
+                        <outlet property="moveSetLegacy_Switch" destination="9ok-iJ-guw" id="JW7-Td-JLr"/>
+                        <outlet property="moveSetSTAB_Switch" destination="cKh-dn-k6V" id="Aj2-KU-ADB"/>
                         <outlet property="weatherPicker" destination="gE7-eI-jd9" id="d9x-5j-hOP"/>
                     </connections>
                 </viewController>

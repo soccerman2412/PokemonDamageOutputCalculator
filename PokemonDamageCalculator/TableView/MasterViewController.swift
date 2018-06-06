@@ -51,24 +51,16 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     
     func SortObjects() {
         objects.sort { (modelA, modelB) -> Bool in
-            // TODO: sort based on ALL sorttype
-            var active = false
-            var stab = false
             switch(AppServices.SortingType) {
-            case .BestOverallActiveAttacking:
-                active = true
-            case .BestAttackingSTAB:
-                stab = true
-            case .BestActiveAttackingSTAB:
-                active = true
-                stab = true
-            case .BestDamageOutputAttacking:
+            case .DamageOutput:
                 return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
+            case .Defending:
+                return modelA.pokemonModel.CalculateDefending() > modelB.pokemonModel.CalculateDefending()
             default:
                 break
             }
             
-            return modelA.pokemonModel.eDPSAttacking(Active: active, STAB: stab) > modelB.pokemonModel.eDPSAttacking(Active: active, STAB: stab)
+            return modelA.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB) > modelB.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
         }
         
         pokemonTableView.reloadData()
@@ -140,17 +132,15 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             cell.textLabel?.textColor = UIColor(named: "legendaryColor")
         }
         
+        cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB))
+        
         switch(AppServices.SortingType) {
-        case .BestOverallActiveAttacking:
-            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: true))
-        case .BestAttackingSTAB:
-            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: false, STAB: true))
-        case .BestActiveAttackingSTAB:
-            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking(Active: true, STAB: true))
-        case .BestDamageOutputAttacking:
+        case .DamageOutput:
             cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.GetDamageOutputForCurrentSort())
+        case .Defending:
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.CalculateDefending())
         default:
-            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.eDPSAttacking())
+            break
         }
         
         cell.detailTextLabel?.textColor = .black
