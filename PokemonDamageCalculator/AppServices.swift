@@ -45,7 +45,7 @@ class AppServices {
     
     // Sort Type
     static var SortingType = SortType.eDPS
-    static var OpponentPokemonTypes = Array<PokemonType>()
+    static var OpponentPokemonTypes = [PokemonType.None, PokemonType.None]
     static var ActiveWeather = WeatherType.None
     
     // Move Set Logic

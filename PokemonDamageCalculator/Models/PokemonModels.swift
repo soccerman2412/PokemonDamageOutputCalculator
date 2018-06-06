@@ -295,9 +295,9 @@ class PokemonModel {
         var totalHP = Double(GetHP() * 2)
         
         var fMoves = Array<PokemonFastMoveModel>()
-        fMoves.append(PokemonFastMoveModel(Name: "fMove", Type: .none, Damage: 10, Duration: 1.0, EnergyGain: 10, Active: true, IsSTAB: true))
+        fMoves.append(PokemonFastMoveModel(Name: "fMove", Type: .None, Damage: 10, Duration: 1.0, EnergyGain: 10, Active: true, IsSTAB: true))
         var cMoves = Array<PokemonChargeMoveModel>()
-        cMoves.append(PokemonChargeMoveModel(Name: "cMove", Type: .none, Damage: 100, Duration: 3.0, EnergyCost: 50, Active: true, IsSTAB: true))
+        cMoves.append(PokemonChargeMoveModel(Name: "cMove", Type: .None, Damage: 100, Duration: 3.0, EnergyCost: 50, Active: true, IsSTAB: true))
         
         // create move sets for all counter types
         for currType in AppServices.OpponentPokemonTypes {

@@ -15,6 +15,8 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var moveSetSTAB_Switch: UISwitch!
     @IBOutlet weak var moveSetLegacy_Switch: UISwitch!
     
+    private var sortingChanged = true // TODO: could be smarter if user sets options back to the previous value
+    
     private let weatherTypes = [WeatherType.None, WeatherType.Clear, WeatherType.Sunny, WeatherType.Cloudy,
                                 WeatherType.PartlyCloudy, WeatherType.Windy, WeatherType.Fog, WeatherType.Rainy, WeatherType.Snow]
     
@@ -33,10 +35,6 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // set the move set toggles
         moveSetSTAB_Switch?.setOn(AppServices.MoveSet_STAB, animated: false)
         moveSetLegacy_Switch?.setOn(AppServices.MoveSet_IsActive, animated: false)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     
@@ -60,16 +58,18 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         AppServices.ActiveWeather = weatherTypes[row]
         
-        // recalculate pokemon eDPS based on selected types
-        for currPokemon in AppServices.Pokemon {
-            currPokemon.CalculateDamage()
-        }
+        sortingChanged = true
     }
     
     
     
     // MARK: - Helpers
     private func UpdateSort() {
+        // recalculate pokemon eDPS based on selected options
+        for currPokemon in AppServices.Pokemon {
+            currPokemon.CalculateDamage()
+        }
+        
         if let splitVC = presentingViewController as? UISplitViewController {
             let masterNavController = splitVC.viewControllers[0] as! UINavigationController
             if let masterVC = masterNavController.viewControllers[0] as? MasterViewController {
@@ -83,75 +83,17 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     
     // MARK: - IBActions
-    @IBAction func CounterToTypes_TextEditingDidEnd(_ sender: UITextField) {
-        // parse the text for pokemon types and apply these to the sort equation
-        if let sortStr = sender.text {
-            // first remove all whitespace
-            let adjustedSortStr = sortStr.replacingOccurrences(of: " ", with: "")
-            
-            // then we'll split on ','
-            let sortStrArr = adjustedSortStr.split(separator: ",")
-            
-            if (sortStrArr.count > 0) {
-                AppServices.OpponentPokemonTypes.removeAll()
-            }
-            
-            for currStr in sortStrArr {
-                switch String(currStr).lowercased() {
-                case PokemonType.bug.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.bug)
-                case PokemonType.dark.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.dark)
-                case PokemonType.dragon.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.dragon)
-                case PokemonType.electric.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.electric)
-                case PokemonType.fairy.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.fairy)
-                case PokemonType.fighting.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.fighting)
-                case PokemonType.fire.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.fire)
-                case PokemonType.flying.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.flying)
-                case PokemonType.ghost.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.ghost)
-                case PokemonType.grass.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.grass)
-                case PokemonType.ground.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.ground)
-                case PokemonType.ice.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.ice)
-                case PokemonType.normal.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.normal)
-                case PokemonType.poison.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.poison)
-                case PokemonType.psychic.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.psychic)
-                case PokemonType.rock.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.rock)
-                case PokemonType.steel.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.steel)
-                case PokemonType.water.rawValue:
-                    AppServices.OpponentPokemonTypes.append(.water)
-                default:
-                    break
-                }
-            }
-            
-            // recalculate pokemon eDPS based on selected types
-            for currPokemon in AppServices.Pokemon {
-                currPokemon.CalculateDamage()
-            }
-        }
-    }
     
     @IBAction func STAB_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
         AppServices.MoveSet_STAB = sender.isOn
+        
+        sortingChanged = true
     }
     
     @IBAction func ShowLegacy_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
         AppServices.MoveSet_IsActive = sender.isOn
+        
+        sortingChanged = true
     }
     
     @IBAction func SortOn_eDPS(_ sender: UIButton, forEvent event: UIEvent) {
@@ -168,18 +110,26 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 //        } else if (!legacy_moveset) {
 //            AppServices.SortingType = .BestOverallActiveAttacking
 //        }
+        
+        sortingChanged = true
     }
     
     @IBAction func DamageOutputAttacking(_ sender: UIButton) {
         AppServices.SortingType = .DamageOutput
+        
+        sortingChanged = true
     }
     
     @IBAction func Defending(_ sender: UIButton) {
         AppServices.SortingType = .Defending
+        
+        sortingChanged = true
     }
     
     @IBAction func CloseSelected(_ sender: UIButton) {
-        UpdateSort()
+        if (sortingChanged) {
+            UpdateSort()
+        }
         
         dismiss(animated: true) {
             // anything needed here?

@@ -44,19 +44,19 @@ enum WeatherType:String {
     func BoostedTypes() -> Array<PokemonType> {
         switch self {
         case .Sunny, .Clear:
-            return [.grass, .fire, .ground]
+            return [.Grass, .Fire, .Ground]
         case .Rainy:
-            return [.water, .electric,. bug]
+            return [.Water, .Electric,. Bug]
         case .PartlyCloudy:
-            return [.normal, .rock]
+            return [.Normal, .Rock]
         case .Cloudy:
-            return [.fairy, .fighting, .poison]
+            return [.Fairy, .Fighting, .Poison]
         case .Windy:
-            return [.flying, .dragon, .psychic]
+            return [.Flying, .Dragon, .Psychic]
         case .Snow:
-            return [.ice, .steel]
+            return [.Ice, .Steel]
         case .Fog:
-            return [.dark, .ghost]
+            return [.Dark, .Ghost]
         default:
             break
         }
@@ -69,25 +69,25 @@ enum WeatherType:String {
 
 // MARK: - PokemonType
 enum PokemonType:String {
-    case none
-    case normal
-    case fighting
-    case flying
-    case poison
-    case ground
-    case rock
-    case bug
-    case ghost
-    case steel
-    case fire
-    case water
-    case grass
-    case electric
-    case psychic
-    case ice
-    case dragon
-    case dark
-    case fairy
+    case None
+    case Normal
+    case Fighting
+    case Flying
+    case Poison
+    case Ground
+    case Rock
+    case Bug
+    case Ghost
+    case Steel
+    case Fire
+    case Water
+    case Grass
+    case Electric
+    case Psychic
+    case Ice
+    case Dragon
+    case Dark
+    case Fairy
     
     // chart for the following: https://pokeassistant.com/typechart?locale=en
     func ModifierAgainstType(Type otherType:PokemonType) -> Double {
@@ -98,195 +98,195 @@ enum PokemonType:String {
         var returnVal = 1.0 // effective/normal
         
         switch self {
-        case .normal:
+        case .Normal:
             switch otherType {
-            case .ghost:
+            case .Ghost:
                 returnVal = superIneffective
-            case .rock, .steel:
+            case .Rock, .Steel:
                 returnVal = ineffective
             default:
                 break
             }
             
-        case .fighting:
+        case .Fighting:
             switch otherType {
-            case .ghost:
+            case .Ghost:
                 returnVal = superIneffective
-            case .flying, .poison, .bug, .psychic, .fairy:
+            case .Flying, .Poison, .Bug, .Psychic, .Fairy:
                 returnVal = ineffective
-            case .normal, .rock, .steel, .ice, .dark:
+            case .Normal, .Rock, .Steel, .Ice, .Dark:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .flying:
+        case .Flying:
             switch otherType {
-            case .rock, .steel, .electric:
+            case .Rock, .Steel, .Electric:
                 returnVal = ineffective
-            case .fighting, .bug, .grass:
+            case .Fighting, .Bug, .Grass:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .poison:
+        case .Poison:
             switch otherType {
-            case .steel:
+            case .Steel:
                 returnVal = superIneffective
-            case .poison, .ground, .rock, .ghost:
+            case .Poison, .Ground, .Rock, .Ghost:
                 returnVal = ineffective
-            case .grass, .fairy:
+            case .Grass, .Fairy:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .ground:
+        case .Ground:
             switch otherType {
-            case .flying:
+            case .Flying:
                 returnVal = superIneffective
-            case .bug, .grass:
+            case .Bug, .Grass:
                 returnVal = ineffective
-            case .poison, .rock, .steel, .fire, .electric:
+            case .Poison, .Rock, .Steel, .Fire, .Electric:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .rock:
+        case .Rock:
             switch otherType {
-            case .fighting, .ground, .steel:
+            case .Fighting, .Ground, .Steel:
                 returnVal = ineffective
-            case .flying, .bug, .fire, .ice:
+            case .Flying, .Bug, .Fire, .Ice:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .bug:
+        case .Bug:
             switch otherType {
-            case .fighting, .flying, .poison, .ghost, .steel, .fire, .fairy:
+            case .Fighting, .Flying, .Poison, .Ghost, .Steel, .Fire, .Fairy:
                 returnVal = ineffective
-            case .grass, .psychic, .dark:
+            case .Grass, .Psychic, .Dark:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .ghost:
+        case .Ghost:
             switch otherType {
-            case .normal:
+            case .Normal:
                 returnVal = superIneffective
-            case .dark:
+            case .Dark:
                 returnVal = ineffective
-            case .ghost, .psychic:
+            case .Ghost, .Psychic:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .steel:
+        case .Steel:
             switch otherType {
-            case .steel, .fire, .water, .electric:
+            case .Steel, .Fire, .Water, .Electric:
                 returnVal = ineffective
-            case .rock, .ice, .fairy:
+            case .Rock, .Ice, .Fairy:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .fire:
+        case .Fire:
             switch otherType {
-            case .rock, .fire, .water, .dragon:
+            case .Rock, .Fire, .Water, .Dragon:
                 returnVal = ineffective
-            case .bug, .steel, .grass, .ice:
+            case .Bug, .Steel, .Grass, .Ice:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .water:
+        case .Water:
             switch otherType {
-            case .water, .grass, .dragon:
+            case .Water, .Grass, .Dragon:
                 returnVal = ineffective
-            case .ground, .rock, .fire:
+            case .Ground, .Rock, .Fire:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .grass:
+        case .Grass:
             switch otherType {
-            case .flying, .poison, .bug, .steel, .fire, .grass, .dragon:
+            case .Flying, .Poison, .Bug, .Steel, .Fire, .Grass, .Dragon:
                 returnVal = ineffective
-            case .ground, .rock, .water:
+            case .Ground, .Rock, .Water:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .electric:
+        case .Electric:
             switch otherType {
-            case .ground:
+            case .Ground:
                 returnVal = superIneffective
-            case .grass, .electric, .dragon:
+            case .Grass, .Electric, .Dragon:
                 returnVal = ineffective
-            case .flying, .water:
+            case .Flying, .Water:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .psychic:
+        case .Psychic:
             switch otherType {
-            case .dark:
+            case .Dark:
                 returnVal = superIneffective
-            case .steel, .psychic:
+            case .Steel, .Psychic:
                 returnVal = ineffective
-            case .fighting, .poison:
+            case .Fighting, .Poison:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .ice:
+        case .Ice:
             switch otherType {
-            case .steel, .fire, .water, .ice:
+            case .Steel, .Fire, .Water, .Ice:
                 returnVal = ineffective
-            case .flying, .ground, .grass, .dragon:
+            case .Flying, .Ground, .Grass, .Dragon:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .dragon:
+        case .Dragon:
             switch otherType {
-            case .fairy:
+            case .Fairy:
                 returnVal = superIneffective
-            case .steel:
+            case .Steel:
                 returnVal = ineffective
-            case .dragon:
+            case .Dragon:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .dark:
+        case .Dark:
             switch otherType {
-            case .fighting, .dark, .fairy:
+            case .Fighting, .Dark, .Fairy:
                 returnVal = ineffective
-            case .ghost, .psychic:
+            case .Ghost, .Psychic:
                 returnVal = superEffective
             default:
                 break
             }
             
-        case .fairy:
+        case .Fairy:
             switch otherType {
-            case .poison, .steel, .fire:
+            case .Poison, .Steel, .Fire:
                 returnVal = ineffective
-            case .fighting, .dragon, .dark:
+            case .Fighting, .Dragon, .Dark:
                 returnVal = superEffective
             default:
                 break
