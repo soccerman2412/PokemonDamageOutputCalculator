@@ -562,8 +562,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AP-Vt-ZYv">
-                                <rect key="frame" x="152" y="515.5" width="71" height="30"/>
-                                <state key="normal" title="Defending"/>
+                                <rect key="frame" x="128.5" y="515.5" width="118" height="30"/>
+                                <state key="normal" title="Defending - Tank"/>
                                 <connections>
                                     <action selector="Defending:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="e50-W5-tEL"/>
                                 </connections>
@@ -584,6 +584,13 @@
                                     <segue destination="KZI-ft-Wgm" kind="embed" id="NOC-Hb-gnC"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zl5-Hi-Xed">
+                                <rect key="frame" x="129" y="547.5" width="117" height="30"/>
+                                <state key="normal" title="Defending - Duel"/>
+                                <connections>
+                                    <action selector="DefendingDuel:" destination="0RN-FN-Q4c" eventType="touchUpInside" id="5K0-9q-kQu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -610,9 +617,11 @@
                             <constraint firstItem="EI1-Ho-aUg" firstAttribute="top" secondItem="cKh-dn-k6V" secondAttribute="bottom" constant="30" id="bJt-7f-36L"/>
                             <constraint firstItem="2AP-Vt-ZYv" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="bh7-YX-th4"/>
                             <constraint firstItem="nVX-Xt-lBy" firstAttribute="top" secondItem="hqu-o1-J9g" secondAttribute="bottom" constant="2" id="c9x-wn-YdT"/>
+                            <constraint firstItem="zl5-Hi-Xed" firstAttribute="centerX" secondItem="Kkn-tg-ArM" secondAttribute="centerX" id="jP7-XQ-zd9"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9ok-iJ-guw" secondAttribute="trailing" constant="15" id="jrI-LX-geC"/>
                             <constraint firstItem="Kkn-tg-ArM" firstAttribute="trailing" secondItem="Q1W-ho-GMX" secondAttribute="trailing" constant="19" id="kNd-RO-BCs"/>
                             <constraint firstItem="gpa-Ct-Eux" firstAttribute="top" secondItem="IQq-jV-7cv" secondAttribute="bottom" constant="10" id="lH8-M0-q6W"/>
+                            <constraint firstItem="zl5-Hi-Xed" firstAttribute="top" secondItem="2AP-Vt-ZYv" secondAttribute="bottom" constant="2" id="mU4-gO-kEU"/>
                             <constraint firstItem="IQq-jV-7cv" firstAttribute="top" secondItem="Kkn-tg-ArM" secondAttribute="top" constant="50" id="n7h-s1-he8"/>
                             <constraint firstItem="2AP-Vt-ZYv" firstAttribute="top" secondItem="nVX-Xt-lBy" secondAttribute="bottom" constant="2" id="oNP-eR-MRS"/>
                             <constraint firstItem="Z0s-Kb-caW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Kkn-tg-ArM" secondAttribute="leading" constant="15" id="rX9-AL-0E5"/>
@@ -698,10 +707,10 @@
             </objects>
             <point key="canvasLocation" x="-45" y="129"/>
         </scene>
-        <!--Sort Opponent Types Controller-->
+        <!--Sort Controller Opponent Types-->
         <scene sceneID="GBo-IW-6um">
             <objects>
-                <viewController id="KZI-ft-Wgm" customClass="Sort_OpponentTypesController" customModule="PokemonDamageCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KZI-ft-Wgm" customClass="SortController_OpponentTypes" customModule="PokemonDamageCalculator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wii-45-zv4">
                         <rect key="frame" x="0.0" y="0.0" width="345" height="80"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

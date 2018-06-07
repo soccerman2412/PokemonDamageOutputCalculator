@@ -1,5 +1,5 @@
 //
-//  Sort_OpponentTypesController.swift
+//  SortController_OpponentTypes.swift
 //  PokemonDamageCalculator
 //
 //  Created by Taylor Plimpton on 6/6/18.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Sort_OpponentTypesController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class SortController_OpponentTypes: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var pickerView_A: UIPickerView!
     @IBOutlet weak var pickerView_B: UIPickerView!
@@ -82,6 +82,9 @@ class Sort_OpponentTypesController: UIViewController, UIPickerViewDataSource, UI
             } else {
                 AppServices.OpponentPokemonTypes[0] = pokemonTypes[row]
             }
+            
+            // update the other picker to show the strike through
+            pickerView_B.reloadAllComponents()
         } else if (pickerView == pickerView_B) {
             previousSelection_B = AppServices.OpponentPokemonTypes[1]
             
@@ -92,6 +95,8 @@ class Sort_OpponentTypesController: UIViewController, UIPickerViewDataSource, UI
                 AppServices.OpponentPokemonTypes[1] = pokemonTypes[row]
             }
             
+            // update the other picker to show the strike through
+            pickerView_A.reloadAllComponents()
         }
     }
 }

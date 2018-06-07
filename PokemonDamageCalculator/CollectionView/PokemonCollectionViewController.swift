@@ -110,8 +110,10 @@ class PokemonCollectionViewController: UICollectionViewController, UIPopoverPres
             switch(AppServices.SortingType) {
             case .DamageOutput:
                 return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
-            case .Defending:
+            case .DefendingTank:
                 return modelA.pokemonModel.CalculateDefending() > modelB.pokemonModel.CalculateDefending()
+            case .DefendingDuel:
+                return modelA.pokemonModel.CalculateDefending(true) > modelB.pokemonModel.CalculateDefending(true)
             default:
                 break
             }

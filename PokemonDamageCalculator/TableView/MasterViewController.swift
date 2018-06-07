@@ -54,8 +54,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             switch(AppServices.SortingType) {
             case .DamageOutput:
                 return modelA.pokemonModel.GetDamageOutputForCurrentSort() > modelB.pokemonModel.GetDamageOutputForCurrentSort()
-            case .Defending:
+            case .DefendingTank:
                 return modelA.pokemonModel.CalculateDefending() > modelB.pokemonModel.CalculateDefending()
+            case .DefendingDuel:
+                return modelA.pokemonModel.CalculateDefending(true) > modelB.pokemonModel.CalculateDefending(true)
             default:
                 break
             }
@@ -137,8 +139,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         switch(AppServices.SortingType) {
         case .DamageOutput:
             cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.GetDamageOutputForCurrentSort())
-        case .Defending:
+        case .DefendingTank:
             cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.CalculateDefending())
+        case .DefendingDuel:
+            cell.detailTextLabel?.text = String(format: "%.2f", object.pokemonModel.CalculateDefending(true))
         default:
             break
         }

@@ -36,8 +36,10 @@ class PokemonCellViewModel {
         switch(AppServices.SortingType) {
         case .DamageOutput:
             return String(format: "%.2f", pokemonModel.GetDamageOutputForCurrentSort())
-        case .Defending:
+        case .DefendingTank:
             return String(format: "%.2f", pokemonModel.CalculateDefending())
+        case .DefendingDuel:
+            return String(format: "%.2f", pokemonModel.CalculateDefending(true))
         default:
             break
         }

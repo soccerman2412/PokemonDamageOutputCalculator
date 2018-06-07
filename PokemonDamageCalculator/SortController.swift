@@ -99,18 +99,6 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func SortOn_eDPS(_ sender: UIButton, forEvent event: UIEvent) {
         AppServices.SortingType = .eDPS
         
-//        AppServices.SortingType = .BestOverallAttacking
-//
-//        if (stab_moveset) {
-//            AppServices.SortingType = .BestAttackingSTAB
-//
-//            if (!legacy_moveset) {
-//                AppServices.SortingType = .BestActiveAttackingSTAB
-//            }
-//        } else if (!legacy_moveset) {
-//            AppServices.SortingType = .BestOverallActiveAttacking
-//        }
-        
         sortingChanged = true
     }
     
@@ -121,15 +109,23 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func Defending(_ sender: UIButton) {
-        AppServices.SortingType = .Defending
+        AppServices.SortingType = .DefendingTank
+        
+        sortingChanged = true
+    }
+    
+    @IBAction func DefendingDuel(_ sender: UIButton) {
+        AppServices.SortingType = .DefendingDuel
         
         sortingChanged = true
     }
     
     @IBAction func CloseSelected(_ sender: UIButton) {
-        if (sortingChanged) {
+        /*if (sortingChanged) {*/
             UpdateSort()
-        }
+        //}
+        
+        // perform after delay?
         
         dismiss(animated: true) {
             // anything needed here?

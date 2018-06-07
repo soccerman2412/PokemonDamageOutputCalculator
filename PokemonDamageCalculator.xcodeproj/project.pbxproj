@@ -27,7 +27,7 @@
 		69B57604208108D100BF66C7 /* enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B57603208108D100BF66C7 /* enums.swift */; };
 		69B576062081121C00BF66C7 /* SortController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B576052081121C00BF66C7 /* SortController.swift */; };
 		69B66B8A206C84A4007A0C8B /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B66B89206C84A4007A0C8B /* AppServices.swift */; };
-		69D63BEF20C87C7E005789EE /* Sort_OpponentTypesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D63BEE20C87C7E005789EE /* Sort_OpponentTypesController.swift */; };
+		69D63BEF20C87C7E005789EE /* SortController_OpponentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D63BEE20C87C7E005789EE /* SortController_OpponentTypes.swift */; };
 		B0C782CACB853AD908DB8614 /* Pods_PokemonDamageCalculatorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA5541CB95BABC957E6C33 /* Pods_PokemonDamageCalculatorUITests.framework */; };
 		D603A76BD72A313CBA29B611 /* Pods_PokemonDamageCalculatorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 962FA6BA755E8256858ED421 /* Pods_PokemonDamageCalculatorTests.framework */; };
 		E2DD3403D706D159A762C2D4 /* Pods_PokemonDamageCalculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7B4A1A97321588EF274BB8 /* Pods_PokemonDamageCalculator.framework */; };
@@ -81,7 +81,7 @@
 		69B57603208108D100BF66C7 /* enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enums.swift; sourceTree = "<group>"; };
 		69B576052081121C00BF66C7 /* SortController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortController.swift; sourceTree = "<group>"; };
 		69B66B89206C84A4007A0C8B /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
-		69D63BEE20C87C7E005789EE /* Sort_OpponentTypesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort_OpponentTypesController.swift; sourceTree = "<group>"; };
+		69D63BEE20C87C7E005789EE /* SortController_OpponentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortController_OpponentTypes.swift; sourceTree = "<group>"; };
 		6B520F2006EFFB75AD57A3DD /* Pods-PokemonDamageCalculatorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorUITests/Pods-PokemonDamageCalculatorUITests.release.xcconfig"; sourceTree = "<group>"; };
 		8DDAA70D921BB20A4F229105 /* Pods-PokemonDamageCalculatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonDamageCalculatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonDamageCalculatorTests/Pods-PokemonDamageCalculatorTests.debug.xcconfig"; sourceTree = "<group>"; };
 		962FA6BA755E8256858ED421 /* Pods_PokemonDamageCalculatorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokemonDamageCalculatorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,7 +168,7 @@
 				69B57603208108D100BF66C7 /* enums.swift */,
 				69123D4F209A65820003C79F /* ExpandableTableCell.swift */,
 				69B576052081121C00BF66C7 /* SortController.swift */,
-				69D63BEE20C87C7E005789EE /* Sort_OpponentTypesController.swift */,
+				69D63BEE20C87C7E005789EE /* SortController_OpponentTypes.swift */,
 				69123D4D209A64770003C79F /* SortTableController.swift */,
 			);
 			path = PokemonDamageCalculator;
@@ -482,7 +482,7 @@
 				69123D50209A65820003C79F /* ExpandableTableCell.swift in Sources */,
 				69824903206C355D00271A3C /* DetailViewModel.swift in Sources */,
 				698248D4206C330200271A3C /* DetailViewController.swift in Sources */,
-				69D63BEF20C87C7E005789EE /* Sort_OpponentTypesController.swift in Sources */,
+				69D63BEF20C87C7E005789EE /* SortController_OpponentTypes.swift in Sources */,
 				698248D2206C330200271A3C /* MasterViewController.swift in Sources */,
 				69B57604208108D100BF66C7 /* enums.swift in Sources */,
 				698248D0206C330200271A3C /* AppDelegate.swift in Sources */,

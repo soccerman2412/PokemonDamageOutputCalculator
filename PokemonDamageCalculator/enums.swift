@@ -12,7 +12,8 @@ import Foundation
 enum SortType:Int {
     case eDPS // DEFAULT
     case DamageOutput
-    case Defending
+    case DefendingTank
+    case DefendingDuel
 }
 
 

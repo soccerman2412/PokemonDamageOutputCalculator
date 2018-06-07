@@ -211,8 +211,10 @@ class PokemonModel {
     }
     
     private func getDamageOutputForMoves(FastMove fMove:PokemonFastMoveModel, ChargeMove cMove:PokemonChargeMoveModel,
-                                         OpponentDefense opponentDefense:Int = 100, IncludeModifiers mods:Bool = true, OpposingTypes oppTypes:[PokemonType] = AppServices.OpponentPokemonTypes) -> Double {
-        let matchup = (Double(attack+15)*CpM_Lvl40)/(Double(opponentDefense+15))*CpM_Lvl40
+                                         OpponentDefense opponentDefense:Int = 100, IncludeModifiers mods:Bool = true, OpposingTypes oppTypes:[PokemonType] = AppServices.OpponentPokemonTypes, AttackStat aStat:Int? = nil) -> Double {
+        let attackStat = (aStat != nil ? aStat! : attack)
+        
+        let matchup = (Double(attackStat+15)*CpM_Lvl40)/(Double(opponentDefense+15))*CpM_Lvl40
         
         let fastMovesToGet100Energy = 100/Double(fMove.EnergyGain())
         var fDmg = fMove.Damage(mods)
@@ -291,7 +293,7 @@ class PokemonModel {
         return hp
     }
     
-    func CalculateDefending() -> Double {
+    func CalculateDefending(_ includeAttacking:Bool = false) -> Double {
         var totalHP = Double(GetHP() * 2)
         
         var fMoves = Array<PokemonFastMoveModel>()
@@ -327,16 +329,21 @@ class PokemonModel {
             }
         }
         
-        let damageTakenOver100Energy = getDamageOutputForMoves(FastMove: opponentBestFastMove, ChargeMove: opponentBestChargeMove, OpponentDefense: defense, IncludeModifiers: false, OpposingTypes: types)
+        let damageTakenOver100Energy = getDamageOutputForMoves(FastMove: opponentBestFastMove, ChargeMove: opponentBestChargeMove, OpponentDefense: defense, IncludeModifiers: false, OpposingTypes: types, AttackStat: 195)
         totalHP -= damageTakenOver100Energy
         
+        // TODO: calculate the best eDPS move set for ????
         let oppFastMovesToGet100Energy = 100/Double(opponentBestFastMove.EnergyGain())
         
         let engeryFromDamage = damageTakenOver100Energy/2.0
         
         let damageDoneOver100Energy = GetDamageOutputForCurrentSort()
         
-        return totalHP// + damageDoneOver100Energy
+        if (includeAttacking) {
+            return totalHP + damageDoneOver100Energy
+        }
+        
+        return totalHP
     }
     
     private func moveIsSTAB(_ move:PokemonMoveModel) -> Bool {
