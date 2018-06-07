@@ -24,71 +24,100 @@ fb_storage_bucket = storage.bucket()
 
 
 
+# ----- UPDATE/CREATE SPECIFIC POKEMON -----
+def update(pokemonName, pokemonNumber):
+    scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats", pokemonName=pokemonName)
+    addImageForPokemonInfo(pNameStr=pokemonName, pNumStr=pokemonNumber)
+    print("done")
+
+# ----- UPDATE/CREATE ALL -----
+
+def updateAll():
+    scrapePokemonSite(siteURL = "https://thesilphroad.com/species-stats")
+    scrapePokemonMoveSite(siteURL = "https://pokeassistant.com/main/movelist?locale=en#mid444")
+    scrapePokemonSiteForImages(siteURL = "https://thesilphroad.com/species-stats")
+
+
+
+
 # ----- SCRAPE POKEMON METHODS -----
 
-def scrapePokemonSite(siteURL):
+def scrapePokemonSite(siteURL, pokemonName=None):
     response = requests.get(siteURL)
     html = response.content
 
     html_soup = BeautifulSoup(html, "html.parser")
-    for div in html_soup.select('div'):
+    for div in html_soup.select('div[class*="speciesWrap"]'):
+    #for div in html_soup.select('div'):
         # if div.has_attr('class'):
         #     print(div['class'])
 
-        # gen 1
-        # - NOT legendary
-        gen1Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', ''])
-        if bool(gen1Pokemon):
-            gen1Pokemon['generation'] = 1
-            gen1Pokemon['legendary'] = False
-            addPokemonToFirebase(gen1Pokemon)
-        # - legendary
-        legendaryGen1Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'legendary', ''])
-        if bool(legendaryGen1Pokemon):
-            legendaryGen1Pokemon['generation'] = 1
-            legendaryGen1Pokemon['legendary'] = True
-            addPokemonToFirebase(legendaryGen1Pokemon)
-        # - Mew
-        if div.find_all(name='h1', string='Mew'):
-            mew = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'legendary', 'unreleased'])
-            if bool(mew):
-                print("mew")
-                mew['generation'] = 1
-                mew['legendary'] = True
-                addPokemonToFirebase(mew)
+        if (bool(pokemonName) and div.find(name='h1', string=pokemonName)):
+            findPokemonDiv(div, ignoreCP=True)
+            return
+        elif (bool(pokemonName) == False):
+            findPokemonDiv(div)
 
-        # gen 2
-        # - NOT legendary
-        gen2Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen2', ''])
-        if bool(gen2Pokemon):
-            gen2Pokemon['generation'] = 2
-            gen2Pokemon['legendary'] = False
-            addPokemonToFirebase(gen2Pokemon)
-        # - legendary
-        legendaryGen2Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen2', 'legendary', ''])
-        if bool(legendaryGen2Pokemon):
-            legendaryGen2Pokemon['generation'] = 2
-            legendaryGen2Pokemon['legendary'] = True
-            addPokemonToFirebase(legendaryGen2Pokemon)
+            # - Mew
+            if div.find(name='h1', string='Mew'):
+                mew = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'legendary', 'unreleased'], ignoreCP=True)
+                if bool(mew):
+                    print("mew")
+                    mew['generation'] = 1
+                    mew['legendary'] = True
+                    addPokemonToFirebase(mew)
+        
 
-        # gen 3
-        # - NOT legendary
-        gen3Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen3', ''])
-        if bool(gen3Pokemon):
-            gen3Pokemon['generation'] = 3
-            gen3Pokemon['legendary'] = False
-            addPokemonToFirebase(gen3Pokemon)
-        # - legendary
-        legendaryGen3Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen3', 'legendary', ''])
-        if bool(legendaryGen3Pokemon):
-            legendaryGen3Pokemon['generation'] = 3
-            legendaryGen3Pokemon['legendary'] = True
-            addPokemonToFirebase(legendaryGen3Pokemon)
+def findPokemonDiv(div, ignoreCP=False):
+    #print(div)
+
+    # gen 1
+    # - NOT legendary
+    gen1Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', ''], ignoreCP=ignoreCP)
+    if bool(gen1Pokemon):
+        gen1Pokemon['generation'] = 1
+        gen1Pokemon['legendary'] = False
+        addPokemonToFirebase(gen1Pokemon)
+    # - legendary
+    legendaryGen1Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'legendary', ''], ignoreCP=ignoreCP)
+    if bool(legendaryGen1Pokemon):
+        legendaryGen1Pokemon['generation'] = 1
+        legendaryGen1Pokemon['legendary'] = True
+        addPokemonToFirebase(legendaryGen1Pokemon)
+
+    # gen 2
+    # - NOT legendary
+    gen2Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen2', ''], ignoreCP=ignoreCP)
+    if bool(gen2Pokemon):
+        gen2Pokemon['generation'] = 2
+        gen2Pokemon['legendary'] = False
+        addPokemonToFirebase(gen2Pokemon)
+    # - legendary
+    legendaryGen2Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen2', 'legendary', ''], ignoreCP=ignoreCP)
+    if bool(legendaryGen2Pokemon):
+        legendaryGen2Pokemon['generation'] = 2
+        legendaryGen2Pokemon['legendary'] = True
+        addPokemonToFirebase(legendaryGen2Pokemon)
+
+    # gen 3
+    # - NOT legendary
+    gen3Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen3', ''], ignoreCP=ignoreCP)
+    if bool(gen3Pokemon):
+        gen3Pokemon['generation'] = 3
+        gen3Pokemon['legendary'] = False
+        addPokemonToFirebase(gen3Pokemon)
+    # - legendary
+    legendaryGen3Pokemon = scrapePokemonStats(div = div, classNamesArr = ['speciesWrap', 'col-md-2', 'col-xs-6', 'col-sm-4', 'gen3', 'legendary', ''], ignoreCP=ignoreCP)
+    if bool(legendaryGen3Pokemon):
+        legendaryGen3Pokemon['generation'] = 3
+        legendaryGen3Pokemon['legendary'] = True
+        addPokemonToFirebase(legendaryGen3Pokemon)
         
 
 
 def addPokemonToFirebase(pokemon):
-    doc_ref = db.collection('scrapedPokemon').document(pokemon['name'])
+    #doc_ref = db.collection('scrapedPokemon').document(pokemon['name'])
+    doc_ref = db.collection('testPokemon').document(pokemon['name'])
     #TODO: figure out how to merge
     doc_ref.set(pokemon)
     # print(pokemon)
@@ -96,10 +125,13 @@ def addPokemonToFirebase(pokemon):
 
 
 
-def scrapePokemonStats(div, classNamesArr):
+def scrapePokemonStats(div, classNamesArr, ignoreCP=False):
     pokemon = {}
 
-    if div.has_attr('class') and div['class'] == classNamesArr and int(div['data-max-cp']) >= 1920:
+    if div.has_attr('class') and div['class'] == classNamesArr:
+        if (ignoreCP == False and int(div['data-max-cp']) < 1920):
+            return
+
         pNameStr = ''
         for h1 in div.select('h1'):
             pNameStr = h1.string
@@ -282,9 +314,3 @@ def addImageForPokemonInfo(pNameStr, pNumStr):
     response = requests.get(url)
     blob = fb_storage_bucket.blob(pNameStr.lower()+".png")
     blob.upload_from_string(response.content, content_type='image/png')
-
-#TODO:
-#images http://www.pokemonpets.com/MonsterArtwork.aspx?MonsterName=latios => swap name
-#http://static.pokemonpets.com/images/monsters-images-800-800/157-typhlosion.png => swap name and number
-
-scrapePokemonSiteForImages(siteURL = "https://thesilphroad.com/species-stats")
