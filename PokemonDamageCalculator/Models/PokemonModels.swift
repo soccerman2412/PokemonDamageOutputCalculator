@@ -73,7 +73,7 @@ class PokemonModel {
         // convert the string array of types 
         var initTypes = Array<PokemonType>()
         for currT in t {
-            if let currType = PokemonType(rawValue: currT) {
+            if let currType = PokemonType(rawValue: currT.capitalized) {
                 initTypes.append(currType)
             }
         }

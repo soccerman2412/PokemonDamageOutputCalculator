@@ -171,7 +171,7 @@ class AppServices {
         
         if let name = moveData["name"] as? String, let typeStr = moveData["type"] as? String,
             let damage = moveData["damage"] as? Int, let duration = moveData["duration"] as? Double {
-            if let type = PokemonType(rawValue: typeStr) {
+            if let type = PokemonType(rawValue: typeStr.capitalized) {
                 if let energyGain = moveData["energyGain"] as? Int {
                     move = PokemonMoveModel(Name: name, Type: type, Damage: damage, Duration: duration, Energy: energyGain)
                 } else if let energyCost = moveData["energyCost"] as? Int {
