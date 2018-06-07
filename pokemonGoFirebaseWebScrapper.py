@@ -116,8 +116,8 @@ def findPokemonDiv(div, ignoreCP=False):
 
 
 def addPokemonToFirebase(pokemon):
-    #doc_ref = db.collection('scrapedPokemon').document(pokemon['name'])
-    doc_ref = db.collection('testPokemon').document(pokemon['name'])
+    doc_ref = db.collection('scrapedPokemon').document(pokemon['name'])
+    #doc_ref = db.collection('testPokemon').document(pokemon['name'])
     #TODO: figure out how to merge
     doc_ref.set(pokemon)
     # print(pokemon)
