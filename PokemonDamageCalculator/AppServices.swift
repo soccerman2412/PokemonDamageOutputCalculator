@@ -15,12 +15,40 @@ import FirebaseStorage
 
 
 // MARK: - UIImageView Extension
-extension UIImageView {
-    func GetImageForURL(ImageURL imgURL:String!) {
+class SmartImageView: UIImageView {
+    private var activeImageRequest_IDs = Array<String>()
+    
+    override func GetImageForURL(ImageURL imgURL: String!) {
         // set the default image while we wait
         image = #imageLiteral(resourceName: "placeholderImage")
         
-        _ = AppServices.GetImageForURL(ImageURL: imgURL, Completion: { [weak self] (img)  in
+        let requestID = AppServices.GetImageForURL(ImageURL: imgURL, Completion: { [weak self] (img, req_id)  in
+            if (self != nil) {
+                // make sure this was the latest request
+                if (req_id != nil && req_id! != self?.activeImageRequest_IDs.last) {
+                    return
+                }
+                
+                self?.activeImageRequest_IDs.removeAll()
+                
+                if (img != nil) {
+                    self?.image = img
+                }
+            }
+        })
+        
+        if (requestID != nil) {
+            activeImageRequest_IDs.append(requestID!)
+        }
+    }
+}
+
+extension UIImageView {
+    @objc func GetImageForURL(ImageURL imgURL:String!) {
+        // set the default image while we wait
+        image = #imageLiteral(resourceName: "placeholderImage")
+        
+        _ = AppServices.GetImageForURL(ImageURL: imgURL, Completion: { [weak self] (img, requestDate)  in
             if (img != nil) {
                 self?.image = img
             }
@@ -51,6 +79,9 @@ class AppServices {
     // Move Set Logic
     static var MoveSet_STAB = false
     static var MoveSet_IsActive = false
+    
+    // TODO: better way to handle this
+    static var CurrentTopStat = 0.0
     
     static func GetPokemonData (MasterViewController masterVC:UIViewController, Completion completion:@escaping(Array<PokemonModel>) -> Void) {
         // TODO: add logic to check if there's any reason to update this info
@@ -187,13 +218,17 @@ class AppServices {
     
     // MARK: - Image Related Methods
     
-    static func GetImageForURL(ImageURL imgURL:String!, Completion completion:@escaping(UIImage?) -> Void) {
+    static func GetImageForURL(ImageURL imgURL:String!, Completion completion:@escaping(UIImage?, String?) -> Void) -> String? {
+        var uuid:String? = nil
+        
         // check if the image data already exists in the cache
         if let imgCacheData = imageCache[imgURL] {
             let img = UIImage(data: imgCacheData)
             
-            completion(img)
+            completion(img, uuid)
         } else {
+            uuid = UUID().uuidString
+            
             // Create a reference with an initial file path and name
             let imagePathRefef = storage.reference(withPath: imgURL)
             
@@ -213,9 +248,11 @@ class AppServices {
                     imageCache[imgURL] = data!
                 }
                 
-                completion(img)
+                completion(img, uuid)
             }
         }
+        
+        return uuid
     }
     
     static func EmptyImageCache() {

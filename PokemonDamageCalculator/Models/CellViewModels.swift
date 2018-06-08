@@ -35,11 +35,11 @@ class PokemonCellViewModel {
     func CurrentStat() -> String {
         switch(AppServices.SortingType) {
         case .DamageOutput:
-            return String(format: "%.2f", pokemonModel.GetDamageOutputForCurrentSort())
+            return String(format: "%.2f", (pokemonModel.GetDamageOutputForCurrentSort()/AppServices.CurrentTopStat) * 100) + "%"
         case .DefendingTank:
-            return String(format: "%.2f", pokemonModel.CalculateDefending())
+            return String(format: "%.2f", (pokemonModel.CalculateDefending()/AppServices.CurrentTopStat) * 100) + "%"
         case .DefendingDuel:
-            return String(format: "%.2f", pokemonModel.CalculateDefending(true))
+            return String(format: "%.2f", (pokemonModel.CalculateDefending(true)/AppServices.CurrentTopStat) * 100) + "%"
         default:
             break
         }

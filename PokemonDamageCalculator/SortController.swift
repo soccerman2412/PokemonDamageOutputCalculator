@@ -11,6 +11,9 @@ import UIKit
 
 class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    // DEBUG
+    static var debugTestTimes = 0
+    
     @IBOutlet weak var weatherPicker: UIPickerView!
     @IBOutlet weak var moveSetSTAB_Switch: UISwitch!
     @IBOutlet weak var moveSetLegacy_Switch: UISwitch!
@@ -35,6 +38,16 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // set the move set toggles
         moveSetSTAB_Switch?.setOn(AppServices.MoveSet_STAB, animated: false)
         moveSetLegacy_Switch?.setOn(AppServices.MoveSet_IsActive, animated: false)
+        
+        /*SortController.debugTestTimes += 1
+        
+        if (SortController.debugTestTimes == 2) {
+            print("\n\n ---------- Option 1B: DPS ---------- ")
+        } else if (SortController.debugTestTimes >= 3) {
+            print("\n\n ---------- Option 2 ---------- ")
+        } else {
+            print("\n\n ---------- Option 1A: eDPS ---------- ")
+        }*/
     }
     
     

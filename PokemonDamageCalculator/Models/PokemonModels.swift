@@ -204,13 +204,13 @@ class PokemonModel {
         
         if let fastMoveForCurrentSort = BestAttackingFastMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB),
             let chargeMoveForCurrentSort = BestAttackingChargeMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB) {
-            returnVal = getDamageOutputForMoves(FastMove: fastMoveForCurrentSort, ChargeMove: chargeMoveForCurrentSort)
+            returnVal = getDamageOutputForMovesPer100Engery(FastMove: fastMoveForCurrentSort, ChargeMove: chargeMoveForCurrentSort)
         }
         
         return returnVal
     }
     
-    private func getDamageOutputForMoves(FastMove fMove:PokemonFastMoveModel, ChargeMove cMove:PokemonChargeMoveModel,
+    private func getDamageOutputForMovesPer100Engery(FastMove fMove:PokemonFastMoveModel, ChargeMove cMove:PokemonChargeMoveModel,
                                          OpponentDefense opponentDefense:Int = 100, IncludeModifiers mods:Bool = true, OpposingTypes oppTypes:[PokemonType] = AppServices.OpponentPokemonTypes, AttackStat aStat:Int? = nil) -> Double {
         let attackStat = (aStat != nil ? aStat! : attack)
         
@@ -329,21 +329,148 @@ class PokemonModel {
             }
         }
         
-        let damageTakenOver100Energy = getDamageOutputForMoves(FastMove: opponentBestFastMove, ChargeMove: opponentBestChargeMove, OpponentDefense: defense, IncludeModifiers: false, OpposingTypes: types, AttackStat: 195)
-        totalHP -= damageTakenOver100Energy
+        let damageTakenOver100Energy = getDamageOutputForMovesPer100Engery(FastMove: opponentBestFastMove, ChargeMove: opponentBestChargeMove, OpponentDefense: defense, IncludeModifiers: false, OpposingTypes: types, AttackStat: 195)
+        //totalHP -= damageTakenOver100Energy
+        let cyclesOfDamamgePer100Energy = floor(totalHP/damageTakenOver100Energy)
+        let totalDamageTaken = cyclesOfDamamgePer100Energy * damageTakenOver100Energy
         
         // TODO: calculate the best eDPS move set for ????
-        let oppFastMovesToGet100Energy = 100/Double(opponentBestFastMove.EnergyGain())
+        /* 1) how much time did it take for the damage to be dealt by the "opponent"?
+           2) based on the time the time and energy earn calculate which moveset does the most damage
+         */
         
-        let engeryFromDamage = damageTakenOver100Energy/2.0
+        let oppFastMovesToGet100Energy = ceil(100/Double(opponentBestFastMove.EnergyGain()))
+        // total duration the opponent used to deal damage with 100 energy
+        var totalDuration = oppFastMovesToGet100Energy * opponentBestFastMove.Duration() * cyclesOfDamamgePer100Energy
         
-        let damageDoneOver100Energy = GetDamageOutputForCurrentSort()
+        let oppChargeMovesFrom100Energy = floor(100/Double(opponentBestChargeMove.EnergyCost()))
+        totalDuration += oppChargeMovesFrom100Energy * opponentBestChargeMove.Duration() * cyclesOfDamamgePer100Energy
         
-        if (includeAttacking) {
-            return totalHP + damageDoneOver100Energy
+        var totalDamageDealt = 0.0
+        let energyFromDamage = totalDamageTaken/2.0
+        var chargeDamageDealt = 0.0
+        var defendingChargeMove:PokemonChargeMoveModel? = nil
+        var defendingFastMove:PokemonFastMoveModel? = nil
+        
+        
+        
+        // DEBUG
+        var option1A = true
+        var option2 = false
+        
+        /*if (SortController.debugTestTimes == 2) {
+            option1A = false
+        } else if (SortController.debugTestTimes >= 3) {
+            option2 = true
+        }*/
+        
+        option2 = true
+        
+        
+        
+        if (!option2) {
+            for currChargeMove in chargeMoves {
+                var timeLeft = totalDuration
+                var chargeMovesExecuted = floor(energyFromDamage/Double(currChargeMove.EnergyCost()))
+                timeLeft -= chargeMovesExecuted * currChargeMove.Duration()
+                if (timeLeft < 0) {
+                    chargeMovesExecuted = floor(totalDuration/currChargeMove.Duration())
+                    timeLeft = totalDuration - (chargeMovesExecuted * currChargeMove.Duration())
+                }
+
+                let damageDealt = chargeMovesExecuted * currChargeMove.Damage()
+                var shouldUpdate = (damageDealt > chargeDamageDealt)
+                shouldUpdate = (shouldUpdate ? shouldUpdate : (defendingChargeMove != nil && damageDealt == chargeDamageDealt && currChargeMove.DPS() > defendingChargeMove!.DPS()))
+                if (shouldUpdate) {
+                    chargeDamageDealt = damageDealt
+                    defendingChargeMove = currChargeMove
+                }
+
+                // TODO: calculate best fast move with time left?
+            }
+            if (defendingChargeMove != nil) {
+                totalDamageDealt += chargeDamageDealt
+
+                if (option1A) {
+                    // eDPS
+                    var best_eDPS = 0.0
+                    for currFastMove in fastMoves {
+                        let eDPS = defendingChargeMove!.eDPS(FastMove: currFastMove)
+
+                        var shouldUpdate = (defendingFastMove == nil)
+                        shouldUpdate = (shouldUpdate ? shouldUpdate : (eDPS > best_eDPS))
+                        shouldUpdate = (shouldUpdate ? shouldUpdate : (defendingFastMove != nil && eDPS == best_eDPS && currFastMove.DPS() > defendingFastMove!.DPS()))
+
+                        if (shouldUpdate) {
+                            best_eDPS = eDPS
+                            defendingFastMove = currFastMove
+                        }
+                    }
+                } else {
+                    //DPS
+                    for currFastMove in fastMoves {
+                        var shouldUpdate = (defendingFastMove == nil)
+                        shouldUpdate = (shouldUpdate ? shouldUpdate : (defendingFastMove != nil && currFastMove.DPS() > defendingFastMove!.DPS()))
+
+                        if (shouldUpdate) {
+                            defendingFastMove = currFastMove
+                        }
+                    }
+                }
+            } else {
+                defendingFastMove = BestAttackingFastMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
+                defendingChargeMove = BestAttackingChargeMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
+            }
+        } else {
+            defendingFastMove = BestAttackingFastMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
+            defendingChargeMove = BestAttackingChargeMove(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
+            
+            var timeLeft = totalDuration
+            var chargeMovesExecuted = floor(energyFromDamage/Double(defendingChargeMove!.EnergyCost()))
+            timeLeft -= chargeMovesExecuted * defendingChargeMove!.Duration()
+            if (timeLeft < 0) {
+                chargeMovesExecuted = floor(totalDuration/defendingChargeMove!.Duration())
+                timeLeft = totalDuration - (chargeMovesExecuted * defendingChargeMove!.Duration())
+            }
+            chargeDamageDealt = chargeMovesExecuted * defendingChargeMove!.Damage()
+            totalDamageDealt += chargeDamageDealt
         }
         
-        return totalHP
+        
+        
+        if (defendingFastMove != nil && defendingChargeMove != nil) {
+            let chargeMovesExecuted = round(chargeDamageDealt/defendingChargeMove!.Damage())
+            var timeLeft = totalDuration - (chargeMovesExecuted * defendingChargeMove!.Duration())
+            
+            let fastMovesToEarnOneChargeMove = ceil(Double(defendingChargeMove!.EnergyCost())/Double(defendingFastMove!.EnergyGain()))
+            let timeToEarnAndUseChargeMove = (fastMovesToEarnOneChargeMove * defendingFastMove!.Duration()) + defendingChargeMove!.Duration()
+            let damagePerChargeMoveCycle = fastMovesToEarnOneChargeMove * defendingFastMove!.Damage() + defendingChargeMove!.Damage()
+            
+            let amountOfChargeMoveCycles = floor(timeLeft/timeToEarnAndUseChargeMove)
+            var dmg = amountOfChargeMoveCycles * damagePerChargeMoveCycle
+            timeLeft -= amountOfChargeMoveCycles * timeToEarnAndUseChargeMove
+            
+            if (timeLeft > 0) {
+                dmg += floor(timeLeft/defendingFastMove!.Duration()) * defendingFastMove!.Damage()
+            }
+            totalDamageDealt += dmg
+        }
+        
+        /*print("\(name) - Defending Move Set: \(defendingFastMove?.Name()) | \(defendingChargeMove?.Name())")
+        print(" ----- Charge Damage Dealt: \(chargeDamageDealt)")
+        print(" ----- Normal Damage Dealt: \(totalDamageDealt - chargeDamageDealt)")
+        print(" ----- TOTAL Damage Dealt: \(totalDamageDealt)")
+        print(" ----- TOTAL HP Dealt: \(totalHP)")
+        print(" ----- TOTAL Damage Taken: \(totalDamageTaken)")
+        print(" ----- TOTAL Duration: \(totalDuration)")*/
+        
+        var returnVal = totalHP + totalDamageTaken + totalDuration
+        
+        if (includeAttacking) {
+            returnVal += totalDamageDealt
+        }
+        
+        return returnVal
     }
     
     private func moveIsSTAB(_ move:PokemonMoveModel) -> Bool {

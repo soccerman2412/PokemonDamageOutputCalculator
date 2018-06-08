@@ -121,6 +121,18 @@ class PokemonCollectionViewController: UICollectionViewController, UIPopoverPres
             return modelA.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB) > modelB.pokemonModel.eDPSAttacking(Active: AppServices.MoveSet_IsActive, STAB: AppServices.MoveSet_STAB)
         }
         
+        // update the current top stat
+        switch(AppServices.SortingType) {
+        case .DamageOutput:
+            AppServices.CurrentTopStat = objects[0].pokemonModel.GetDamageOutputForCurrentSort()
+        case .DefendingTank:
+            AppServices.CurrentTopStat = objects[0].pokemonModel.CalculateDefending()
+        case .DefendingDuel:
+            AppServices.CurrentTopStat = objects[0].pokemonModel.CalculateDefending(true)
+        default:
+            break
+        }
+        
         var indexPathsToReload = [IndexPath]()
         var itemsToReload = 30
         if (collectionView != nil) {

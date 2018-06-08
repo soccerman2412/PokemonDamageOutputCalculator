@@ -21,6 +21,14 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     
     private(set) public var hasBeenReused = false
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        hasBeenReused = true
+        
+        PokemonImageView?.image = #imageLiteral(resourceName: "placeholderImage")
+    }
+    
     func UpdateContent(PokemonModel model:PokemonCellViewModel) {
         // only need to do this the first time the card is used
         if (!hasBeenReused) {
