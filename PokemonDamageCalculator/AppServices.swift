@@ -79,6 +79,11 @@ class AppServices {
     // Move Set Logic
     static var MoveSet_STAB = false
     static var MoveSet_IsActive = false
+    static var MoveSet_BestOverall_eDPS = false
+    
+    // defending pokemon's fast and charge moves always have a cool down between 1.5 and 2.5 (randomly chosen)
+    // therefore we'll just use the average of 2
+    static let DefenderCoolDown = 2.0
     
     // TODO: better way to handle this
     static var CurrentTopStat = 0.0

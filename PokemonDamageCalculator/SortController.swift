@@ -17,6 +17,7 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var weatherPicker: UIPickerView!
     @IBOutlet weak var moveSetSTAB_Switch: UISwitch!
     @IBOutlet weak var moveSetLegacy_Switch: UISwitch!
+    @IBOutlet weak var moveSetBestOveral_eDPS_Switch: UISwitch!
     
     private var sortingChanged = true // TODO: could be smarter if user sets options back to the previous value
     
@@ -38,6 +39,7 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // set the move set toggles
         moveSetSTAB_Switch?.setOn(AppServices.MoveSet_STAB, animated: false)
         moveSetLegacy_Switch?.setOn(AppServices.MoveSet_IsActive, animated: false)
+        moveSetBestOveral_eDPS_Switch?.setOn(AppServices.MoveSet_BestOverall_eDPS, animated: false)
         
         /*SortController.debugTestTimes += 1
         
@@ -105,6 +107,12 @@ class SortController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBAction func ShowLegacy_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
         AppServices.MoveSet_IsActive = sender.isOn
+        
+        sortingChanged = true
+    }
+    
+    @IBAction func BestOverall_eDPS_ValueChanged(_ sender: UISwitch, forEvent event: UIEvent) {
+        AppServices.MoveSet_BestOverall_eDPS = sender.isOn
         
         sortingChanged = true
     }

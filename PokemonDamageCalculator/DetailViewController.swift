@@ -41,6 +41,8 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         configureView()
+        
+        segmentedControl?.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,24 +77,65 @@ class DetailViewController: UIViewController {
         // Update the user interface for the detail item.
         if let detail = detailItem {
             // best overall
-            if let attackingFM = detail.BestAttackingFastMove() {
+            if (AppServices.SortingType == .DamageOutput || AppServices.SortingType == .eDPS) {
+                if let attackingFM = detail.BestAttackingFastMove() {
+                    if let label = fast {
+                        label.text = attackingFM.Name()
+                    }
+                    if let label = fastDPS {
+                        label.text = String(format: "%.2f", attackingFM.DPS())
+                    }
+                }
+                if let attackingCM = detail.BestAttackingChargeMove() {
+                    if let label = charge {
+                        label.text = attackingCM.Name()
+                    }
+                    if let attackingFM = detail.BestAttackingFastMove() {
+                        if let label = chargeEDPS {
+                            label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                        }
+                    }
+                }
+        } else {
+            if let defendingFM = detail.BestDefendingFastMove() {
                 if let label = fast {
-                    label.text = attackingFM.Name()
+                    label.text = defendingFM.Name()
                 }
                 if let label = fastDPS {
-                    label.text = String(format: "%.2f", attackingFM.DPS())
+                    label.text = String(format: "%.2f", defendingFM.DPS())
                 }
             }
-            if let attackingCM = detail.BestAttackingChargeMove() {
+            if let defendingCM = detail.BestDefendingChargeMove() {
                 if let label = charge {
-                    label.text = attackingCM.Name()
+                    label.text = defendingCM.Name()
                 }
-                if let attackingFM = detail.BestAttackingFastMove() {
+                if let defendingFM = detail.BestDefendingFastMove() {
                     if let label = chargeEDPS {
-                        label.text = String(format: "%.2f", attackingCM.eDPS(FastMove: attackingFM))
+                        label.text = String(format: "%.2f", defendingCM.eDPS(FastMove: defendingFM))
                     }
                 }
             }
+        }
+            
+            
+            activeFast?.isHidden = true
+            activeFastDPS?.isHidden = true
+            activeCharge?.isHidden = true
+            activeChargeEDPS?.isHidden = true
+            
+            fast_STAB?.isHidden = true
+            fastDPS_STAB?.isHidden = true
+            charge_STAB?.isHidden = true
+            chargeEDPS_STAB?.isHidden = true
+            
+            activeFast_STAB?.isHidden = true
+            activeFastDPS_STAB?.isHidden = true
+            activeCharge_STAB?.isHidden = true
+            activeChargeEDPS_STAB?.isHidden = true
+            
+            return
+            
+            
             
             // best overall active
             if let attackingFM = detail.BestAttackingFastMove(Active: true) {
